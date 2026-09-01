@@ -491,7 +491,8 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
       <span><i style="background:var(--veh-turn)"></i>will turn left</span>
       <span><i style="background:var(--veh-block)"></i>held up behind a left turn</span>
       <span class="legend-note">Left-turners cross the opposing lanes into the driveway once
-      they find a gap.</span>
+      they find a gap. The number outside each stop bar is how many vehicles are still waiting
+      on the approach to be let in; it counts down as the green releases them.</span>
     </div>
   </div>
 
@@ -1352,7 +1353,7 @@ function laneY(cfg, dir, lc){
 
 function line(ctx, y, w){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
 
-function drawRoad(ctx, cfg, w, h, gWest, gEast){
+function drawRoad(ctx, cfg, w, h, gWest, gEast, qWest, qEast){
   const n = ROADS[cfg].n, top = roadTop(cfg), bot = top + n*LH;
   const cs = getComputedStyle(document.documentElement);
   const asph = cs.getPropertyValue("--asphalt").trim();
@@ -1418,6 +1419,28 @@ function drawRoad(ctx, cfg, w, h, gWest, gEast){
     ctx.fillRect(sx - 6, top + 2, 3, n*LH - 4);
     ctx.fillStyle = isGreen ? gcol : rcol;
     ctx.fillRect(sx - 2, y0, 5, hgt - 2);
+  });
+
+  // Vehicles still behind each stop bar, waiting to be let into the block.
+  // They are off the drawn block, on the approach, so the count sits out there
+  // with them and ticks down as the green releases them.
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  [[mx(0) / 2, top + n*LH*0.75, qWest],          // west bar releases eastbound
+   [(mx(SEG) + w) / 2, top + n*LH*0.25, qEast]   // east bar releases westbound
+  ].forEach(function(a){
+    var cx = a[0], cy = a[1], q = a[2] || 0;
+    // clear the lane markings under the readout -- the approach is plain
+    // asphalt out here, so this just gives the number a surface to sit on
+    ctx.fillStyle = asph;
+    ctx.fillRect(cx - 29, cy - 15, 58, 37);
+    ctx.fillStyle = paint;
+    ctx.globalAlpha = q ? 1 : 0.4;
+    ctx.font = '700 17px Overpass, system-ui, sans-serif';
+    ctx.fillText(String(q), cx, cy + 3);
+    ctx.globalAlpha = q ? 0.7 : 0.32;
+    ctx.font = '9.5px Overpass, system-ui, sans-serif';
+    ctx.fillText("waiting", cx, cy + 16);
+    ctx.globalAlpha = 1;
   });
 
   // station scale
@@ -1576,7 +1599,8 @@ function render(cfg, tSec){
   const u = Math.min(1, (tSec - fi*dt)/dt);
 
   ctx.clearRect(0,0,cv.width,cv.height);
-  drawRoad(ctx, cfg, cv.width, cv.height, fr[fi][2], fr[fi][3]);
+  drawRoad(ctx, cfg, cv.width, cv.height, fr[fi][2], fr[fi][3],
+           fr[fi][4] || 0, fr[fi][5] || 0);
 
   const next = new Map();
   for (const v of fr[fj][0]) next.set(v[0], v);

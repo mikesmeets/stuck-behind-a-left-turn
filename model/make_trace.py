@@ -63,9 +63,13 @@ def trace(cfg, vph, seed, start):
                         kind = 0
                     f.append([v.vid, 1 if d == 1 else 0, round(v.x * 10),
                               round(v.latpos * 100), kind])
+        # Vehicles still behind each upstream stop bar, waiting to be let into
+        # the block.  Direction 1 is released by the west signal, -1 by the
+        # east one, so each count belongs to the stop bar it is drawn beside.
         frames.append([f, pending,
                        1 if s._sig_green("west") else 0,
-                       1 if s._sig_green("east") else 0])
+                       1 if s._sig_green("east") else 0,
+                       len(s.entry_queue[1]), len(s.entry_queue[-1])])
         pending = []
     return frames, held, nweave
 
