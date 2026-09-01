@@ -20,6 +20,7 @@ of the mechanism, not as a forecast.
 |---|---|
 | `/` | The explainer — the replay, headline numbers, volume sweep, method note |
 | `/full` | The same, plus turn-share sensitivity and green-split analysis |
+| `/buildup` | The build-up walk: 400 → 1,000 veh/h, with the corridor's real intersections plotted on the scale and the upstream queue over the hour |
 | `/writeup` | The written version |
 | `/writeup-full` | The written version with the sensitivity sections |
 
@@ -40,7 +41,7 @@ the objection that it will cause gridlock, not to be the argument.
 
 1,000 ft between two signals · 35 mph free-flow · 90 s cycle, 60% green ·
 three unsignalized driveways per direction · 10% of traffic turning left ·
-400/550/700/850 through veh/h **per direction** · twelve independent simulated
+400/550/700/850 through veh/h **per direction** (the build-up edition adds 1,000) · twelve independent simulated
 hours averaged per point.
 
 ## Running it
@@ -64,6 +65,7 @@ Everything in `model/` is the simulation itself, and it is all reproducible.
 | `greensplit.py`, `cyclelen.py` | Sensitivity to the green split and the cycle length |
 | `seedcheck.py`, `carryover.py` | Robustness checks |
 | `make_trace.py` | Dumps the vehicle traces the animation replays |
+| `queue_trace.py` | Samples the queue waiting upstream over the measured hour, for the build-up edition's queue chart |
 | `order_seeds.py` | Scores and orders the traffic samples by when their left turns arrive |
 | `refresh_data.py`, `build_pages.py`, `build_writeups.py` | Rebuild the pages from the results, in both editions |
 | `make_chart.py`, `make_turnshare_chart.py`, `make_gif.py` | The figures and the video |

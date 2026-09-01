@@ -194,6 +194,88 @@ canvas{display:block; width:100%; min-width:620px; height:auto}
 }
 .tally span{font-size:12.5px; color:var(--ink-2)}
 .hot{color:var(--veh-block)}
+.corridor{
+  margin:0 0 22px; padding:0;
+}
+.corridor figcaption{
+  font-family:Overpass,sans-serif; font-size:13px; line-height:1.5;
+  color:var(--ink-3); max-width:70ch; margin-bottom:16px;
+}
+.corridor figcaption b{color:var(--ink-2)}
+#corridor-scale{position:relative; height:80px}
+.cx-track{
+  position:absolute; left:0; right:0; top:44px; height:2px; background:var(--rule);
+}
+.cx-band{
+  position:absolute; top:14px; bottom:22px; border-radius:3px;
+  background:color-mix(in srgb, var(--s2) 13%, transparent);
+  border-left:1px solid color-mix(in srgb, var(--s2) 45%, transparent);
+  border-right:1px solid color-mix(in srgb, var(--s2) 45%, transparent);
+  transition:left .18s ease, width .18s ease;
+}
+.cx-dot{
+  position:absolute; top:38px; width:14px; height:14px; margin-left:-7px;
+  border-radius:50%; background:var(--card); border:2.5px solid var(--s1);
+  cursor:default;
+}
+.cx-dot:hover, .cx-dot:focus-visible{
+  background:var(--s1); z-index:3; outline:none;
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--s1) 22%, transparent);
+}
+.cx-dot .cx-tip{
+  position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+  white-space:nowrap; background:var(--ink); color:var(--paper);
+  font-family:Overpass,sans-serif; font-size:12px; font-weight:600;
+  padding:6px 10px; border-radius:4px; opacity:0; pointer-events:none;
+  transition:opacity .12s ease; z-index:4;
+}
+.cx-dot .cx-tip b{font-weight:700}
+.cx-dot .cx-tip::after{
+  content:""; position:absolute; top:100%; left:50%; margin-left:-4px;
+  border:4px solid transparent; border-top-color:var(--ink);
+}
+.cx-dot:hover .cx-tip, .cx-dot:focus-visible .cx-tip{opacity:1}
+.cx-tick{
+  position:absolute; top:54px; transform:translateX(-50%);
+  font-family:"Overpass Mono",ui-monospace,monospace; font-size:11px;
+  color:var(--ink-3); white-space:nowrap;
+}
+.cx-tick i{
+  position:absolute; left:50%; top:-12px; width:1px; height:8px;
+  background:var(--rule);
+}
+.stepnote{
+  margin:26px 0 0; padding:20px 22px; max-width:74ch; border-radius:4px;
+  border:1px solid var(--rule); background:var(--card);
+  border-left:3px solid var(--s2);
+}
+.stepnote .eyebrow{margin:0 0 8px; color:var(--s2)}
+.stepnote h3{font-size:17px; margin:0 0 10px}
+.stepnote p{margin:0 0 10px; font-size:15.5px; color:var(--ink-2)}
+.stepnote p:last-child{margin-bottom:0}
+.stepnote b{color:var(--ink)}
+.qchart{
+  margin:26px 0 0; padding:18px 20px 14px; max-width:74ch; border-radius:4px;
+  border:1px solid var(--rule); background:var(--card);
+}
+.qchart .eyebrow{margin:0 0 6px}
+.qchart h3{font-size:16px; margin:0 0 4px}
+.qchart .sub{margin:0 0 12px; font-size:13.5px; color:var(--ink-3); line-height:1.5}
+.qchart svg{width:100%; height:auto; display:block}
+.qchart .qlegend{
+  display:flex; gap:18px; flex-wrap:wrap; margin:10px 0 0;
+  font-size:13px; color:var(--ink-2);
+}
+.qchart .qlegend span{display:inline-flex; align-items:center; gap:7px}
+.qchart .qlegend i{width:16px; height:3px; border-radius:2px; flex:none}
+.qchart .qread{
+  margin:12px 0 0; font-size:14.5px; color:var(--ink-2); line-height:1.6;
+}
+.qchart .qread b{color:var(--ink)}
+@media (max-width:720px){
+  .cx-tick{font-size:10px}
+  .corridor figcaption{font-size:12.5px}
+}
 .samplebar{
   display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   padding:12px 18px; border-top:1px solid var(--rule);
@@ -344,15 +426,23 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
   for its whole trip</b>, from the stop bar to the driveway — so you can see which car is about to
   cause the blockage before it causes it, and where it sits in the platoon.</p>
 
+  <!--BUILDUP-ONLY-START-->
+  <figure class="corridor">
+    <figcaption>
+      <b>Where the corridor actually sits.</b> Every signalized intersection on
+      Boston Post Road between Larchmont and Mamaroneck, at its PM peak through
+      volume in the busier direction. Hover a marker for the cross street. The
+      band shows which simulated volume you are watching.
+    </figcaption>
+    <div id="corridor-scale"></div>
+  </figure>
+  <!--BUILDUP-ONLY-END-->
+
   <div class="stage">
     <div class="controls">
       <button id="play" aria-label="Play or pause the replay">Pause</button>
       <span class="ctl-label">Through traffic</span>
-      <div class="seg" id="vol" role="group" aria-label="Through volume per direction">
-        <button data-v="550" aria-pressed="false">550 veh/h</button>
-        <button data-v="700" aria-pressed="true">700</button>
-        <button data-v="850" aria-pressed="false">850</button>
-      </div>
+      <div class="seg" id="vol" role="group" aria-label="Through volume per direction"></div>
       <span class="ctl-label">Speed</span>
       <div class="seg" id="spd" role="group" aria-label="Playback speed">
         <button data-s="1" aria-pressed="false">1&times;</button>
@@ -405,6 +495,11 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     </div>
   </div>
 
+  <!--BUILDUP-ONLY-START-->
+  <div class="stepnote" id="stepnote"></div>
+  <div class="qchart" id="qchart"></div>
+  <!--BUILDUP-ONLY-END-->
+
   <div class="keypoint">
     <p class="eyebrow">Why it is safer</p>
     <h3>Boring is the point</h3>
@@ -436,7 +531,7 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     intersections — <b>Alden, Hommocks and Richbell</b> — carry roughly <b>700 through vehicles</b>
     in their PM peak. So the 700 column is the realistic busy case, and the 400 and 550 columns are
     the rest of the day.</p>
-    <p>The single busiest movement anywhere on the corridor is <b>821 vehicles, southbound in the
+    <p>The single busiest movement anywhere on the corridor is <b>831 vehicles, southbound in the
     PM peak at Delancey Avenue</b>. That is what the 850 column stands in for — deliberately a little
     above the worst observed number, so the comparison does not rest on the corridor's
     quietest assumptions.</p>
@@ -742,20 +837,23 @@ const RES = {
   400,
   550,
   700,
-  850
+  850,
+  1000
  ],
  "tt": {
   "4lane": [
    23.14,
    23.75,
    25.16,
-   27.16
+   27.16,
+   30.29
   ],
   "3lane": [
    22.85,
    23.38,
    24.18,
-   24.8
+   24.8,
+   25.07
   ]
  },
  "p95": {
@@ -763,13 +861,15 @@ const RES = {
    28.04,
    33.02,
    38.27,
-   44.23
+   44.23,
+   52.38
   ],
   "3lane": [
    25.06,
    25.6,
    26.29,
-   26.71
+   26.71,
+   26.83
   ]
  },
  "held": {
@@ -777,13 +877,15 @@ const RES = {
    3.09,
    5.92,
    10.99,
-   17.32
+   17.32,
+   25.44
   ],
   "3lane": [
    0.0,
    0.0,
    0.0,
-   0.02
+   0.02,
+   0.0
   ]
  },
  "weaves": {
@@ -791,9 +893,11 @@ const RES = {
    4.28,
    6.93,
    11.05,
-   15.66
+   15.66,
+   22.4
   ],
   "3lane": [
+   0.0,
    0.0,
    0.0,
    0.0,
@@ -805,13 +909,15 @@ const RES = {
    2.7,
    4.3,
    6.0,
-   8.5
+   8.5,
+   12.2
   ],
   "3lane": [
    4.7,
    7.6,
    11.2,
-   14.6
+   14.6,
+   15.8
   ]
  },
  "served": {
@@ -819,13 +925,15 @@ const RES = {
    405.0,
    556.0,
    711.0,
-   858.0
+   858.0,
+   1008.0
   ],
   "3lane": [
    405.0,
    556.0,
    711.0,
-   859.0
+   859.0,
+   927.0
   ]
  },
  "spread": {
@@ -833,20 +941,23 @@ const RES = {
    4.9,
    9.27,
    13.11,
-   17.07
+   17.07,
+   22.09
   ],
   "3lane": [
    2.21,
    2.22,
    2.11,
-   1.91
+   1.91,
+   1.76
   ]
  },
  "demand": [
   450,
   622,
   794,
-  954
+  954,
+  1121
  ],
  "gc": [
   [
@@ -899,6 +1010,10 @@ const RES = {
   ]
  ]
 };
+/* Volumes this edition puts on screen.  RES and TRACE carry all of them; the
+   build-up edition walks the whole ladder to 1,000, the others stop at 850. */
+const SHOWVOLS = /*SHOWVOLS*/;
+const VI = SHOWVOLS.map(v => RES.vols.indexOf(v));   // index into RES series
 
 /* ----------------------------------------------------------- stat tiles */
 const TILES = [
@@ -930,9 +1045,9 @@ const CH = [
 ];
 
 function barChart(spec){
-  const d = RES[spec.key], vols = RES.vols;
+  const d = RES[spec.key], vols = SHOWVOLS;
   const W = 340, H = 190, ML = 6, MR = 6, MT = 20, MB = 34;
-  const max = Math.max(...d["4lane"], ...d["3lane"]) * 1.2 || 1;
+  const max = Math.max(...VI.map(i => Math.max(d["4lane"][i], d["3lane"][i]))) * 1.2 || 1;
   const iw = W - ML - MR, ih = H - MT - MB;
   const gw = iw / vols.length, bw = Math.min(30, gw * 0.3), gap = 5;
   let g = "";
@@ -941,8 +1056,9 @@ function barChart(spec){
     g += `<line x1="${ML}" x2="${W-MR}" y1="${y}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
   }
   let bars = "";
-  vols.forEach((v,i) => {
-    const cx = ML + gw*i + gw/2;
+  vols.forEach((v,n) => {
+    const i = VI[n];
+    const cx = ML + gw*n + gw/2;
     [["4lane","var(--s1)",-1],["3lane","var(--s2)",1]].forEach(([k,col,side]) => {
       const val = d[k][i];
       const h = Math.max(val/max*ih, val > 0 ? 2 : 0);
@@ -1155,11 +1271,11 @@ const SHARE = {
 /* --------------------------------------------------- spread (p95 - mean) */
 (function(){
   let h = `<thead><tr><th>Through veh/h, each direction</th>` +
-    RES.vols.map(v=>`<th>${v.toLocaleString()}</th>`).join("") + `</tr></thead><tbody>`;
+    SHOWVOLS.map(v=>`<th>${v.toLocaleString()}</th>`).join("") + `</tr></thead><tbody>`;
   [["4lane","4 lanes, no turn lane","--s1"],
    ["3lane","3 lanes + center turn lane","--s2"]].forEach(([k,lab,c])=>{
     h += `<tr><td><span class="swatch" style="background:var(${c})"></span>${lab}</td>` +
-      RES.vols.map((_,i)=>
+      VI.map(i=>
         `<td>+${RES.spread[k][i].toFixed(1)} s</td>`).join("") + `</tr>`;
   });
   document.getElementById("spread").innerHTML = h + "</tbody>";
@@ -1176,13 +1292,13 @@ const SHARE = {
     ["Through vehicles actually served (veh/h)", "served", v=>v.toFixed(0)]
   ];
   let h = `<thead><tr><th>Measure</th>` +
-    RES.vols.map(v=>`<th colspan="2">${v.toLocaleString()} veh/h</th>`).join("") +
-    `</tr><tr><th></th>` + RES.vols.map(()=>
+    SHOWVOLS.map(v=>`<th colspan="2">${v.toLocaleString()} veh/h</th>`).join("") +
+    `</tr><tr><th></th>` + SHOWVOLS.map(()=>
       `<th><span class="swatch" style="background:var(--s1)"></span>4&nbsp;ln</th>` +
       `<th><span class="swatch" style="background:var(--s2)"></span>3&nbsp;ln</th>`).join("") +
     `</tr></thead><tbody>`;
   rows.forEach(([lab,key,f])=>{
-    h += `<tr><td>${lab}</td>` + RES.vols.map((_,i)=>
+    h += `<tr><td>${lab}</td>` + VI.map(i=>
       `<td>${f(RES[key]["4lane"][i])}</td><td>${f(RES[key]["3lane"][i])}</td>`).join("") + `</tr>`;
   });
   document.getElementById("tbl").innerHTML = h + "</tbody>";
@@ -1375,8 +1491,10 @@ function drawVeh(ctx, x, y, dir, kind, st, yaw){
 --------------------------------------------------------------------------- */
 const SAMPLES = /*SAMPLES*/;
 
+
 function samplesFor(vol){
-  const list = SAMPLES.mode === "all" ? SAMPLES.seeds : SAMPLES.byVol[vol];
+  const list = SAMPLES.mode === "all" ? SAMPLES.seeds
+                                     : (SAMPLES.byVol[vol] || []);
   return list.filter(sd => TRACE.scen["4lane_" + vol + "_" + sd])
              .map((sd, i) => ({ seed: sd,
                                 label: SAMPLES.mode === "all"
@@ -1522,11 +1640,16 @@ document.getElementById("play").addEventListener("click", e => {
   view.playing = !view.playing;
   e.currentTarget.textContent = view.playing ? "Pause" : "Play";
 });
+const REPLAYVOLS = /*REPLAYVOLS*/;
+document.getElementById("vol").innerHTML = REPLAYVOLS.map((v, i) =>
+  `<button data-v="${v}" aria-pressed="${v === view.vol}">` +
+  `${v.toLocaleString()}${i === 0 ? " veh/h" : ""}</button>`).join("");
 document.getElementById("vol").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   view.vol = +b.dataset.v; view.t = 0;
   view.pick = Math.min(view.pick, samplesFor(view.vol).length - 1);
   resetTally(); paintVolNote(); paintSeedCounts();
+  paintCorridor(); paintStep(); paintQueue();
   lastFrameIndex = {"4lane":-1,"3lane":-1};
   [...e.currentTarget.children].forEach(c =>
     c.setAttribute("aria-pressed", String(c === b)));
@@ -1549,6 +1672,10 @@ TRACE.vols.forEach(v => {
 
 function paintSeedCounts(){
   const list = samplesFor(view.vol);
+  // A one-button segmented control reads as broken; the build-up edition
+  // offers a single hour per volume, so the picker just goes away.
+  const bar = document.querySelector(".samplebar");
+  if (bar) bar.hidden = list.length < 2;
   const max = Math.max(1, ...list.map(o => HELD[view.vol][o.seed]));
   document.getElementById("seed").innerHTML = list.map((o, i) => {
     const n = HELD[view.vol][o.seed];
@@ -1561,6 +1688,155 @@ function paintSeedCounts(){
   }).join("");
 }
 paintSeedCounts();
+/* ------------------------------------------------- build-up edition only */
+/* CORRIDOR and STEPS are injected by build_pages.py; both are null in the
+   other editions and every block below no-ops. */
+const CORRIDOR = /*CORRIDOR*/;
+const STEPS = /*STEPS*/;
+
+function paintCorridor(){
+  const el = document.getElementById("corridor-scale");
+  if (!el || !CORRIDOR) return;
+  const lo = 380, hi = 1040;                       // axis range, veh/h
+  const pos = v => ((v - lo) / (hi - lo)) * 100;
+  const ticks = [400, 550, 700, 850, 1000];
+  // the band spans halfway to the neighbouring volumes on either side
+  const i = SHOWVOLS.indexOf(view.vol);
+  const half = (a, b) => (a + b) / 2;
+  const bLo = i <= 0 ? lo : half(SHOWVOLS[i-1], SHOWVOLS[i]);
+  const bHi = i >= SHOWVOLS.length-1 ? hi : half(SHOWVOLS[i], SHOWVOLS[i+1]);
+
+  el.innerHTML =
+    `<div class="cx-band" style="left:${pos(bLo)}%;width:${pos(bHi)-pos(bLo)}%"></div>` +
+    `<div class="cx-track"></div>` +
+    ticks.map(t => `<div class="cx-tick" style="left:${pos(t)}%"><i></i>${t.toLocaleString()}</div>`).join("") +
+    CORRIDOR.map(([name, v]) =>
+      `<div class="cx-dot" tabindex="0" style="left:${pos(v)}%"` +
+      ` aria-label="${name}, ${v} vehicles per hour">` +
+      `<span class="cx-tip"><b>${name}</b> &nbsp;${v} veh/h</span></div>`).join("");
+}
+
+function paintStep(){
+  const el = document.getElementById("stepnote");
+  if (!el || !STEPS) return;
+  const st = STEPS[view.vol];
+  if (!st){ el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = `<p class="eyebrow">${st.eyebrow}</p><h3>${st.head}</h3>` +
+                 st.body.map(t => `<p>${t}</p>`).join("");
+}
+
+/* The queue waiting upstream of the block, over the measured hour. Averaged
+   over the twelve samples and over each 90-second signal cycle, so the
+   sawtooth of building on red and emptying on green is stripped out and only
+   the trend is left. */
+const QUEUE = /*QUEUE*/;
+
+function paintQueue(){
+  const el = document.getElementById("qchart");
+  if (!el || !QUEUE) return;
+  const a = QUEUE.qs["4lane_" + view.vol], b = QUEUE.qs["3lane_" + view.vol];
+  const ar = QUEUE.q["4lane_" + view.vol], br = QUEUE.q["3lane_" + view.vol];
+  if (!a || !b){ el.hidden = true; return; }
+  el.hidden = false;
+
+  const T = QUEUE.t, tMax = T[T.length - 1];
+  const W = 680, H = 260, ML = 44, MR = 14, MT = 14, MB = 40;
+  const iw = W - ML - MR, ih = H - MT - MB;
+  const peak = Math.max(...ar, ...br);
+  // A fixed floor keeps 400 through 850 on a comparable scale, so the 1,000
+  // case visibly blows through it rather than being quietly rescaled.
+  const max = Math.max(20, peak * 1.15);
+  const X = t => ML + (t / tMax) * iw;
+  const Y = v => MT + ih - (v / max) * ih;
+
+  const step = max <= 20 ? 5 : max <= 60 ? 20 : 25;
+  let grid = "";
+  for (let v = 0; v <= max; v += step){
+    grid += `<line x1="${ML}" x2="${W-MR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"
+      stroke="var(--grid)" stroke-width="1"/>
+      <text x="${ML-8}" y="${(Y(v)+4).toFixed(1)}" text-anchor="end"
+      font-family="Overpass,sans-serif" font-size="10.5" fill="var(--ink-3)">${v}</text>`;
+  }
+  for (let m = 0; m <= 60; m += 15){
+    grid += `<text x="${X(Math.min(m, tMax)).toFixed(1)}" y="${H-MB+18}" text-anchor="middle"
+      font-family="Overpass,sans-serif" font-size="11" fill="var(--ink-3)">${m}</text>`;
+  }
+
+  const path = s => "M" + s.map((v,i) => `${X(T[i]).toFixed(1)},${Y(v).toFixed(1)}`).join("L");
+  const end = s => s[s.length - 1];
+  const mean = s => s.reduce((p,c) => p + c, 0) / s.length;
+
+  // keep the two end labels from landing on top of each other
+  let ya = Y(end(a)) - 8, yb = Y(end(b)) - 8;
+  if (Math.abs(ya - yb) < 15){
+    const mid = (ya + yb) / 2;
+    if (end(b) >= end(a)){ yb = mid - 8; ya = mid + 8; }
+    else { ya = mid - 8; yb = mid + 8; }
+  }
+  const clamp = y => Math.max(MT + 10, Math.min(MT + ih - 3, y));
+  const lbl = (y, col, txt) =>
+    `<text x="${(W-MR-4).toFixed(1)}" y="${clamp(y).toFixed(1)}" text-anchor="end"
+      font-family="Overpass,sans-serif" font-size="11.5" font-weight="700"
+      paint-order="stroke" stroke="var(--card)" stroke-width="3.5"
+      stroke-linejoin="round" fill="${col}">${txt}</text>`;
+
+  const ratio = mean(b) / Math.max(0.1, mean(a));
+  const read = end(br) > 25
+    ? `The three-lane line never comes back down. One lane cannot discharge
+       ${view.vol.toLocaleString()} through vehicles an hour, so every cycle leaves a few more cars
+       behind and the leftovers compound: by the end of the hour about <b>${Math.round(end(br))}</b>
+       vehicles are still waiting to get into the block. The four-lane line does what a queue is
+       supposed to do — fills on red, empties on green, peaks around
+       <b>${Math.round(Math.max(...ar.slice(-4)))}</b> and goes back to nothing, hour after hour.
+       <b>This is the volume at which a road diet stops being the right tool.</b>`
+    : ratio > 1.6
+    ? `Both lines are still flat over the hour — nothing is compounding, and both roads finish the
+       hour having served everybody. But they have separated: the three-lane queue now runs about
+       <b>${ratio.toFixed(1)}×</b> as deep as the four-lane one and takes longer into the green to
+       clear. That is the headroom going, and it is what the last step is about.`
+    : `Both lines sit flat and the two are on top of each other. The queue fills on red and empties
+       on green, and neither cross-section carries anything into the next cycle — at
+       ${view.vol.toLocaleString()} vehicles an hour the single through lane keeps up with the two
+       it replaced.`;
+
+  el.innerHTML = `
+    <p class="eyebrow">The queue waiting to get in</p>
+    <h3>Does the block clear, hour after hour?</h3>
+    <p class="sub">Vehicles still waiting upstream of the block, ${view.vol.toLocaleString()} through
+    veh/h, averaged over the twelve samples. The faint line is the real cycle-by-cycle queue
+    building on red and emptying on green; the bold line is that averaged over each 90-second
+    cycle, which is what shows whether it trends up.</p>
+    <svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Queue waiting upstream over the hour at ${view.vol} through vehicles per hour.
+      Four lanes ends at ${Math.round(end(a))} vehicles, three lanes at ${Math.round(end(b))}.">
+      ${grid}
+      <line x1="${ML}" x2="${W-MR}" y1="${MT+ih}" y2="${MT+ih}" stroke="var(--rule)" stroke-width="1.5"/>
+      <line x1="${ML}" x2="${ML}" y1="${MT}" y2="${MT+ih}" stroke="var(--rule)" stroke-width="1.5"/>
+      <path d="${path(ar)}" fill="none" stroke="var(--s1)" stroke-width="1" opacity=".3"/>
+      <path d="${path(br)}" fill="none" stroke="var(--s2)" stroke-width="1" opacity=".3"/>
+      <path d="${path(a)}" fill="none" stroke="var(--s1)" stroke-width="2.4"
+        stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${path(b)}" fill="none" stroke="var(--s2)" stroke-width="2.4"
+        stroke-linejoin="round" stroke-linecap="round"/>
+      ${lbl(ya, "var(--s1)", "4 lanes")}
+      ${lbl(yb, "var(--s2)", "3 lanes")}
+      <text x="${(ML+iw/2).toFixed(1)}" y="${H-3}" text-anchor="middle"
+        font-family="Overpass,sans-serif" font-size="10" letter-spacing=".08em"
+        fill="var(--ink-3)">MINUTES INTO THE HOUR</text>
+    </svg>
+    <div class="qlegend">
+      <span><i style="background:var(--s1)"></i>four lanes, undivided</span>
+      <span><i style="background:var(--s2)"></i>three lanes with a turn lane</span>
+      <span><i style="background:var(--ink-3);opacity:.4"></i>cycle-by-cycle, unsmoothed</span>
+    </div>
+    <p class="qread">${read}</p>`;
+}
+
+paintCorridor();
+paintStep();
+paintQueue();
+
 document.getElementById("seed").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   view.pick = +b.dataset.i; view.t = 0; resetTally();

@@ -35,6 +35,8 @@ const ALIASES = {
   "/": "/index.html",
   "/full": "/full.html",
   "/detailed": "/full.html",
+  "/buildup": "/buildup.html",
+  "/build-up": "/buildup.html",
   "/writeup": "/writeup-public.md",
   "/writeup-full": "/writeup-full.md",
 };

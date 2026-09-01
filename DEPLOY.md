@@ -49,6 +49,7 @@ railway up
 |---|---|
 | `/` | The explainer (public edition, ~1.3 MB, ~290 KB gzipped) |
 | `/full` | The full edition with the sensitivity sections (~5 MB, ~1.1 MB gzipped) |
+| `/buildup` | The build-up walk from 400 to 1,000 veh/h (~0.9 MB, ~210 KB gzipped) |
 | `/writeup`, `/writeup-full` | The written versions |
 | `/media/...` | The MP4, GIF and stills |
 
@@ -64,11 +65,13 @@ Railway redeploys on push.
 ```
 python3 model/analyze.py
 python3 model/make_trace.py
+python3 model/queue_trace.py
 python3 model/refresh_data.py
 python3 model/build_pages.py
 git commit -am "..." && git push
 ```
 
-Note that `build_pages.py` writes to `road_diet_weaving_public.html` and
-`road_diet_weaving_complex.html`; copy those over `index.html` and `full.html`,
-or edit the output paths at the bottom of that script to write them directly.
+Note that `build_pages.py` writes to `road_diet_weaving_public.html`,
+`road_diet_weaving_complex.html` and `road_diet_weaving_buildup.html`; copy those
+over `index.html`, `full.html` and `buildup.html`, or edit the output paths at the
+bottom of that script to write them directly.
