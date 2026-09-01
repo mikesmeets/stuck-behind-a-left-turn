@@ -1,0 +1,50 @@
+[
+ {
+  "config": "3lane",
+  "through_vph": 550,
+  "greens": 240,
+  "greens_with_leftover": 0,
+  "share": 0.0,
+  "vehicles_carried_over": 0
+ },
+ {
+  "config": "3lane",
+  "through_vph": 700,
+  "greens": 240,
+  "greens_with_leftover": 0,
+  "share": 0.0,
+  "vehicles_carried_over": 0
+ },
+ {
+  "config": "3lane",
+  "through_vph": 850,
+  "greens": 240,
+  "greens_with_leftover": 1,
+  "share": 0.004166666666666667,
+  "vehicles_carried_over": 1
+ },
+ {
+  "config": "4lane",
+  "through_vph": 550,
+  "greens": 240,
+  "greens_with_leftover": 2,
+  "share": 0.008333333333333333,
+  "vehicles_carried_over": 3
+ },
+ {
+  "config": "4lane",
+  "through_vph": 700,
+  "greens": 240,
+  "greens_with_leftover": 5,
+  "share": 0.020833333333333332,
+  "vehicles_carried_over": 10
+ },
+ {
+  "config": "4lane",
+  "through_vph": 850,
+  "greens": 240,
+  "greens_with_leftover": 29,
+  "share": 0.12083333333333333,
+  "vehicles_carried_over": 64
+ }
+]

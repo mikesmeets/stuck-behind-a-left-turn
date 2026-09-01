@@ -1,0 +1,1584 @@
+<title>Stuck Behind a Left Turn</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#f2efe9;          /* plan-sheet paper */
+  --card:#fbfaf6;
+  --ink:#16150f;
+  --ink-2:#565248;
+  --ink-3:#8b8579;
+  --rule:#ddd8cb;
+  --asphalt:#4a4b4d;
+  --asphalt-2:#5c5d60;
+  --paint:#f2f0e6;          /* thermoplastic white */
+  --yellow:#e3ae1f;         /* centerline yellow */
+  --veh:#cfcabc;
+  --veh-edge:#2c2b26;
+  --veh-turn:#e3ae1f;
+  --veh-block:#d03b3b;
+  --s1:#2a78d6;             /* 4-lane */
+  --s2:#eb6834;             /* 3-lane */
+  --grid:#e1ddd1;
+  --go:#3f9a5c;             /* signal indications */
+  --stop:#c0392f;
+  --shadow:0 1px 2px rgba(22,21,15,.06), 0 8px 24px -18px rgba(22,21,15,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#141517; --card:#191a1d; --ink:#f4f2ec; --ink-2:#b3aea3; --ink-3:#847f75;
+    --rule:#2c2e32; --asphalt:#2e3036; --asphalt-2:#3b3e45; --paint:#e2dfd4;
+    --yellow:#e0aa1e; --veh:#9ea4ac; --veh-edge:#0e0f10; --veh-turn:#e0aa1e;
+    --veh-block:#d64b4b; --s1:#3987e5; --s2:#d95926; --grid:#26282c;
+    --go:#4fb06e; --stop:#d4483c;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#141517; --card:#191a1d; --ink:#f4f2ec; --ink-2:#b3aea3; --ink-3:#847f75;
+  --rule:#2c2e32; --asphalt:#2e3036; --asphalt-2:#3b3e45; --paint:#e2dfd4;
+  --yellow:#e0aa1e; --veh:#9ea4ac; --veh-edge:#0e0f10; --veh-turn:#e0aa1e;
+  --veh-block:#d64b4b; --s1:#3987e5; --s2:#d95926; --grid:#26282c;
+    --go:#4fb06e; --stop:#d4483c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Source Serif 4", Georgia, serif;
+  font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px; margin:0 auto; padding:clamp(24px,4vw,56px) clamp(18px,4vw,40px) 96px}
+.prose{max-width:66ch}
+
+h1,h2,h3,.ui,.eyebrow,button,select,th,.num,.tag{font-family:Overpass,system-ui,-apple-system,"Segoe UI",sans-serif}
+.eyebrow{
+  font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); margin:0 0 14px;
+}
+h1{
+  font-weight:800; font-size:clamp(34px,5.4vw,58px); line-height:1.02;
+  letter-spacing:-.022em; margin:0 0 18px; text-wrap:balance; max-width:16ch;
+}
+h2{
+  font-weight:700; font-size:clamp(21px,2.6vw,27px); line-height:1.2;
+  letter-spacing:-.012em; margin:0 0 10px; text-wrap:balance;
+}
+h3{font-weight:700; font-size:15px; letter-spacing:.01em; margin:0 0 6px}
+p{margin:0 0 16px}
+.lede{font-size:clamp(18px,2.1vw,21px); line-height:1.5; color:var(--ink-2); max-width:60ch}
+a{color:inherit}
+
+header{border-bottom:1px solid var(--rule); padding-bottom:34px; margin-bottom:38px}
+.disclaimer{
+  margin-top:30px; padding:18px 20px; border:1px solid var(--rule);
+  border-radius:4px; background:var(--card); max-width:70ch;
+}
+.disclaimer h3{margin-bottom:6px}
+.disclaimer p{margin:0; font-size:15px; color:var(--ink-2)}
+.safety{
+  margin-top:26px; padding:20px 22px; border-radius:4px; max-width:70ch;
+  border:1px solid var(--veh-block);
+  background:color-mix(in srgb, var(--veh-block) 6%, var(--card));
+}
+.safety h3{margin-bottom:8px; color:var(--ink)}
+.safety p{margin:0 0 12px; font-size:15.5px; color:var(--ink-2)}
+.safety p:last-child{margin-bottom:0}
+.safety b{color:var(--ink)}
+.safety .big{
+  display:block; font-family:"Overpass Mono",ui-monospace,monospace;
+  font-size:clamp(26px,3.4vw,34px); font-weight:700; letter-spacing:-.02em;
+  color:var(--veh-block); line-height:1.05; margin:0 0 4px;
+}
+.safety .big-sub{
+  display:block; font-family:Overpass,sans-serif; font-size:12px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3);
+  margin-bottom:14px;
+}
+.context{
+  margin:24px 0 0; padding:18px 20px; border-left:3px solid var(--s2);
+  max-width:70ch;
+}
+.context h3{margin-bottom:8px}
+.context p{margin:0 0 12px; font-size:15.5px; color:var(--ink-2)}
+.context p:last-child{margin-bottom:0}
+.context b{color:var(--ink)}
+.spec{
+  display:flex; flex-wrap:wrap; gap:0 28px; margin-top:22px;
+  font-family:"Overpass Mono",ui-monospace,monospace; font-size:12.5px; color:var(--ink-3);
+}
+.spec b{color:var(--ink-2); font-weight:600}
+
+section{margin-top:clamp(44px,6vw,72px)}
+.sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:20px; flex-wrap:wrap}
+.sec-head .eyebrow{margin:0}
+
+/* ---------------------------------------------------------------- replay */
+.stage{
+  background:var(--card); border:1px solid var(--rule); border-radius:4px;
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.controls{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  padding:14px 18px; border-bottom:1px solid var(--rule);
+}
+button, select{
+  font-size:13px; font-weight:600; color:var(--ink); background:var(--paper);
+  border:1px solid var(--rule); border-radius:3px; padding:7px 14px; cursor:pointer;
+}
+button:hover, select:hover{border-color:var(--ink-3)}
+button:focus-visible, select:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--s1); outline-offset:2px;
+}
+#play{min-width:84px}
+.seg{display:flex; flex-wrap:wrap; border:1px solid var(--rule); border-radius:3px; overflow:hidden}
+#seed button{
+  padding:5px 10px 4px; min-width:38px; display:flex; flex-direction:column;
+  align-items:center; gap:0; line-height:1.15;
+}
+#seed .sn{font-size:13px; font-weight:600}
+#seed .sh{
+  font-family:"Overpass Mono",ui-monospace,monospace; font-size:10px;
+  font-weight:600; color:var(--veh-block); font-variant-numeric:tabular-nums;
+}
+#seed button[aria-pressed="true"] .sh{color:var(--paper); opacity:.85}
+#seed button.peak{box-shadow:inset 0 -2px 0 var(--veh-block)}
+.seg button{border:0; border-radius:0; background:transparent; padding:7px 13px}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+.ctl-label{
+  font-family:Overpass,sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+}
+.clock{
+  margin-left:auto; font-family:"Overpass Mono",monospace; font-size:12.5px;
+  color:var(--ink-3); font-variant-numeric:tabular-nums;
+}
+.roads{padding:18px 18px 6px}
+.road-block+.road-block{margin-top:22px; padding-top:22px; border-top:1px solid var(--rule)}
+.road-head{display:flex; align-items:baseline; gap:12px; margin-bottom:10px; flex-wrap:wrap}
+.road-head h3{margin:0}
+.road-head .tag{
+  font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3);
+}
+.canvas-scroll{overflow-x:auto; overflow-y:hidden}
+canvas{display:block; width:100%; min-width:620px; height:auto}
+@media (max-width:720px){
+  /* On a phone, showing the whole 1,000 ft small beats showing 60% of it and
+     asking for a sideways scroll inside a vertically scrolling page. */
+  canvas{min-width:0}
+  .canvas-scroll{overflow-x:visible}
+  .roads{padding:12px 12px 4px}
+  .stage .controls{gap:10px; padding:12px}
+  .tally{gap:6px 18px; margin-top:8px}
+  .tally div{gap:6px}
+  .tally .num{font-size:19px}
+  .tally span{font-size:12px; line-height:1.3}
+  .road-head{gap:8px}
+  .samplebar{padding:12px}
+  .legend{gap:10px 16px; padding:10px 12px 14px}
+}
+.tally{
+  display:flex; gap:26px; flex-wrap:wrap; margin-top:10px;
+  font-family:Overpass,sans-serif;
+}
+.tally div{display:flex; align-items:baseline; gap:8px}
+.tally .num{
+  font-size:23px; font-weight:800; font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em; min-width:1.6ch; display:inline-block;
+}
+.tally span{font-size:12.5px; color:var(--ink-2)}
+.hot{color:var(--veh-block)}
+.samplebar{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:12px 18px; border-top:1px solid var(--rule);
+}
+.samplenote{
+  font-family:Overpass,sans-serif; font-size:12.5px; color:var(--ink-3);
+  max-width:52ch; line-height:1.45;
+}
+.samplenote b{color:var(--ink-2); font-weight:700}
+.samplenote .redfig{color:var(--veh-block); font-weight:700}
+.volnote{
+  margin:0; padding:12px 18px 14px; border-top:1px solid var(--rule);
+  font-family:Overpass,sans-serif; font-size:13px; line-height:1.5;
+  color:var(--ink-2); background:color-mix(in srgb, var(--veh-block) 7%, transparent);
+}
+.volnote b{color:var(--ink)}
+.legend{
+  display:flex; gap:20px; flex-wrap:wrap; padding:12px 18px 16px;
+  border-top:1px solid var(--rule); font-family:Overpass,sans-serif; font-size:12.5px;
+  color:var(--ink-2);
+}
+.legend-note{color:var(--ink-3); font-style:italic}
+.legend i{
+  width:20px; height:11px; border-radius:2px; display:inline-block;
+  vertical-align:-1px; margin-right:8px; border:1px solid var(--veh-edge);
+}
+
+/* ------------------------------------------------------------ stat tiles */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(212px,1fr)); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); border-radius:4px; overflow:hidden}
+.tile{background:var(--card); padding:20px 20px 18px}
+.tile .lab{
+  font-family:Overpass,sans-serif; font-size:11.5px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3);
+  margin-bottom:14px; line-height:1.35;
+}
+.pair{display:flex; align-items:baseline; gap:10px; font-family:Overpass,sans-serif}
+.pair .from{font-size:26px; font-weight:700; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.pair .arrow{color:var(--ink-3); font-size:15px}
+.pair .to{font-size:34px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.tile .note{font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.45; font-family:"Source Serif 4",serif}
+
+/* ---------------------------------------------------------------- charts */
+.charts{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:26px; margin-top:24px}
+.chart{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 18px 12px}
+.chart h3{font-size:14.5px; margin-bottom:2px}
+.chart .sub{font-family:Overpass,sans-serif; font-size:12px; color:var(--ink-3); margin:0 0 12px}
+.chart svg{display:block; width:100%; height:auto; overflow:visible}
+.key{display:flex; gap:18px; font-family:Overpass,sans-serif; font-size:12.5px; color:var(--ink-2); margin-bottom:14px}
+.key i{width:11px; height:11px; border-radius:2px; display:inline-block; margin-right:7px}
+
+table{border-collapse:collapse; width:100%; font-size:13.5px; font-family:Overpass,sans-serif}
+.tbl-scroll{overflow-x:auto; border:1px solid var(--rule); border-radius:4px; background:var(--card)}
+th,td{padding:9px 13px; text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); font-weight:700}
+tbody tr+tr td{border-top:1px solid var(--rule)}
+tbody td:first-child{font-weight:600}
+.swatch{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:7px}
+
+.callout{
+  border-left:3px solid var(--veh-block); padding:2px 0 2px 20px; margin:26px 0;
+  max-width:66ch;
+}
+.keypoint{
+  margin:30px 0 0; padding:24px 28px; max-width:74ch;
+  border:2px solid var(--veh-block); border-radius:5px;
+  background:color-mix(in srgb, var(--veh-block) 5%, var(--card));
+}
+.keypoint .eyebrow{color:var(--veh-block); margin:0 0 10px}
+.keypoint h3{
+  font-size:clamp(18px,2.2vw,23px); letter-spacing:-.012em; margin:0 0 12px;
+  color:var(--ink);
+}
+.keypoint p{margin:0 0 12px; font-size:16px; color:var(--ink-2); max-width:66ch}
+.keypoint p:last-child{margin-bottom:0}
+.keypoint b{color:var(--ink)}
+.callout h3{font-size:15px; margin-bottom:6px}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px 34px; margin-top:22px}
+.grid2 h3{color:var(--ink); margin-bottom:4px}
+.grid2 p{font-size:15px; color:var(--ink-2); margin:0}
+footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
+  font-family:Overpass,sans-serif; font-size:12.5px; color:var(--ink-3)}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Road diet · operational demonstration</p>
+  <h1>Stuck behind a left turn</h1>
+  <p class="lede">On a four-lane undivided street, a driver waiting to turn left into a driveway
+  or parking space stops in a travel lane. Everyone behind them either stops too or has to weave
+  around them. Add a center turn lane and that vehicle steps out of the way entirely, and traffic
+  flows smoothly and predictably. This toy simulation illustrates that difference.</p>
+  <div class="spec">
+    <span><b>1,000&nbsp;ft</b> between two signals</span>
+    <span><b>3</b> unsignalized driveways each direction</span>
+    <span><b>700</b> veh/h going straight, <b>each direction</b></span>
+    <span><b>10%</b> turning left</span>
+    <span><b>35</b> mph free-flow</span>
+    <span><b>90&nbsp;s</b> cycle, <b>60%</b> green</span>
+  </div>
+  <div class="safety">
+    <h3>Read this before the traffic numbers</h3>
+    <span class="big">19–47%</span>
+    <span class="big-sub">fewer total crashes after a 4-to-3 lane conversion · FHWA</span>
+    <p>The case for a road diet is <b>safety first</b>. The FHWA recognizes 4-to-3 lane
+    conversions as a Proven Safety Countermeasure, citing an overall crash reduction of 19% to 47%.
+    By narrowing crossings, lowering speeds and reducing conflict points, these redesigns cut down
+    on rear-end, left-turn, right-angle and sideswipe collisions.</p>
+    <p>Everything below is about <b>traffic operations</b> — delay, reliability, throughput. That
+    matters because "it will cause gridlock" is the objection a road diet has to survive, and this
+    page is the answer to it. It is not the reason to do it. If you take one number from this page
+    into a public meeting, take the safety one, and use the rest to show that the cost people fear
+    does not show up.</p>
+  </div>
+  <div class="disclaimer">
+    <h3>What this is, and what it is not</h3>
+    <p>This is an illustration of one mechanism, built to show <em>why</em> a center turn lane
+    helps and roughly how much. It is not a traffic study. It is far less sophisticated than the
+    models a traffic engineer would use for a corridor decision — no calibration to observed
+    counts, no pedestrians, parking, buses or heavy vehicles, no side-street traffic, and a single
+    idealized block rather than a corridor. Treat the numbers as an order of magnitude and an
+    explanation of the mechanism, not as a forecast.</p>
+  </div>
+</header>
+
+<section id="replay">
+  <div class="sec-head">
+    <p class="eyebrow">Watch it</p>
+    <h2>The same platoons, on both cross-sections</h2>
+  </div>
+  <p class="prose">Both roads are carrying identical demand — the same arrival times, the same
+  drivers, the same turns — released from a signal at each end, which is why the traffic arrives
+  in platoons rather than trickling in. The only difference is where a left-turning vehicle waits.
+  Three minutes, two full signal cycles, released at the same moment in both directions and on
+  both roads. Each signal shows its indication only on the half of the road it releases; nothing is
+  held on the way out, so the block is measured on its own. The <em>traffic sample</em> control below the replay
+  /*SAMPLEINTRO*/</p>
+  <p class="prose">Every replay starts from the same place. The simulation opens with an empty
+  street and the signal on <em>red</em>; traffic arrives and stacks up at the stop bar for one full
+  red, and the clock you see starts at the instant that first green turns. So the block is clear at
+  0:00 in every sample, at every volume, on both roads, and what follows is one platoon released
+  into an empty block, then a second one behind it.</p>
+  <p class="prose">A vehicle that is going to turn left is <b style="color:var(--veh-turn)">amber
+  for its whole trip</b>, from the stop bar to the driveway — so you can see which car is about to
+  cause the blockage before it causes it, and where it sits in the platoon.</p>
+
+  <div class="stage">
+    <div class="controls">
+      <button id="play" aria-label="Play or pause the replay">Pause</button>
+      <span class="ctl-label">Through traffic</span>
+      <div class="seg" id="vol" role="group" aria-label="Through volume per direction">
+        <button data-v="550" aria-pressed="false">550 veh/h</button>
+        <button data-v="700" aria-pressed="true">700</button>
+        <button data-v="850" aria-pressed="false">850</button>
+      </div>
+      <span class="ctl-label">Speed</span>
+      <div class="seg" id="spd" role="group" aria-label="Playback speed">
+        <button data-s="1" aria-pressed="false">1&times;</button>
+        <button data-s="2" aria-pressed="true">2&times;</button>
+        <button data-s="4" aria-pressed="false">4&times;</button>
+      </div>
+      <span class="clock" id="clock">0:00 / 3:00</span>
+    </div>
+
+    <div class="roads">
+      <div class="road-block">
+        <div class="road-head">
+          <h3>Four lanes, no center turn lane</h3>
+          <span class="tag">today</span>
+        </div>
+        <div class="canvas-scroll"><canvas id="c4" width="1160" height="210"></canvas></div>
+        <div class="tally">
+          <div><span class="num hot" id="s4">0</span><span>through drivers held up behind a left turn</span></div>
+          <div><span class="num" id="w4">0</span><span>forced to weave into the other lane</span></div>
+        </div>
+      </div>
+
+      <div class="road-block">
+        <div class="road-head">
+          <h3>Three lanes with a center two-way left-turn lane</h3>
+          <span class="tag">road diet</span>
+        </div>
+        <div class="canvas-scroll"><canvas id="c3" width="1160" height="180"></canvas></div>
+        <div class="tally">
+          <div><span class="num hot" id="s3">0</span><span>through drivers held up behind a left turn</span></div>
+          <div><span class="num" id="w3">0</span><span>forced to weave into the other lane</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p id="volnote" class="volnote" hidden></p>
+
+    <div class="samplebar">
+      <span class="ctl-label">Traffic sample</span>
+      <div class="seg" id="seed" role="group" aria-label="Which hour of traffic to replay"></div>
+      <span class="samplenote">/*SAMPLENOTE*/</span>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--veh)"></i>through traffic</span>
+      <span><i style="background:var(--veh-turn)"></i>will turn left</span>
+      <span><i style="background:var(--veh-block)"></i>held up behind a left turn</span>
+      <span class="legend-note">Left-turners cross the opposing lanes into the driveway once
+      they find a gap.</span>
+    </div>
+  </div>
+
+  <div class="keypoint">
+    <p class="eyebrow">Why it is safer</p>
+    <h3>Boring is the point</h3>
+    <p>The three-lane road is monotonous: the same trip, every trip, whatever the traffic is doing.
+    That is not just a nicer drive — it is the same property that makes it the safer road. A driver
+    who is never surprised by a stopped car in a live travel lane never has to make the sudden
+    decision that a late brake or a swerve into the next lane is, and those are precisely the
+    maneuvers behind the rear-end and sideswipe crashes the conversion removes.</p>
+    <p><b>The four-lane road's variability and its crash record are two readings of one thing.</b>
+    Everything below measures the variability, because that is what a simulation can measure. The
+    crash record is what it is evidence for.</p>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="sec-head">
+    <p class="eyebrow">At 700 through vehicles per hour, each direction</p>
+    <h2>What the clock says</h2>
+  </div>
+  <p class="prose">Averages over twelve independent simulated hours, so no single unlucky hour drives
+  a conclusion. 700 vehicles per hour going straight in each direction, plus the 10% that turn
+  left — about 800 vehicles per hour per direction, roughly 1,600 two-way, with the signals giving
+  the mainline 60% of the cycle. The replay above is separate and deliberately fixed: it always
+  /*REPLAYNOTE*/</p>
+
+  <div class="context">
+    <h3>Where these volumes come from</h3>
+    <p>The 700 figure is not arbitrary. On the corridor this was built for, the busiest
+    intersections — <b>Alden, Hommocks and Richbell</b> — carry roughly <b>700 through vehicles</b>
+    in their PM peak. So the 700 column is the realistic busy case, and the 400 and 550 columns are
+    the rest of the day.</p>
+    <p>The single busiest movement anywhere on the corridor is <b>821 vehicles, southbound in the
+    PM peak at Delancey Avenue</b>. That is what the 850 column stands in for — deliberately a little
+    above the worst observed number, so the comparison does not rest on the corridor's
+    quietest assumptions.</p>
+    <p>Delancey is worth naming for a second reason: <b>NYSDOT has identified the
+    Delancey/Orienta intersection as problematic</b>, and it is one of the reasons the department
+    is exploring a roundabout there.</p>
+  </div>
+
+  <div class="tiles" id="tiles" style="margin-top:26px"></div>
+
+  <p class="prose" style="margin-top:26px">The first two tiles are, to any driver, a tie. The same
+  number of vehicles get through, and the road diet's one-second edge on the average trip is
+  nothing — if you stood at the curb with a stopwatch and timed a random car you would not
+  be able to tell the two roads apart. Capacity is not the
+  trade — at least not at a signal timing this street could plausibly have.</p>
+  <p class="prose">What differs is the spread. Take the gap between the typical trip and the
+  unlucky one, and watch what happens as the road fills:</p>
+
+  <div class="tbl-scroll" style="margin:22px 0 6px">
+    <table id="spread"></table>
+  </div>
+  <p class="prose" style="font-family:Overpass,sans-serif;font-size:13px;color:var(--ink-3)">
+    How much worse the 95th-percentile trip is than the average trip, in seconds.</p>
+
+  <p class="prose" style="margin-top:24px">The three-lane road gets <em>more</em> predictable as it
+  fills — its spread barely moves, 2.2 seconds to 1.9. The four-lane road's more than triples, from
+  4.9 to 17.1, because the busier the street the harder it is to get around somebody waiting to turn. Both
+  roads are carrying the same traffic at the same average speed the whole way. One of them delivers
+  that average to almost everybody; the other delivers it on average while handing about a tenth of
+  drivers something much worse.</p>
+  <p class="prose">That is the honest shape of this trade, and it is a better argument than a speed
+  claim, because it is the delay people actually notice. Nobody complains about a trip that takes
+  the time it usually takes.</p>
+  <div class="callout" style="border-left-color:var(--ink-3)">
+    <h3>One thing this version deliberately leaves out</h3>
+    <p style="margin:0">Traffic is released from a signal but not held at the far end, so these
+    figures are pure block traversal with no signal delay folded in. That is the cleaner
+    measurement, and it is conservative: on a real corridor the driver who loses eleven seconds
+    mid-block is the one who arrives at the next signal just after it turns red, and pays for it
+    again. This page does not count that.</p>
+  </div>
+</section>
+
+<section id="sweep">
+  <div class="sec-head">
+    <p class="eyebrow">Across the volume range</p>
+    <h2>The gap widens as the road fills</h2>
+  </div>
+  <p class="prose">At light volumes the two cross-sections are nearly identical — a left-turner
+  blocks a lane, but there is room to get around and time to catch the green. As volume rises,
+  escaping gets harder and the green gets tighter, and the four-lane road's worst trips come
+  apart.</p>
+
+  <div class="key" style="margin-top:20px">
+    <span><i style="background:var(--s1)"></i>4 lanes, no turn lane</span>
+    <span><i style="background:var(--s2)"></i>3 lanes + center turn lane</span>
+  </div>
+  <div class="charts" id="charts"></div>
+  
+
+  <div class="tbl-scroll" style="margin-top:30px">
+    <table id="tbl">
+      <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">
+        Simulation results by through volume and cross-section</caption>
+    </table>
+  </div>
+  <p class="prose" style="font-family:Overpass,sans-serif;font-size:13px;color:var(--ink-3);margin-top:14px">
+    At 850&nbsp;veh/h the three-lane travel times are measured on the vehicles that got through,
+    not on the ones still queued upstream — read that column with the served-volume row.</p>
+</section>
+
+<!--COMPLEX-ONLY-START-->
+<section id="turnshare">
+  <div class="sec-head">
+    <p class="eyebrow">Sensitivity</p>
+    <h2>How much of it depends on the turning percentage</h2>
+  </div>
+  <p class="prose">Everything above assumes 10% of traffic turns left. That is the single
+  assumption the result is most sensitive to, so it is worth seeing the range. Below is the same
+  spread figure — the gap between the unlucky trip and the typical one — at 5%, 10% and 15%.</p>
+
+  <div class="tbl-scroll" style="margin-top:22px">
+    <table id="sharetbl"></table>
+  </div>
+
+  <p class="prose" style="margin-top:26px">The three-lane road barely notices. Its spread sits
+  between 1.8 and 2.4 seconds in every one of the nine cases, and it <em>tightens</em> as either
+  the volume or the turn share rises. Turning traffic simply is not in its through lane.</p>
+  <p class="prose">The four-lane road scales with both. At 700&nbsp;veh/h its spread goes from
+  +8.0&nbsp;s at a 5% turn share to +14.9&nbsp;s at 15%, and the share of drivers held up behind a
+  left-turner goes from 4.3% to 16.4%.</p>
+
+  <div class="callout">
+    <h3>The turning percentage decides whether this is an average-speed argument</h3>
+    <p style="margin:0">At a 5% turn share the four-lane road is actually the <em>quicker</em> of
+    the two on average — 23.4&nbsp;s against 24.0&nbsp;s at 700&nbsp;veh/h — because two lanes let
+    a fast driver past a slow one and there is barely anything to get stuck behind. At 10% they are
+    level. At 15% the three-lane road wins outright by more than two seconds. It is the more reliable road at every
+    share tested. So if the real driveway counts on this corridor are
+    nearer 5% than 15%, the case to make is reliability and safety, not travel time.</p>
+  </div>
+
+  <p class="prose">One case turns the usual capacity argument on its head. At
+  <b>15% turning and 850&nbsp;veh/h</b>, the four-lane road stops serving its demand — 754 vehicles
+  an hour against the three-lane road's 849 — because left-turners waiting for a gap tie up one of
+  its two lanes often enough to cost more capacity than the diet does.</p>
+</section>
+<!--COMPLEX-ONLY-END-->
+
+<!--COMPLEX-ONLY-START-->
+<section id="capacity">
+  <div class="sec-head">
+    <p class="eyebrow">What the diet needs from the signals</p>
+    <h2>How much green one lane needs</h2>
+  </div>
+  <p class="prose">Everything above assumes the arterial gets 60% of the cycle — 54 seconds of
+  green out of 90 — an ordinary split for a street like this one. That assumption is doing real
+  work, and it is the one to check before promising anything.</p>
+  <p class="prose">A single through lane discharging at a two-second saturation headway carries
+  about 1,800&nbsp;veh/h <em>while it has green</em>. Multiply by the split and you get the
+  ceiling: roughly 1,080&nbsp;veh/h at 60% green, 1,170 at 65%, but only about 900 at half the
+  cycle. The
+  four-lane road, with two lanes at the stop bar, has twice that headroom and never notices.</p>
+  <p class="prose">Holding demand at 850 through vehicles per hour and varying only the green
+  split:</p>
+
+  <div class="callout">
+    <h3>That limit is a signal-timing number, not a lane-count number</h3>
+    <p style="margin:0">It is set by how much green the arterial gets, and arterials are routinely
+    given more than half the cycle. At the 60% assumed here the single through lane serves 858
+    vehicles an hour — the whole demand, and everything the four-lane road manages — with travel
+    times two seconds better. It is only at half the cycle that the ceiling starts to bite.</p>
+  </div>
+  <div class="tbl-scroll" style="margin-top:22px">
+    <table id="gctbl"></table>
+  </div>
+  <h3 style="margin-top:30px">Would a more generous split change the answer?</h3>
+  <p class="prose">The model uses 60%. Running the same sweep at the more generous 65% is the
+  check worth having, because someone will ask whether the result depends on a favorable split.
+  Both cross-sections serve their full demand at either setting, 850 included, with a residual
+  queue of under ten vehicles behind the stop bar. Everyone's trip is about a third of a second
+  shorter at 65%, on both roads. What changes is the spread:</p>
+  <div class="tbl-scroll" style="margin-top:18px">
+    <table>
+      <thead><tr><th>Gap between the unlucky trip and the average trip</th>
+        <th>400</th><th>550</th><th>700</th><th>850</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 60% green
+          <em>(this model)</em></td>
+          <td>+4.9 s</td><td>+9.3 s</td><td>+13.1 s</td><td>+17.1 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 65% green</td>
+          <td>+3.9 s</td><td>+8.6 s</td><td>+12.1 s</td><td>+15.8 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 60% green
+          <em>(this model)</em></td>
+          <td>+2.2 s</td><td>+2.2 s</td><td>+2.1 s</td><td>+1.9 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 65% green</td>
+          <td>+2.3 s</td><td>+2.3 s</td><td>+2.3 s</td><td>+2.1 s</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="prose" style="margin-top:22px">Going the other way, to 65%, would shrink the four-lane
+  road's spread by about a second at every volume and <em>grow</em> the three-lane road's slightly.
+  A tighter green packs the platoon
+  more densely, which gives a blocked driver less room to get around a left-turner — and gives a
+  road with nothing blocking it nothing to notice. So the case does not depend on a generous
+  split: between 60% and 65% the diet is the more reliable road either way, and by more at the
+  60% this model actually assumes.</p>
+  <h3 style="margin-top:30px">A shorter cycle helps — and helps the four-lane road more</h3>
+  <p class="prose">Holding the split at 60% and shortening the cycle from 90&nbsp;s to 60&nbsp;s
+  cuts the four-lane road's spread by about a quarter and the three-lane road's by rather less,
+  so it narrows the gap between them. Throughput is unchanged either way:</p>
+  <div class="tbl-scroll" style="margin-top:18px">
+    <table>
+      <thead><tr><th>Gap between the unlucky trip and the average trip</th>
+        <th>400</th><th>550</th><th>700</th><th>850</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 90&nbsp;s cycle
+          <em>(this model)</em></td>
+          <td>+4.9 s</td><td>+9.3 s</td><td>+13.1 s</td><td>+17.1 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 60&nbsp;s cycle</td>
+          <td>+3.1 s</td><td>+7.2 s</td><td>+10.2 s</td><td>+13.7 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 90&nbsp;s cycle
+          <em>(this model)</em></td>
+          <td>+2.2 s</td><td>+2.2 s</td><td>+2.1 s</td><td>+1.9 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 60&nbsp;s cycle</td>
+          <td>+1.9 s</td><td>+1.7 s</td><td>+1.7 s</td><td>+1.6 s</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="prose" style="margin-top:22px">The reason is platoon size. A 90-second cycle releases
+  a bigger burst after a longer red, so more drivers arrive behind any one left-turner at once and
+  the queue behind it is longer; a 60-second cycle spreads the same hourly volume into smaller,
+  more frequent groups, which leaves a blocked driver more gaps to escape into. Drivers held up
+  behind a left turn fall from 11.0% to 7.2% at 700&nbsp;veh/h, and from 17.3% to 12.3% at 850.</p>
+  <div class="callout">
+    <h3>State this one honestly</h3>
+    <p style="margin:0">Retiming to a shorter cycle is a real partial fix for the four-lane road's
+    problem, and someone will point that out. It does not close the gap — at 700&nbsp;veh/h the
+    four-lane road still runs +10.2&nbsp;s against +1.7&nbsp;s — and it buys nothing on the safety
+    side, which is the main case. It also has to survive the pedestrian crossing and side-street
+    clearance times a 60-second cycle leaves, which is a question for the corridor's own timing
+    plan rather than for this model.</p>
+  </div>
+
+  <p class="prose">This is still the question to bring to the corridor's actual signal timing.
+  A single through lane discharging at a two-second headway carries 1,800&nbsp;veh/h × the split:
+  1,170 at 65%, 1,080 at 60%, 900 at 50%. Demand at the 850 level is about 945&nbsp;veh/h including
+  the turners — comfortably under the first two, over the third. That is why 50% is where it
+  breaks and 60% is not.</p>
+
+</section>
+<!--COMPLEX-ONLY-END-->
+
+<section id="method">
+  <div class="sec-head">
+    <p class="eyebrow">Method</p>
+    <h2>How this was built</h2>
+  </div>
+  <div class="grid2">
+    <div>
+      <h3>The road</h3>
+      <p>1,000&nbsp;ft of straight roadway at 35&nbsp;mph between two signals, with three
+      unsignalized driveways per direction at 250 / 500 / 750&nbsp;ft, offset side to side as real
+      driveways are. No pedestrians, no parking, no buses — a toy, deliberately.</p>
+    </div>
+    <div>
+      <h3>The traffic</h3>
+      <p>Vehicles arrive at the upstream signal at random, queue on red, and discharge on green at
+      a two-second saturation headway per lane — so they enter the block in platoons, not a
+      trickle. 10% turn left, split evenly across that direction's three driveways. Both
+      directions carry the same volume, because a left-turner's wait depends on the oncoming
+      stream.</p>
+    </div>
+    <div>
+      <h3>The signals</h3>
+      <p>90-second cycle, 54&nbsp;s of effective green for the mainline (60%), both signals
+      running together. Each releases one direction into the block; neither holds traffic on the
+      way out, so travel time is pure block traversal, and the two directions are symmetric.</p>
+    </div>
+    <div>
+      <h3>The driving</h3>
+      <p>Free-flow speed is <b>35&nbsp;mph</b>, the same on both cross-sections — the model gives
+      the road diet no speed-reduction credit, even though real conversions usually deliver one.
+      Nobody achieves it from a standing start: the block averages 27.1&nbsp;mph on four lanes and
+      28.2 on three at 700&nbsp;veh/h, against 19.5&nbsp;s for a car that never left 35.</p>
+      <p>A lane change counts as <em>forced</em> when the driver is in the inside lane, is being
+      slowed, and there is a left-turner within 200&nbsp;ft ahead in that lane that has dropped
+      below 13&nbsp;mph. The turner need not be the immediate leader: once one stops in a travel
+      lane the whole queue behind it is stuck, and the fourth driver back is as stuck as the
+      first.</p>
+      <p>Intelligent Driver Model car-following, MOBIL lane changing, HCM critical-gap acceptance
+      for the left turns. A lane change takes three seconds, during part of which the vehicle
+      intrudes into both lanes and holds up followers in each — weaving costs the traffic around
+      it, not just the driver doing it.</p>
+    </div>
+    <div>
+      <h3>The turn lane</h3>
+      <p>Left-turners move into the center lane 200&nbsp;ft ahead of their driveway. If an
+      opposing left-turner already occupies that stretch of it they cannot, and they hold up the
+      through lane exactly as they would on four lanes — that penalty is in the numbers, and it is
+      why the three-lane "held up" column is not a perfect zero at every volume.</p>
+    </div>
+    <div>
+      <h3>How many hours</h3>
+      <p>Every figure averages twelve independent simulated hours, and all twelve are stored in
+      this page — the <em>traffic sample</em> control replays whichever you pick. Doubling from
+      six hours to twelve moved every headline number by less than a second: average travel time
+      by at most 0.08&nbsp;s, and the four-lane spread at 700 from 11.1 to 11.7&nbsp;s. Single
+      hours vary far more than that — the four-lane spread at 700 ranges from 8.8 to 14.9&nbsp;s
+      across the twelve, which is exactly why nothing here rests on one of them.</p>
+    </div>
+    <div>
+      <h3>What it does not do</h3>
+      <p>Operations, not safety — the 19–47% crash reduction at the top comes from field
+      studies of real conversions, not from simulation, though the weaving and left-turn
+      blockage counted here are the mechanism behind a good share of it.
+      It also assumes the signalized approaches keep their capacity; a diet that narrows the
+      intersection approach itself would add delay this does not show.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Toy microsimulation · IDM car-following, MOBIL lane changing with a 3-second maneuver,
+  HCM gap acceptance, platooned arrivals from a coordinated 90-second signal pair ·
+  twelve simulated hours averaged per point; the replay is one fixed hour, selectable.
+  Figures are model output, not field measurements.
+  <br><br>
+  Crash-reduction figure: FHWA, <a href="https://highways.dot.gov/safety/other/road-diets/road-diet-informational-guide/executive-summary">Road
+  Diet Informational Guide</a> and the Proven Safety Countermeasures fact sheet, citing
+  <i>Evaluation of Lane Reduction "Road Diet" Measures on Crashes</i> (FHWA-HRT-10-053).
+</footer>
+</div>
+
+<script id="trace-data" type="application/json">/*TRACE*/</script>
+<script>
+"use strict";
+const TRACE = JSON.parse(document.getElementById("trace-data").textContent);
+
+/* ------------------------------------------------------------------ data */
+const RES = {
+ "vols": [
+  400,
+  550,
+  700,
+  850
+ ],
+ "tt": {
+  "4lane": [
+   23.14,
+   23.75,
+   25.16,
+   27.16
+  ],
+  "3lane": [
+   22.85,
+   23.38,
+   24.18,
+   24.8
+  ]
+ },
+ "p95": {
+  "4lane": [
+   28.04,
+   33.02,
+   38.27,
+   44.23
+  ],
+  "3lane": [
+   25.06,
+   25.6,
+   26.29,
+   26.71
+  ]
+ },
+ "held": {
+  "4lane": [
+   3.09,
+   5.92,
+   10.99,
+   17.32
+  ],
+  "3lane": [
+   0.0,
+   0.0,
+   0.0,
+   0.02
+  ]
+ },
+ "weaves": {
+  "4lane": [
+   4.28,
+   6.93,
+   11.05,
+   15.66
+  ],
+  "3lane": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "ltwait": {
+  "4lane": [
+   2.7,
+   4.3,
+   6.0,
+   8.5
+  ],
+  "3lane": [
+   4.7,
+   7.6,
+   11.2,
+   14.6
+  ]
+ },
+ "served": {
+  "4lane": [
+   405.0,
+   556.0,
+   711.0,
+   858.0
+  ],
+  "3lane": [
+   405.0,
+   556.0,
+   711.0,
+   859.0
+  ]
+ },
+ "spread": {
+  "4lane": [
+   4.9,
+   9.27,
+   13.11,
+   17.07
+  ],
+  "3lane": [
+   2.21,
+   2.22,
+   2.11,
+   1.91
+  ]
+ },
+ "demand": [
+  450,
+  622,
+  794,
+  954
+ ],
+ "gc": [
+  [
+   "4lane",
+   0.5,
+   857,
+   28.5,
+   47.7,
+   10
+  ],
+  [
+   "3lane",
+   0.5,
+   756,
+   24.9,
+   26.5,
+   130
+  ],
+  [
+   "4lane",
+   0.6,
+   857,
+   27.1,
+   44.5,
+   8
+  ],
+  [
+   "3lane",
+   0.6,
+   858,
+   24.8,
+   26.8,
+   8
+  ],
+  [
+   "4lane",
+   0.65,
+   857,
+   26.2,
+   41.5,
+   8
+  ],
+  [
+   "3lane",
+   0.65,
+   857,
+   24.5,
+   26.6,
+   8
+  ]
+ ]
+};
+
+/* ----------------------------------------------------------- stat tiles */
+const TILES = [
+  { lab:"Through vehicles served per hour",
+    from:"711", to:"711",
+    note:"Identical. At this signal timing the road diet costs no capacity at all \u2014 the same traffic gets through." },
+  { lab:"Travel time over the 1,000 ft",
+    from:"25.2 s", to:"24.2 s",
+    note:"1.0 s to the road diet \u2014 close enough that the average driver cannot tell the two roads apart." },
+  { lab:"The unlucky trip \u2014 95th percentile",
+    from:"38.3 s", to:"26.3 s",
+    note:"12 seconds. This is where the two roads actually part company, and it is the whole story." },
+  { lab:"Through drivers held up behind a left-turning vehicle",
+    from:"11.0%", to:"0%",
+    note:"About one driver in 9, on this block alone \u2014 roughly 77 an hour." }
+];
+document.getElementById("tiles").innerHTML = TILES.map(t => `
+  <div class="tile">
+    <div class="lab">${t.lab}</div>
+    <div class="pair"><span class="from">${t.from}</span><span class="arrow">&rarr;</span><span class="to">${t.to}</span></div>
+    <div class="note">${t.note}</div>
+  </div>`).join("");
+
+/* ---------------------------------------------------------------- charts */
+const CH = [
+  { key:"tt",   title:"Travel time",        sub:"seconds over the 1,000 ft", fmt:v=>v.toFixed(1) },
+  { key:"p95",  title:"The unlucky trip",   sub:"95th-percentile seconds",   fmt:v=>v.toFixed(0) },
+  { key:"held", title:"Held up by a left turn", sub:"% of through drivers",  fmt:v=>v.toFixed(1) }
+];
+
+function barChart(spec){
+  const d = RES[spec.key], vols = RES.vols;
+  const W = 340, H = 190, ML = 6, MR = 6, MT = 20, MB = 34;
+  const max = Math.max(...d["4lane"], ...d["3lane"]) * 1.2 || 1;
+  const iw = W - ML - MR, ih = H - MT - MB;
+  const gw = iw / vols.length, bw = Math.min(30, gw * 0.3), gap = 5;
+  let g = "";
+  for (let i = 0; i <= 3; i++){
+    const y = MT + ih - (ih * i / 3);
+    g += `<line x1="${ML}" x2="${W-MR}" y1="${y}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+  }
+  let bars = "";
+  vols.forEach((v,i) => {
+    const cx = ML + gw*i + gw/2;
+    [["4lane","var(--s1)",-1],["3lane","var(--s2)",1]].forEach(([k,col,side]) => {
+      const val = d[k][i];
+      const h = Math.max(val/max*ih, val > 0 ? 2 : 0);
+      const x = cx + side*(gap/2) + (side<0 ? -bw : 0);
+      const y = MT + ih - h;
+      bars += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw}" height="${h.toFixed(1)}"
+        rx="3" fill="${col}"><title>${k==="4lane"?"4 lanes":"3 lanes"} at ${v} veh/h: ${spec.fmt(val)}</title></rect>`;
+      bars += `<text x="${(x+bw/2).toFixed(1)}" y="${(y-5).toFixed(1)}" text-anchor="middle"
+        font-family="Overpass,sans-serif" font-size="10.5" font-weight="600"
+        fill="var(--ink-2)">${spec.fmt(val)}</text>`;
+    });
+    bars += `<text x="${cx}" y="${H-MB+18}" text-anchor="middle" font-family="Overpass,sans-serif"
+      font-size="11" fill="var(--ink-3)">${v.toLocaleString()}</text>`;
+  });
+  return `<div class="chart">
+    <h3>${spec.title}</h3><p class="sub">${spec.sub}</p>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${spec.title}, ${spec.sub}, by through volume">
+      ${g}
+      <line x1="${ML}" x2="${W-MR}" y1="${MT+ih}" y2="${MT+ih}" stroke="var(--rule)" stroke-width="1.5"/>
+      ${bars}
+      <text x="${W/2}" y="${H-3}" text-anchor="middle" font-family="Overpass,sans-serif"
+        font-size="10" letter-spacing=".08em" fill="var(--ink-3)">THROUGH VEH/H, EACH DIRECTION</text>
+    </svg></div>`;
+}
+document.getElementById("charts").innerHTML = CH.map(barChart).join("");
+
+const SHARE = {
+ "4lane_5_550": {
+  "tt": 22.95,
+  "p95": 27.7,
+  "spread": 4.74,
+  "held": 2.47,
+  "weaves": 3.2,
+  "ltwait": 3.7,
+  "served": 548
+ },
+ "3lane_5_550": {
+  "tt": 23.33,
+  "p95": 25.7,
+  "spread": 2.32,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 6.9,
+  "served": 548
+ },
+ "4lane_5_700": {
+  "tt": 23.38,
+  "p95": 31.4,
+  "spread": 8.03,
+  "held": 4.32,
+  "weaves": 4.07,
+  "ltwait": 5.5,
+  "served": 707
+ },
+ "3lane_5_700": {
+  "tt": 23.98,
+  "p95": 26.4,
+  "spread": 2.39,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 10.5,
+  "served": 706
+ },
+ "4lane_5_850": {
+  "tt": 24.52,
+  "p95": 37.4,
+  "spread": 12.88,
+  "held": 7.87,
+  "weaves": 7.07,
+  "ltwait": 7.9,
+  "served": 852
+ },
+ "3lane_5_850": {
+  "tt": 24.72,
+  "p95": 26.8,
+  "spread": 2.03,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 15.2,
+  "served": 852
+ },
+ "4lane_10_550": {
+  "tt": 23.64,
+  "p95": 32.4,
+  "spread": 8.74,
+  "held": 5.48,
+  "weaves": 6.67,
+  "ltwait": 4.4,
+  "served": 556
+ },
+ "3lane_10_550": {
+  "tt": 23.36,
+  "p95": 25.6,
+  "spread": 2.26,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 7.7,
+  "served": 556
+ },
+ "4lane_10_700": {
+  "tt": 25.02,
+  "p95": 37.8,
+  "spread": 12.73,
+  "held": 10.67,
+  "weaves": 10.64,
+  "ltwait": 5.8,
+  "served": 711
+ },
+ "3lane_10_700": {
+  "tt": 24.19,
+  "p95": 26.3,
+  "spread": 2.13,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 11.3,
+  "served": 711
+ },
+ "4lane_10_850": {
+  "tt": 27.09,
+  "p95": 44.5,
+  "spread": 17.38,
+  "held": 17.19,
+  "weaves": 15.57,
+  "ltwait": 8.7,
+  "served": 857
+ },
+ "3lane_10_850": {
+  "tt": 24.8,
+  "p95": 26.8,
+  "spread": 1.95,
+  "held": 0.03,
+  "weaves": 0.0,
+  "ltwait": 14.6,
+  "served": 858
+ },
+ "4lane_15_550": {
+  "tt": 24.36,
+  "p95": 35.2,
+  "spread": 10.83,
+  "held": 8.46,
+  "weaves": 10.07,
+  "ltwait": 4.1,
+  "served": 563
+ },
+ "3lane_15_550": {
+  "tt": 23.57,
+  "p95": 25.8,
+  "spread": 2.18,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 7.1,
+  "served": 563
+ },
+ "4lane_15_700": {
+  "tt": 26.48,
+  "p95": 41.3,
+  "spread": 14.86,
+  "held": 16.37,
+  "weaves": 16.95,
+  "ltwait": 6.5,
+  "served": 714
+ },
+ "3lane_15_700": {
+  "tt": 24.22,
+  "p95": 26.2,
+  "spread": 1.97,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 10.9,
+  "served": 714
+ },
+ "4lane_15_850": {
+  "tt": 30.84,
+  "p95": 51.9,
+  "spread": 21.1,
+  "held": 28.05,
+  "weaves": 28.74,
+  "ltwait": 9.6,
+  "served": 754
+ },
+ "3lane_15_850": {
+  "tt": 24.91,
+  "p95": 26.8,
+  "spread": 1.84,
+  "held": 0.0,
+  "weaves": 0.0,
+  "ltwait": 13.4,
+  "served": 849
+ }
+};
+
+/* ------------------------------------------------ turn-share sensitivity */
+(function(){
+  const shares = [5,10,15], vols = [550,700,850];
+  let h = `<thead><tr><th rowspan="2">Share of traffic turning left</th>` +
+    vols.map(v=>`<th colspan="2">${v.toLocaleString()} through veh/h</th>`).join("") +
+    `</tr><tr>` + vols.map(()=>
+      `<th><span class="swatch" style="background:var(--s1)"></span>4&nbsp;ln</th>` +
+      `<th><span class="swatch" style="background:var(--s2)"></span>3&nbsp;ln</th>`).join("") +
+    `</tr></thead><tbody>`;
+  shares.forEach(sh=>{
+    h += `<tr><td>${sh}%</td>` + vols.map(v=>
+      `<td>+${SHARE["4lane_"+sh+"_"+v].spread.toFixed(1)} s</td>` +
+      `<td>+${SHARE["3lane_"+sh+"_"+v].spread.toFixed(1)} s</td>`).join("") + `</tr>`;
+  });
+  const el = document.getElementById("sharetbl");
+  if (el) el.innerHTML = h + "</tbody>";
+})();
+
+/* --------------------------------------------------- spread (p95 - mean) */
+(function(){
+  let h = `<thead><tr><th>Through veh/h, each direction</th>` +
+    RES.vols.map(v=>`<th>${v.toLocaleString()}</th>`).join("") + `</tr></thead><tbody>`;
+  [["4lane","4 lanes, no turn lane","--s1"],
+   ["3lane","3 lanes + center turn lane","--s2"]].forEach(([k,lab,c])=>{
+    h += `<tr><td><span class="swatch" style="background:var(${c})"></span>${lab}</td>` +
+      RES.vols.map((_,i)=>
+        `<td>+${RES.spread[k][i].toFixed(1)} s</td>`).join("") + `</tr>`;
+  });
+  document.getElementById("spread").innerHTML = h + "</tbody>";
+})();
+
+/* ----------------------------------------------------------------- table */
+(function(){
+  const rows = [
+    ["Travel time, 1,000 ft (s)", "tt", v=>v.toFixed(1)],
+    ["95th-percentile travel time (s)", "p95", v=>v.toFixed(0)],
+    ["Held up behind a left turn (%)", "held", v=>v.toFixed(1)],
+    ["Forced lane changes per 100 veh", "weaves", v=>v.toFixed(1)],
+    ["Left-turn wait (s)", "ltwait", v=>v.toFixed(1)],
+    ["Through vehicles actually served (veh/h)", "served", v=>v.toFixed(0)]
+  ];
+  let h = `<thead><tr><th>Measure</th>` +
+    RES.vols.map(v=>`<th colspan="2">${v.toLocaleString()} veh/h</th>`).join("") +
+    `</tr><tr><th></th>` + RES.vols.map(()=>
+      `<th><span class="swatch" style="background:var(--s1)"></span>4&nbsp;ln</th>` +
+      `<th><span class="swatch" style="background:var(--s2)"></span>3&nbsp;ln</th>`).join("") +
+    `</tr></thead><tbody>`;
+  rows.forEach(([lab,key,f])=>{
+    h += `<tr><td>${lab}</td>` + RES.vols.map((_,i)=>
+      `<td>${f(RES[key]["4lane"][i])}</td><td>${f(RES[key]["3lane"][i])}</td>`).join("") + `</tr>`;
+  });
+  document.getElementById("tbl").innerHTML = h + "</tbody>";
+})();
+
+(function(){
+  const rows = RES.gc.filter(r => r[0] === "3lane");
+  const four = RES.gc.filter(r => r[0] === "4lane");
+  let h = `<thead><tr><th>Green split at the signals</th>
+    <th>3-lane served</th><th>4-lane served</th><th>3-lane travel time</th>
+    <th>3-lane upstream queue</th></tr></thead><tbody>`;
+  rows.forEach((r,i)=>{
+    h += `<tr><td>${Math.round(r[1]*100)}% green (${Math.round(r[1]*90)} s of a 90 s cycle)</td>
+      <td>${r[2]}</td><td>${four[i][2]}</td>
+      <td>${r[3].toFixed(1)} s</td><td>${r[5]} veh</td></tr>`;
+  });
+  const el = document.getElementById("gctbl");
+  if (el) el.innerHTML = h + "</tbody>";
+})();
+
+/* -------------------------------------------------------------- replay */
+const SEG = TRACE.seg, X0 = -30, X1 = SEG + 30;
+const CW = 1160, PX = CW / (X1 - X0);
+const mx = m => (m - X0) * PX;
+
+const LH = 30;            // drawn lane height
+const STUB = 22;          // driveway stub depth
+const VEH_L = 6.6 * PX;   // vehicle drawn at its occupied length
+const VEH_W = 13;
+
+const ROADS = { "4lane":{el:"c4", n:4}, "3lane":{el:"c3", n:3} };
+
+function roadTop(cfg){ return STUB + 4; }
+
+function laneY(cfg, dir, lc){
+  /* lc is a CONTINUOUS lane coordinate: 0 = that direction's curb lane,
+     1 = its inner (left / turn) lane, fractions = mid lane-change.
+     dir 1 = eastbound, drawn on the lower half travelling left to right. */
+  const top = roadTop(cfg);
+  if (cfg === "4lane"){
+    return dir === 0 ? top + (0.5 + lc) * LH      // WB, curb lane on top
+                     : top + (3.5 - lc) * LH;     // EB, curb lane on the bottom
+  }
+  const y = dir === 0 ? top + (0.5 + lc) * LH
+                      : top + (2.5 - lc) * LH;
+  // opposing left-turners share the center lane; nudge them apart, but stop
+  // nudging once one is swinging across into its driveway
+  const nudge = Math.max(0, Math.min(1, lc, 2 - lc));
+  return y + (dir === 1 ? 4 : -4) * nudge;
+}
+
+function line(ctx, y, w){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+function drawRoad(ctx, cfg, w, h, gWest, gEast){
+  const n = ROADS[cfg].n, top = roadTop(cfg), bot = top + n*LH;
+  const cs = getComputedStyle(document.documentElement);
+  const asph = cs.getPropertyValue("--asphalt").trim();
+  const asph2 = cs.getPropertyValue("--asphalt-2").trim();
+  const paint = cs.getPropertyValue("--paint").trim();
+  const yel = cs.getPropertyValue("--yellow").trim();
+  const ink3 = cs.getPropertyValue("--ink-3").trim();
+
+  // driveways first, so the road edge line draws over their mouths
+  ctx.fillStyle = asph2;
+  TRACE.dwA.forEach(x=>{
+    const c = mx(x);
+    ctx.beginPath(); ctx.moveTo(c-13, top); ctx.lineTo(c-17, top-STUB);
+    ctx.lineTo(c+17, top-STUB); ctx.lineTo(c+13, top); ctx.closePath(); ctx.fill();
+  });
+  TRACE.dwB.forEach(x=>{
+    const c = mx(SEG - x);
+    ctx.beginPath(); ctx.moveTo(c-13, bot); ctx.lineTo(c-17, bot+STUB);
+    ctx.lineTo(c+17, bot+STUB); ctx.lineTo(c+13, bot); ctx.closePath(); ctx.fill();
+  });
+
+  ctx.fillStyle = asph; ctx.fillRect(0, top, w, n*LH);
+  ctx.fillStyle = asph2; ctx.fillRect(mx(0), top, mx(SEG)-mx(0), n*LH);
+
+  // lane lines
+  ctx.lineCap = "butt";
+  ctx.strokeStyle = paint; ctx.lineWidth = 1.6; ctx.setLineDash([15,13]);
+  if (cfg === "4lane"){
+    line(ctx, top+LH, w); line(ctx, top+3*LH, w);
+    ctx.setLineDash([]); ctx.strokeStyle = yel; ctx.lineWidth = 1.6;
+    line(ctx, top+2*LH-3.5, w); line(ctx, top+2*LH+3.5, w);
+  } else {
+    ctx.setLineDash([]); ctx.strokeStyle = yel; ctx.lineWidth = 1.6;
+    line(ctx, top+LH, w); line(ctx, top+2*LH, w);
+    ctx.setLineDash([13,13]); ctx.lineWidth = 1.4;
+    line(ctx, top+LH+6, w); line(ctx, top+2*LH-6, w);
+  }
+
+  // curb edge lines, drawn last so driveway mouths break cleanly
+  ctx.setLineDash([]); ctx.strokeStyle = paint; ctx.lineWidth = 1.8;
+  [[top+1, TRACE.dwA.map(x=>mx(x))], [bot-1, TRACE.dwB.map(x=>mx(SEG-x))]]
+    .forEach(([y, gaps])=>{
+      let cur = 0;
+      gaps.concat([w + 40]).forEach(g=>{
+        ctx.beginPath(); ctx.moveTo(cur, y); ctx.lineTo(Math.min(g-15, w), y); ctx.stroke();
+        cur = g + 15;
+      });
+    });
+
+  // signals at both ends: the stop bar itself carries the indication
+  const gcol = getComputedStyle(document.documentElement)
+                 .getPropertyValue("--go").trim();
+  const rcol = getComputedStyle(document.documentElement)
+                 .getPropertyValue("--stop").trim();
+  const half = n*LH / 2;
+  // The west signal releases eastbound traffic (drawn on the lower half); the
+  // east signal releases westbound (upper half).  Nothing is held on the way
+  // out, so the exiting half of each end is just a painted stop bar.
+  [[mx(0), gWest, top + half, half],            // west: color the EB half
+   [mx(SEG), gEast, top + 2, half]              // east: color the WB half
+  ].forEach(([sx, isGreen, y0, hgt])=>{
+    ctx.fillStyle = paint;
+    ctx.fillRect(sx - 6, top + 2, 3, n*LH - 4);
+    ctx.fillStyle = isGreen ? gcol : rcol;
+    ctx.fillRect(sx - 2, y0, 5, hgt - 2);
+  });
+
+  // station scale
+  ctx.fillStyle = ink3; ctx.strokeStyle = ink3; ctx.lineWidth = 1;
+  ctx.font = '11px Overpass, system-ui, sans-serif'; ctx.textAlign = "center";
+  const sy = bot + STUB + 12;
+  ctx.beginPath(); ctx.moveTo(mx(0), sy); ctx.lineTo(mx(SEG), sy); ctx.stroke();
+  [0,250,500,750,1000].forEach(ft=>{
+    const x = mx(ft*0.3048);
+    ctx.beginPath(); ctx.moveTo(x, sy-4); ctx.lineTo(x, sy+4); ctx.stroke();
+    ctx.fillText(ft === 1000 ? "1,000 ft" : (ft===0 ? "0" : ft.toLocaleString()), x, sy+17);
+  });
+}
+
+function drawVeh(ctx, x, y, dir, kind, st, yaw){
+  const L = VEH_L, W = VEH_W, hl = L/2, hw = W/2;
+  const fill = (kind === 2 || kind === 3) ? st.turn
+             : (kind === 1 ? st.block : st.veh);
+  ctx.save();
+  ctx.translate(x, y);
+  // Canvas applies these to the shape in reverse order: the body is mirrored
+  // first, then rotated in screen coordinates.  So once a westbound car has
+  // been flipped, the rotation that swings its nose toward its driveway is the
+  // SAME sign as an eastbound one -- a direction factor here turns it in
+  // backwards.
+  ctx.rotate(yaw);
+  if (dir === 0) ctx.scale(-1, 1);          // draw facing right, mirror for WB
+
+  ctx.beginPath();                          // body, blunter tail than nose
+  ctx.roundRect(-hl, -hw, L, W, [2.5, 5.5, 5.5, 2.5]);
+  ctx.fillStyle = fill; ctx.fill();
+  ctx.strokeStyle = st.edge; ctx.lineWidth = 1; ctx.stroke();
+
+  ctx.beginPath();                          // cabin
+  ctx.roundRect(-hl + L*0.18, -hw + W*0.16, L*0.46, W*0.68, 2);
+  ctx.fillStyle = "rgba(0,0,0,0.42)"; ctx.fill();
+
+  ctx.beginPath();                          // windscreen
+  ctx.roundRect(-hl + L*0.655, -hw + W*0.23, L*0.12, W*0.54, 1.5);
+  ctx.fillStyle = "rgba(255,255,255,0.34)"; ctx.fill();
+  ctx.restore();
+
+  if (kind === 1){
+    ctx.beginPath();
+    ctx.roundRect(x - hl - 3, y - hw - 3, L + 6, W + 6, 6);
+    ctx.strokeStyle = st.block; ctx.lineWidth = 1.6; ctx.globalAlpha = .5;
+    ctx.stroke(); ctx.globalAlpha = 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   WHICH TRAFFIC SAMPLES ARE OFFERED
+
+   SAMPLES is written by build_pages.py and takes one of two shapes.
+
+   {mode:"all", seeds:[...]}
+       every simulated hour is offered, numbered 1, 2, 3 ... in the order of
+       the array.  That order is not the seed values: each hour is scored by
+       where its left turns fall in the three-minute, two-cycle window,
+           balance = (turns in the first 90 s - turns in the second 90 s) / turns
+       and sorted most front-loaded first, so the early hours come first, the
+       back-loaded ones last, and the evenly split ones land in the middle.
+       order_seeds.py recomputes it.
+
+   {mode:"labelled", labels:["a","b","c"], byVol:{550:[...], 700:[...]}}
+       a chosen few per volume, labelled rather than numbered.  Switching
+       volume keeps the letter you are on and swaps the hour underneath it.
+
+   Either way the buttons, the held-up figures on them and the tooltips all
+   follow from this one object.
+--------------------------------------------------------------------------- */
+const SAMPLES = /*SAMPLES*/;
+
+function samplesFor(vol){
+  const list = SAMPLES.mode === "all" ? SAMPLES.seeds : SAMPLES.byVol[vol];
+  return list.filter(sd => TRACE.scen["4lane_" + vol + "_" + sd])
+             .map((sd, i) => ({ seed: sd,
+                                label: SAMPLES.mode === "all"
+                                  ? String(i + 1) : SAMPLES.labels[i] }));
+}
+
+const view = { vol:700, pick:0, speed:2, t:0, playing:true, last:0 };
+Object.defineProperty(view, "seed",
+  { get(){ return samplesFor(this.vol)[this.pick].seed; } });
+const tally = { "4lane":{s:new Set(), w:0}, "3lane":{s:new Set(), w:0} };
+const prevLane = { "4lane":new Map(), "3lane":new Map() };
+
+function resetTally(){
+  for (const k of ["4lane","3lane"]){ tally[k].s.clear(); tally[k].w = 0; prevLane[k].clear(); }
+  paintTally();
+}
+function paintTally(){
+  document.getElementById("s4").textContent = tally["4lane"].s.size;
+  document.getElementById("w4").textContent = tally["4lane"].w;
+  document.getElementById("s3").textContent = tally["3lane"].s.size;
+  document.getElementById("w3").textContent = tally["3lane"].w;
+}
+
+function frames(cfg){
+  return TRACE.scen[cfg + "_" + view.vol + "_" + view.seed];
+}
+
+// At 60% green both cross-sections clear their demand at every volume shown,
+// so there is nothing to warn about.  Kept as a hook: if the green split is
+// ever lowered, the volume that stops clearing gets its note back here.
+const VOL_NOTE = {};
+
+function paintVolNote(){
+  const el = document.getElementById("volnote");
+  const txt = VOL_NOTE[view.vol];
+  el.innerHTML = txt || "";
+  el.hidden = !txt;
+}
+
+function accrue(cfg, fi){
+  const [veh, weaves] = frames(cfg)[fi];
+  for (const v of veh) if (v[4] === 1) tally[cfg].s.add(v[0]);
+  tally[cfg].w += weaves.length;
+}
+
+/* Safari only shipped CanvasRenderingContext2D.roundRect in 16.4.  Without
+   this, every vehicle draw throws on an older iPhone and the replay comes up
+   as an empty road.  The fallback is a plain path with quadratic corners. */
+if (!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r){
+    let rr = Array.isArray(r) ? r : [r, r, r, r];
+    rr = rr.map(v => Math.min(Math.abs(+v) || 0, Math.abs(w)/2, Math.abs(h)/2));
+    const [tl, tr, br, bl] = rr.length === 4 ? rr
+      : [rr[0], rr[1] ?? rr[0], rr[2] ?? rr[0], rr[3] ?? rr[1] ?? rr[0]];
+    this.moveTo(x + tl, y);
+    this.lineTo(x + w - tr, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + tr);
+    this.lineTo(x + w, y + h - br);
+    this.quadraticCurveTo(x + w, y + h, x + w - br, y + h);
+    this.lineTo(x + bl, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - bl);
+    this.lineTo(x, y + tl);
+    this.quadraticCurveTo(x, y, x + tl, y);
+    return this;
+  };
+}
+
+function render(cfg, tSec){
+  const R = ROADS[cfg], cv = document.getElementById(R.el);
+  const ctx = cv.getContext("2d");
+  const cs = getComputedStyle(document.documentElement);
+  const st = { veh:cs.getPropertyValue("--veh").trim(),
+               turn:cs.getPropertyValue("--veh-turn").trim(),
+               block:cs.getPropertyValue("--veh-block").trim(),
+               edge:cs.getPropertyValue("--veh-edge").trim() };
+  const fr = frames(cfg), dt = TRACE.dt;
+  const fi = Math.min(fr.length-1, Math.floor(tSec/dt));
+  const fj = Math.min(fr.length-1, fi+1);
+  const u = Math.min(1, (tSec - fi*dt)/dt);
+
+  ctx.clearRect(0,0,cv.width,cv.height);
+  drawRoad(ctx, cfg, cv.width, cv.height, fr[fi][2], fr[fi][3]);
+
+  const next = new Map();
+  for (const v of fr[fj][0]) next.set(v[0], v);
+
+  for (const v of fr[fi][0]){
+    const [id, dir, x10, lat100, kind] = v;
+    let xm = x10/10, lc = lat100/100, dlc = 0;
+    const nx = next.get(id);
+    if (nx){
+      xm = xm + (nx[2]/10 - xm) * u;
+      const nlc = nx[3]/100;
+      dlc = nlc - lc;                       // lateral movement this frame
+      lc = lc + dlc * u;
+    } else if (kind === 3){
+      // last frame of a turn: it leaves the network next frame, so carry the
+      // swing on rather than letting the car snap square
+      dlc = 0.55;
+      lc += dlc * u;
+    }
+    const phys = dir === 1 ? xm : SEG - xm;
+    // A lane change only leans: 3 s across an 11 ft lane at 35 mph is about
+    // 5 degrees in reality, and the drawing already exaggerates the road's
+    // width, so it is capped well short of looking like a skid.  A left turn
+    // is a real rotation -- the car swings up to square with the driveway.
+    const rate = dlc / dt;
+    const yaw = kind === 3
+      ? Math.max(-1.35, Math.min(1.35, -rate * 1.15))
+      : Math.max(-0.13, Math.min(0.13, -rate * 0.22));
+    drawVeh(ctx, mx(phys), laneY(cfg, dir, lc), dir, kind, st, yaw);
+  }
+}
+
+let lastFrameIndex = {"4lane":-1, "3lane":-1};
+let drawFailed = false;
+function tick(now){
+  try { step(now); } catch (err) {
+    // One bad frame must not stop the replay for good.  Report once and keep
+    // going; the next frame usually succeeds.
+    if (!drawFailed){ drawFailed = true; console.error("replay frame failed", err); }
+  }
+  requestAnimationFrame(tick);
+}
+function step(now){
+  if (!view.last) view.last = now;
+  const d = (now - view.last)/1000; view.last = now;
+  if (view.playing){
+    view.t += d * view.speed;
+    if (view.t >= TRACE.win){ view.t = 0; resetTally(); lastFrameIndex = {"4lane":-1,"3lane":-1}; }
+  }
+  for (const cfg of ["4lane","3lane"]){
+    const fi = Math.min(frames(cfg).length-1, Math.floor(view.t/TRACE.dt));
+    while (lastFrameIndex[cfg] < fi){ lastFrameIndex[cfg]++; accrue(cfg, lastFrameIndex[cfg]); }
+    render(cfg, view.t);
+  }
+  paintTally();
+  const m = Math.floor(view.t/60), s = Math.floor(view.t%60);
+  document.getElementById("clock").textContent = `${m}:${String(s).padStart(2,"0")} / 3:00`;
+}
+
+document.getElementById("play").addEventListener("click", e => {
+  view.playing = !view.playing;
+  e.currentTarget.textContent = view.playing ? "Pause" : "Play";
+});
+document.getElementById("vol").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  view.vol = +b.dataset.v; view.t = 0;
+  view.pick = Math.min(view.pick, samplesFor(view.vol).length - 1);
+  resetTally(); paintVolNote(); paintSeedCounts();
+  lastFrameIndex = {"4lane":-1,"3lane":-1};
+  [...e.currentTarget.children].forEach(c =>
+    c.setAttribute("aria-pressed", String(c === b)));
+});
+/* How many through drivers each hour holds up behind a left-turner, on the
+   four-lane road, over the three minutes shown.  Same event the counter under
+   the replay tallies live -- this just totals it ahead of time so the sample
+   buttons can show which hours are the eventful ones.  The three-lane road is
+   zero in every hour at every volume, which is the point. */
+const HELD = {};
+TRACE.vols.forEach(v => {
+  HELD[v] = {};
+  for (const {seed} of samplesFor(v)){
+    const seen = new Set();
+    for (const [vehs] of TRACE.scen["4lane_" + v + "_" + seed])
+      for (const veh of vehs) if (veh[4] === 1) seen.add(veh[0]);
+    HELD[v][seed] = seen.size;
+  }
+});
+
+function paintSeedCounts(){
+  const list = samplesFor(view.vol);
+  const max = Math.max(1, ...list.map(o => HELD[view.vol][o.seed]));
+  document.getElementById("seed").innerHTML = list.map((o, i) => {
+    const n = HELD[view.vol][o.seed];
+    return `<button data-i="${i}" aria-pressed="${i === view.pick}"` +
+      ` class="${n === max && max > 0 ? "peak" : ""}"` +
+      ` title="Sample ${o.label}: ${n} through driver${n === 1 ? "" : "s"} held` +
+      ` up behind a left turn on the four-lane road, at ` +
+      `${view.vol.toLocaleString()} veh/h. None on the three-lane road.">` +
+      `<span class="sn">${o.label}</span><span class="sh">${n}</span></button>`;
+  }).join("");
+}
+paintSeedCounts();
+document.getElementById("seed").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  view.pick = +b.dataset.i; view.t = 0; resetTally();
+  lastFrameIndex = {"4lane":-1,"3lane":-1};
+  [...e.currentTarget.children].forEach(c =>
+    c.setAttribute("aria-pressed", String(c === b)));
+});
+document.getElementById("spd").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  view.speed = +b.dataset.s;
+  [...e.currentTarget.children].forEach(c =>
+    c.setAttribute("aria-pressed", String(c === b)));
+});
+
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  view.playing = false;
+  document.getElementById("play").textContent = "Play";
+}
+paintVolNote();
+requestAnimationFrame(tick);
+</script>

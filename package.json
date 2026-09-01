@@ -1,0 +1,12 @@
+{
+  "name": "road-diet-explainer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "What a center two-way left-turn lane is worth: an animated microsimulation of left-turn blockage and weaving on a 1,000 ft block",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
