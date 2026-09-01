@@ -66,6 +66,7 @@ Everything in `model/` is the simulation itself, and it is all reproducible.
 | `seedcheck.py`, `carryover.py` | Robustness checks |
 | `make_trace.py` | Dumps the vehicle traces the animation replays |
 | `queue_trace.py` | Samples the queue waiting upstream over the measured hour, for the build-up edition's queue chart |
+| `signal_grid.py`, `threshold.py`, `headroom.py` | Cycle length x green split, and where the three-lane road runs out of capacity at each split |
 | `order_seeds.py` | Scores and orders the traffic samples by when their left turns arrive |
 | `refresh_data.py`, `build_pages.py`, `build_writeups.py` | Rebuild the pages from the results, in both editions |
 | `make_chart.py`, `make_turnshare_chart.py`, `make_gif.py` | The figures and the video |

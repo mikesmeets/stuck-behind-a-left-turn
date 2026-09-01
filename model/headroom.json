@@ -1,0 +1,170 @@
+[
+ {
+  "cycle_s": 90.0,
+  "config": "3lane",
+  "through_vph": 850,
+  "served": 858.6666666666666,
+  "queue": 9.833333333333334
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "3lane",
+  "through_vph": 875,
+  "served": 883.0833333333334,
+  "queue": 11.583333333333334
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "3lane",
+  "through_vph": 900,
+  "served": 904.0,
+  "queue": 16.833333333333332
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "3lane",
+  "through_vph": 925,
+  "served": 903.1666666666666,
+  "queue": 43.333333333333336
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "3lane",
+  "through_vph": 950,
+  "served": 881.25,
+  "queue": 98.83333333333333
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "3lane",
+  "through_vph": 1000,
+  "served": 927.4166666666666,
+  "queue": 108.16666666666667
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "4lane",
+  "through_vph": 850,
+  "served": 858.25,
+  "queue": 9.0
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "4lane",
+  "through_vph": 875,
+  "served": 861.0833333333334,
+  "queue": 33.416666666666664
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "4lane",
+  "through_vph": 900,
+  "served": 907.0,
+  "queue": 11.25
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "4lane",
+  "through_vph": 925,
+  "served": 932.5,
+  "queue": 9.25
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "4lane",
+  "through_vph": 950,
+  "served": 940.8333333333334,
+  "queue": 28.833333333333332
+ },
+ {
+  "cycle_s": 90.0,
+  "config": "4lane",
+  "through_vph": 1000,
+  "served": 1007.75,
+  "queue": 12.083333333333334
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "3lane",
+  "through_vph": 850,
+  "served": 857.5833333333334,
+  "queue": 8.333333333333334
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "3lane",
+  "through_vph": 875,
+  "served": 881.75,
+  "queue": 10.583333333333334
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "3lane",
+  "through_vph": 900,
+  "served": 899.3333333333334,
+  "queue": 19.25
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "3lane",
+  "through_vph": 925,
+  "served": 907.5833333333334,
+  "queue": 38.0
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "3lane",
+  "through_vph": 950,
+  "served": 910.1666666666666,
+  "queue": 65.83333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "3lane",
+  "through_vph": 1000,
+  "served": 913.4166666666666,
+  "queue": 121.75
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "4lane",
+  "through_vph": 850,
+  "served": 858.1666666666666,
+  "queue": 6.166666666666667
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "4lane",
+  "through_vph": 875,
+  "served": 883.6666666666666,
+  "queue": 6.583333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "4lane",
+  "through_vph": 900,
+  "served": 907.4166666666666,
+  "queue": 7.833333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "4lane",
+  "through_vph": 925,
+  "served": 878.4166666666666,
+  "queue": 66.08333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "4lane",
+  "through_vph": 950,
+  "served": 927.6666666666666,
+  "queue": 40.416666666666664
+ },
+ {
+  "cycle_s": 60.0,
+  "config": "4lane",
+  "through_vph": 1000,
+  "served": 955.5,
+  "queue": 66.66666666666667
+ }
+]

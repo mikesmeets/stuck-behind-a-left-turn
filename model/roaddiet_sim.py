@@ -196,6 +196,7 @@ class Sim:
         self.entry_queue = {1: [], -1: []}
         self.last_release = {1: [-99.0, -99.0], -1: [-99.0, -99.0]}
         self.discharged = {1: 0, -1: 0}
+        self.crossed = {1: 0, -1: 0}         # through vehicles out the far end
         self._build_demand()
 
         # metrics (through vehicles only, both directions, after warmup)
@@ -698,6 +699,13 @@ class Sim:
                             self.m["ttR"] += tt
                     if self.t >= self.warmup and veh.x >= SEG_LEN and d == MEASURED_DIR:
                         self.m["served"] += 1
+                    # Both directions, for the replay's on-screen count.  The
+                    # measured statistics above stay one-directional; this is
+                    # only what a viewer of the animation can see cross the
+                    # far end.  Left-turners leave at a driveway and so are
+                    # not counted as having crossed.
+                    if self.t >= self.warmup and veh.x >= SEG_LEN:
+                        self.crossed[d] += 1
                 else:
                     keep.append(veh)
             self.vehs[d] = keep

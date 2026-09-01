@@ -1,0 +1,128 @@
+[
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.5,
+  "through_vph": 700,
+  "served": 708.6666666666666,
+  "queue": 12.5
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.5,
+  "through_vph": 750,
+  "served": 742.4166666666666,
+  "queue": 31.083333333333332
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.5,
+  "through_vph": 775,
+  "served": 748.6666666666666,
+  "queue": 52.666666666666664
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.5,
+  "through_vph": 800,
+  "served": 752.6666666666666,
+  "queue": 77.66666666666667
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.5,
+  "through_vph": 825,
+  "served": 753.5833333333334,
+  "queue": 104.16666666666667
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.5,
+  "through_vph": 850,
+  "served": 753.9166666666666,
+  "queue": 132.0
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.55,
+  "through_vph": 700,
+  "served": 711.0,
+  "queue": 7.916666666666667
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.55,
+  "through_vph": 750,
+  "served": 759.3333333333334,
+  "queue": 9.25
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.55,
+  "through_vph": 775,
+  "served": 782.0,
+  "queue": 13.0
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.55,
+  "through_vph": 800,
+  "served": 796.0,
+  "queue": 26.0
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.55,
+  "through_vph": 825,
+  "served": 802.6666666666666,
+  "queue": 45.916666666666664
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.55,
+  "through_vph": 850,
+  "served": 806.9166666666666,
+  "queue": 69.25
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.6,
+  "through_vph": 700,
+  "served": 711.1666666666666,
+  "queue": 5.333333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.6,
+  "through_vph": 750,
+  "served": 759.6666666666666,
+  "queue": 6.416666666666667
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.6,
+  "through_vph": 775,
+  "served": 786.25,
+  "queue": 5.333333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.6,
+  "through_vph": 800,
+  "served": 809.5833333333334,
+  "queue": 7.583333333333333
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.6,
+  "through_vph": 825,
+  "served": 834.1666666666666,
+  "queue": 7.166666666666667
+ },
+ {
+  "cycle_s": 60.0,
+  "g_over_c": 0.6,
+  "through_vph": 850,
+  "served": 857.5833333333334,
+  "queue": 8.333333333333334
+ }
+]

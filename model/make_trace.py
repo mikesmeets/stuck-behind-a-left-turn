@@ -29,9 +29,11 @@ def trace(cfg, vph, seed, start):
     s = Sim(cfg, vph, seed, warmup=0.0, start_red=True)
     frames, held, seen = [], 0, set()
     wcount, pending, nweave = {}, [], 0
+    base = [0]                    # vehicles already across when the window opens
     for i in range(int((start + WIN) / DT)):
         s.step()
         if s.t < start:
+            base[0] = s.crossed[1] + s.crossed[-1]
             continue
         for d in (1, -1):
             for v in s.vehs[d]:
@@ -63,13 +65,13 @@ def trace(cfg, vph, seed, start):
                         kind = 0
                     f.append([v.vid, 1 if d == 1 else 0, round(v.x * 10),
                               round(v.latpos * 100), kind])
-        # Vehicles still behind each upstream stop bar, waiting to be let into
-        # the block.  Direction 1 is released by the west signal, -1 by the
-        # east one, so each count belongs to the stop bar it is drawn beside.
+        # Through vehicles out the far end since the replay opened, both
+        # directions.  Left-turners leave at a driveway and do not count --
+        # this is traffic the block actually carried across.
         frames.append([f, pending,
                        1 if s._sig_green("west") else 0,
                        1 if s._sig_green("east") else 0,
-                       len(s.entry_queue[1]), len(s.entry_queue[-1])])
+                       s.crossed[1] + s.crossed[-1] - base[0]])
         pending = []
     return frames, held, nweave
 
