@@ -378,7 +378,7 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     <span><b>700</b> veh/h going straight, <b>each direction</b></span>
     <span><b>10%</b> turning left</span>
     <span><b>35</b> mph free-flow</span>
-    <span><b>90&nbsp;s</b> cycle, <b>60%</b> green</span>
+    <span><b>60&nbsp;s</b> cycle, <b>60%</b> green</span>
   </div>
   <div class="safety">
     <h3>Read this before the traffic numbers</h3>
@@ -558,11 +558,11 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     How much worse the 95th-percentile trip is than the average trip, in seconds.</p>
 
   <p class="prose" style="margin-top:24px">The three-lane road gets <em>more</em> predictable as it
-  fills — its spread barely moves, 2.2 seconds to 1.9. The four-lane road's more than triples, from
-  4.9 to 17.1, because the busier the street the harder it is to get around somebody waiting to turn. Both
+  fills — its spread barely moves, 1.9 seconds to 1.6. The four-lane road's more than quadruples,
+  from 3.1 to 13.7, because the busier the street the harder it is to get around somebody waiting to turn. Both
   roads are carrying the same traffic at the same average speed the whole way. One of them delivers
-  that average to almost everybody; the other delivers it on average while handing about a tenth of
-  drivers something much worse.</p>
+  that average to almost everybody; the other delivers it on average while handing one driver in
+  eight something much worse.</p>
   <p class="prose">That is the honest shape of this trade, and it is a better argument than a speed
   claim, because it is the delay people actually notice. Nobody complains about a trip that takes
   the time it usually takes.</p>
@@ -570,7 +570,7 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     <h3>One thing this version deliberately leaves out</h3>
     <p style="margin:0">Traffic is released from a signal but not held at the far end, so these
     figures are pure block traversal with no signal delay folded in. That is the cleaner
-    measurement, and it is conservative: on a real corridor the driver who loses eleven seconds
+    measurement, and it is conservative: on a real corridor the driver who loses ten seconds
     mid-block is the one who arrives at the next signal just after it turns red, and pays for it
     again. This page does not count that.</p>
   </div>
@@ -648,13 +648,15 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     <p class="eyebrow">What the diet needs from the signals</p>
     <h2>How much green one lane needs</h2>
   </div>
-  <p class="prose">Everything above assumes the arterial gets 60% of the cycle — 54 seconds of
-  green out of 90 — an ordinary split for a street like this one. That assumption is doing real
-  work, and it is the one to check before promising anything.</p>
+  <p class="prose">Everything above assumes the arterial gets 60% of the cycle — 36 seconds of
+  green out of 60 — an ordinary split for a street like this one. That assumption is doing real
+  work, and it is the one to check before promising anything, because it matters far more than the
+  cycle length does.</p>
   <p class="prose">A single through lane discharging at a two-second saturation headway carries
   about 1,800&nbsp;veh/h <em>while it has green</em>. Multiply by the split and you get the
   ceiling: roughly 1,080&nbsp;veh/h at 60% green, 1,170 at 65%, but only about 900 at half the
-  cycle. The
+  cycle — and somewhat less than each of those in practice, because every green begins with a queue
+  starting from rest. The
   four-lane road, with two lanes at the stop bar, has twice that headroom and never notices.</p>
   <p class="prose">Holding demand at 850 through vehicles per hour and varying only the green
   split:</p>
@@ -682,14 +684,14 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
       <tbody>
         <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 60% green
           <em>(this model)</em></td>
-          <td>+4.9 s</td><td>+9.3 s</td><td>+13.1 s</td><td>+17.1 s</td></tr>
+          <td>+3.1 s</td><td>+7.2 s</td><td>+10.2 s</td><td>+13.7 s</td></tr>
         <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 65% green</td>
-          <td>+3.9 s</td><td>+8.6 s</td><td>+12.1 s</td><td>+15.8 s</td></tr>
+          <td>+2.2 s</td><td>+6.0 s</td><td>+8.8 s</td><td>+12.5 s</td></tr>
         <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 60% green
           <em>(this model)</em></td>
-          <td>+2.2 s</td><td>+2.2 s</td><td>+2.1 s</td><td>+1.9 s</td></tr>
+          <td>+1.9 s</td><td>+1.7 s</td><td>+1.7 s</td><td>+1.6 s</td></tr>
         <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 65% green</td>
-          <td>+2.3 s</td><td>+2.3 s</td><td>+2.3 s</td><td>+2.1 s</td></tr>
+          <td>+2.0 s</td><td>+1.9 s</td><td>+1.9 s</td><td>+1.7 s</td></tr>
       </tbody>
     </table>
   </div>
@@ -700,48 +702,53 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
   road with nothing blocking it nothing to notice. So the case does not depend on a generous
   split: between 60% and 65% the diet is the more reliable road either way, and by more at the
   60% this model actually assumes.</p>
-  <h3 style="margin-top:30px">A shorter cycle helps — and helps the four-lane road more</h3>
-  <p class="prose">Holding the split at 60% and shortening the cycle from 90&nbsp;s to 60&nbsp;s
-  cuts the four-lane road's spread by about a quarter and the three-lane road's by rather less,
-  so it narrows the gap between them. Throughput is unchanged either way:</p>
+  <h3 style="margin-top:30px">Cycle length matters, and this corridor already has the good one</h3>
+  <p class="prose">These pages model the <b>60-second cycle the corridor runs today</b>. Holding
+  the split at 60% and stretching it to 90&nbsp;s instead would add about a third to the four-lane
+  road's spread and rather less to the three-lane road's, widening the gap between them. Across
+  this range of volumes both cross-sections serve the same traffic either way; only the spread
+  moves:</p>
   <div class="tbl-scroll" style="margin-top:18px">
     <table>
       <thead><tr><th>Gap between the unlucky trip and the average trip</th>
         <th>400</th><th>550</th><th>700</th><th>850</th></tr></thead>
       <tbody>
-        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 90&nbsp;s cycle
+        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 60&nbsp;s cycle
           <em>(this model)</em></td>
-          <td>+4.9 s</td><td>+9.3 s</td><td>+13.1 s</td><td>+17.1 s</td></tr>
-        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 60&nbsp;s cycle</td>
           <td>+3.1 s</td><td>+7.2 s</td><td>+10.2 s</td><td>+13.7 s</td></tr>
-        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 90&nbsp;s cycle
+        <tr><td><span class="swatch" style="background:var(--s1)"></span>4 lanes, 90&nbsp;s cycle</td>
+          <td>+4.9 s</td><td>+9.3 s</td><td>+13.1 s</td><td>+17.1 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 60&nbsp;s cycle
           <em>(this model)</em></td>
-          <td>+2.2 s</td><td>+2.2 s</td><td>+2.1 s</td><td>+1.9 s</td></tr>
-        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 60&nbsp;s cycle</td>
           <td>+1.9 s</td><td>+1.7 s</td><td>+1.7 s</td><td>+1.6 s</td></tr>
+        <tr><td><span class="swatch" style="background:var(--s2)"></span>3 lanes, 90&nbsp;s cycle</td>
+          <td>+2.2 s</td><td>+2.2 s</td><td>+2.1 s</td><td>+1.9 s</td></tr>
       </tbody>
     </table>
   </div>
   <p class="prose" style="margin-top:22px">The reason is platoon size. A 90-second cycle releases
   a bigger burst after a longer red, so more drivers arrive behind any one left-turner at once and
-  the queue behind it is longer; a 60-second cycle spreads the same hourly volume into smaller,
-  more frequent groups, which leaves a blocked driver more gaps to escape into. Drivers held up
-  behind a left turn fall from 11.0% to 7.2% at 700&nbsp;veh/h, and from 17.3% to 12.3% at 850.</p>
+  the queue behind it is longer; the corridor's 60-second cycle spreads the same hourly volume into
+  smaller, more frequent groups, which leaves a blocked driver more gaps to escape into. Lengthening
+  the cycle to 90&nbsp;s would push drivers held up behind a left turn from 7.2% up to 11.0% at
+  700&nbsp;veh/h, and from 12.3% to 17.3% at 850. <b>The corridor's existing timing is already the
+  friendlier of the two</b>, which means the four-lane road's numbers here are not being flattered
+  by a pessimistic signal assumption.</p>
   <div class="callout">
     <h3>State this one honestly</h3>
-    <p style="margin:0">Retiming to a shorter cycle is a real partial fix for the four-lane road's
-    problem, and someone will point that out. It does not close the gap — at 700&nbsp;veh/h the
-    four-lane road still runs +10.2&nbsp;s against +1.7&nbsp;s — and it buys nothing on the safety
-    side, which is the main case. It also has to survive the pedestrian crossing and side-street
-    clearance times a 60-second cycle leaves, which is a question for the corridor's own timing
-    plan rather than for this model.</p>
+    <p style="margin:0">A shorter cycle is a real partial fix for the four-lane road's problem,
+    and someone will point that out. The corridor already has one: these pages model the
+    60-second cycle the street runs today, which is the more forgiving case. Even so the gap does
+    not close — at 700&nbsp;veh/h the four-lane road still runs +10.2&nbsp;s against +1.7&nbsp;s —
+    and signal retiming buys nothing on the safety side, which is the main case.</p>
   </div>
 
   <p class="prose">This is still the question to bring to the corridor's actual signal timing.
   A single through lane discharging at a two-second headway carries 1,800&nbsp;veh/h × the split:
   1,170 at 65%, 1,080 at 60%, 900 at 50%. Demand at the 850 level is about 945&nbsp;veh/h including
-  the turners — comfortably under the first two, over the third. That is why 50% is where it
-  breaks and 60% is not.</p>
+  the turners — under the first two, over the third. That is why 50% is where it breaks and 60% is
+  not: at half the cycle the single through lane serves only about 754 of the 850, and the queue
+  upstream never comes down.</p>
 
 </section>
 <!--COMPLEX-ONLY-END-->
@@ -768,8 +775,8 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
     </div>
     <div>
       <h3>The signals</h3>
-      <p>90-second cycle, 54&nbsp;s of effective green for the mainline (60%), both signals
-      running together. Each releases one direction into the block; neither holds traffic on the
+      <p>60-second cycle — the timing the corridor runs today — with 36&nbsp;s of effective
+      green for the mainline (60%), both signals running together. Each releases one direction into the block; neither holds traffic on the
       way out, so travel time is pure block traversal, and the two directions are symmetric.</p>
     </div>
     <div>
@@ -817,7 +824,7 @@ footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--rule);
 
 <footer>
   Toy microsimulation · IDM car-following, MOBIL lane changing with a 3-second maneuver,
-  HCM gap acceptance, platooned arrivals from a coordinated 90-second signal pair ·
+  HCM gap acceptance, platooned arrivals from a coordinated 60-second signal pair ·
   twelve simulated hours averaged per point; the replay is one fixed hour, selectable.
   Figures are model output, not field measurements.
   <br><br>
@@ -843,59 +850,59 @@ const RES = {
  ],
  "tt": {
   "4lane": [
-   23.14,
-   23.75,
-   25.16,
-   27.16,
-   30.29
+   23.37,
+   23.81,
+   24.44,
+   25.7,
+   27.6
   ],
   "3lane": [
-   22.85,
-   23.38,
-   24.18,
-   24.8,
-   25.07
+   22.99,
+   23.43,
+   23.99,
+   24.49,
+   24.66
   ]
  },
  "p95": {
   "4lane": [
-   28.04,
-   33.02,
-   38.27,
-   44.23,
-   52.38
+   26.48,
+   31.04,
+   34.6,
+   39.42,
+   45.25
   ],
   "3lane": [
-   25.06,
-   25.6,
-   26.29,
-   26.71,
-   26.83
+   24.92,
+   25.15,
+   25.67,
+   26.06,
+   26.1
   ]
  },
  "held": {
   "4lane": [
-   3.09,
-   5.92,
-   10.99,
-   17.32,
-   25.44
+   1.9,
+   4.5,
+   7.19,
+   12.33,
+   18.21
   ],
   "3lane": [
    0.0,
    0.0,
    0.0,
-   0.02,
+   0.0,
    0.0
   ]
  },
  "weaves": {
   "4lane": [
-   4.28,
-   6.93,
-   11.05,
-   15.66,
-   22.4
+   2.99,
+   5.86,
+   8.3,
+   12.22,
+   16.15
   ],
   "3lane": [
    0.0,
@@ -907,50 +914,50 @@ const RES = {
  },
  "ltwait": {
   "4lane": [
-   2.7,
-   4.3,
-   6.0,
-   8.5,
-   12.2
+   2.0,
+   3.4,
+   4.7,
+   6.4,
+   8.2
   ],
   "3lane": [
-   4.7,
-   7.6,
-   11.2,
-   14.6,
-   15.8
+   3.1,
+   5.6,
+   7.5,
+   9.3,
+   10.0
   ]
  },
  "served": {
   "4lane": [
    405.0,
-   556.0,
-   711.0,
+   558.0,
+   712.0,
    858.0,
-   1008.0
+   956.0
   ],
   "3lane": [
    405.0,
-   556.0,
+   558.0,
    711.0,
-   859.0,
-   927.0
+   858.0,
+   913.0
   ]
  },
  "spread": {
   "4lane": [
-   4.9,
-   9.27,
-   13.11,
-   17.07,
-   22.09
+   3.11,
+   7.23,
+   10.16,
+   13.72,
+   17.65
   ],
   "3lane": [
-   2.21,
-   2.22,
-   2.11,
-   1.91,
-   1.76
+   1.93,
+   1.71,
+   1.67,
+   1.57,
+   1.45
   ]
  },
  "demand": [
@@ -965,49 +972,49 @@ const RES = {
    "4lane",
    0.5,
    857,
-   28.5,
-   47.7,
-   10
+   26.3,
+   41.1,
+   7
   ],
   [
    "3lane",
    0.5,
    756,
-   24.9,
-   26.5,
-   130
+   24.5,
+   25.8,
+   127
   ],
   [
    "4lane",
    0.6,
    857,
-   27.1,
-   44.5,
-   8
+   25.7,
+   39.2,
+   6
   ],
   [
    "3lane",
    0.6,
-   858,
-   24.8,
-   26.8,
-   8
-  ],
-  [
-   "4lane",
-   0.65,
-   857,
-   26.2,
-   41.5,
-   8
-  ],
-  [
-   "3lane",
-   0.65,
    857,
    24.5,
-   26.6,
-   8
+   26.1,
+   7
+  ],
+  [
+   "4lane",
+   0.65,
+   857,
+   25.1,
+   37.7,
+   5
+  ],
+  [
+   "3lane",
+   0.65,
+   857,
+   24.3,
+   26.0,
+   5
   ]
  ]
 };
@@ -1019,17 +1026,17 @@ const VI = SHOWVOLS.map(v => RES.vols.indexOf(v));   // index into RES series
 /* ----------------------------------------------------------- stat tiles */
 const TILES = [
   { lab:"Through vehicles served per hour",
-    from:"711", to:"711",
+    from:"712", to:"711",
     note:"Identical. At this signal timing the road diet costs no capacity at all \u2014 the same traffic gets through." },
   { lab:"Travel time over the 1,000 ft",
-    from:"25.2 s", to:"24.2 s",
-    note:"1.0 s to the road diet \u2014 close enough that the average driver cannot tell the two roads apart." },
+    from:"24.4 s", to:"24.0 s",
+    note:"0.4 s to the road diet \u2014 close enough that the average driver cannot tell the two roads apart." },
   { lab:"The unlucky trip \u2014 95th percentile",
-    from:"38.3 s", to:"26.3 s",
-    note:"12 seconds. This is where the two roads actually part company, and it is the whole story." },
+    from:"34.6 s", to:"25.7 s",
+    note:"9 seconds. This is where the two roads actually part company, and it is the whole story." },
   { lab:"Through drivers held up behind a left-turning vehicle",
-    from:"11.0%", to:"0%",
-    note:"About one driver in 9, on this block alone \u2014 roughly 77 an hour." }
+    from:"7.2%", to:"0%",
+    note:"About one driver in 14, on this block alone \u2014 roughly 50 an hour." }
 ];
 document.getElementById("tiles").innerHTML = TILES.map(t => `
   <div class="tile">
@@ -1088,166 +1095,166 @@ document.getElementById("charts").innerHTML = CH.map(barChart).join("");
 
 const SHARE = {
  "4lane_5_550": {
-  "tt": 22.95,
-  "p95": 27.7,
-  "spread": 4.74,
-  "held": 2.47,
-  "weaves": 3.2,
-  "ltwait": 3.7,
+  "tt": 23.26,
+  "p95": 26.6,
+  "spread": 3.34,
+  "held": 2.16,
+  "weaves": 2.66,
+  "ltwait": 3.3,
   "served": 548
  },
  "3lane_5_550": {
-  "tt": 23.33,
-  "p95": 25.7,
-  "spread": 2.32,
+  "tt": 23.46,
+  "p95": 25.2,
+  "spread": 1.73,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 6.9,
+  "ltwait": 5.5,
   "served": 548
  },
  "4lane_5_700": {
-  "tt": 23.38,
-  "p95": 31.4,
-  "spread": 8.03,
-  "held": 4.32,
-  "weaves": 4.07,
-  "ltwait": 5.5,
+  "tt": 23.44,
+  "p95": 28.5,
+  "spread": 5.09,
+  "held": 2.9,
+  "weaves": 3.36,
+  "ltwait": 4.1,
   "served": 707
  },
  "3lane_5_700": {
-  "tt": 23.98,
-  "p95": 26.4,
-  "spread": 2.39,
+  "tt": 23.91,
+  "p95": 25.7,
+  "spread": 1.81,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 10.5,
-  "served": 706
+  "ltwait": 7.5,
+  "served": 707
  },
  "4lane_5_850": {
-  "tt": 24.52,
-  "p95": 37.4,
-  "spread": 12.88,
-  "held": 7.87,
-  "weaves": 7.07,
-  "ltwait": 7.9,
-  "served": 852
+  "tt": 24.04,
+  "p95": 33.2,
+  "spread": 9.21,
+  "held": 5.45,
+  "weaves": 5.0,
+  "ltwait": 5.7,
+  "served": 853
  },
  "3lane_5_850": {
-  "tt": 24.72,
-  "p95": 26.8,
-  "spread": 2.03,
+  "tt": 24.4,
+  "p95": 26.1,
+  "spread": 1.66,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 15.2,
-  "served": 852
+  "ltwait": 9.6,
+  "served": 853
  },
  "4lane_10_550": {
-  "tt": 23.64,
-  "p95": 32.4,
-  "spread": 8.74,
-  "held": 5.48,
-  "weaves": 6.67,
-  "ltwait": 4.4,
-  "served": 556
+  "tt": 23.79,
+  "p95": 30.8,
+  "spread": 6.96,
+  "held": 4.24,
+  "weaves": 5.59,
+  "ltwait": 3.5,
+  "served": 557
  },
  "3lane_10_550": {
-  "tt": 23.36,
-  "p95": 25.6,
-  "spread": 2.26,
+  "tt": 23.44,
+  "p95": 25.2,
+  "spread": 1.72,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 7.7,
-  "served": 556
+  "ltwait": 5.6,
+  "served": 557
  },
  "4lane_10_700": {
-  "tt": 25.02,
-  "p95": 37.8,
-  "spread": 12.73,
-  "held": 10.67,
-  "weaves": 10.64,
-  "ltwait": 5.8,
-  "served": 711
+  "tt": 24.43,
+  "p95": 34.5,
+  "spread": 10.07,
+  "held": 7.11,
+  "weaves": 8.32,
+  "ltwait": 4.7,
+  "served": 712
  },
  "3lane_10_700": {
-  "tt": 24.19,
-  "p95": 26.3,
-  "spread": 2.13,
+  "tt": 24.0,
+  "p95": 25.7,
+  "spread": 1.69,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 11.3,
-  "served": 711
+  "ltwait": 7.8,
+  "served": 712
  },
  "4lane_10_850": {
-  "tt": 27.09,
-  "p95": 44.5,
-  "spread": 17.38,
-  "held": 17.19,
-  "weaves": 15.57,
-  "ltwait": 8.7,
+  "tt": 25.69,
+  "p95": 39.2,
+  "spread": 13.53,
+  "held": 12.44,
+  "weaves": 12.18,
+  "ltwait": 6.5,
   "served": 857
  },
  "3lane_10_850": {
-  "tt": 24.8,
-  "p95": 26.8,
-  "spread": 1.95,
-  "held": 0.03,
+  "tt": 24.49,
+  "p95": 26.1,
+  "spread": 1.57,
+  "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 14.6,
-  "served": 858
+  "ltwait": 9.6,
+  "served": 857
  },
  "4lane_15_550": {
-  "tt": 24.36,
-  "p95": 35.2,
-  "spread": 10.83,
-  "held": 8.46,
-  "weaves": 10.07,
-  "ltwait": 4.1,
+  "tt": 24.3,
+  "p95": 33.2,
+  "spread": 8.95,
+  "held": 6.56,
+  "weaves": 8.39,
+  "ltwait": 3.4,
   "served": 563
  },
  "3lane_15_550": {
-  "tt": 23.57,
-  "p95": 25.8,
-  "spread": 2.18,
+  "tt": 23.51,
+  "p95": 25.2,
+  "spread": 1.71,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 7.1,
+  "ltwait": 5.3,
   "served": 563
  },
  "4lane_15_700": {
-  "tt": 26.48,
-  "p95": 41.3,
-  "spread": 14.86,
-  "held": 16.37,
-  "weaves": 16.95,
-  "ltwait": 6.5,
-  "served": 714
+  "tt": 25.32,
+  "p95": 37.1,
+  "spread": 11.74,
+  "held": 11.05,
+  "weaves": 12.45,
+  "ltwait": 4.8,
+  "served": 715
  },
  "3lane_15_700": {
-  "tt": 24.22,
-  "p95": 26.2,
-  "spread": 1.97,
+  "tt": 24.11,
+  "p95": 25.8,
+  "spread": 1.64,
   "held": 0.0,
   "weaves": 0.0,
-  "ltwait": 10.9,
+  "ltwait": 7.5,
   "served": 714
  },
  "4lane_15_850": {
-  "tt": 30.84,
-  "p95": 51.9,
-  "spread": 21.1,
-  "held": 28.05,
-  "weaves": 28.74,
-  "ltwait": 9.6,
-  "served": 754
+  "tt": 27.2,
+  "p95": 42.3,
+  "spread": 15.11,
+  "held": 17.64,
+  "weaves": 17.98,
+  "ltwait": 7.2,
+  "served": 860
  },
  "3lane_15_850": {
-  "tt": 24.91,
-  "p95": 26.8,
-  "spread": 1.84,
-  "held": 0.0,
+  "tt": 24.54,
+  "p95": 26.1,
+  "spread": 1.52,
+  "held": 0.02,
   "weaves": 0.0,
-  "ltwait": 13.4,
-  "served": 849
+  "ltwait": 9.1,
+  "served": 845
  }
 };
 
@@ -1312,7 +1319,7 @@ const SHARE = {
     <th>3-lane served</th><th>4-lane served</th><th>3-lane travel time</th>
     <th>3-lane upstream queue</th></tr></thead><tbody>`;
   rows.forEach((r,i)=>{
-    h += `<tr><td>${Math.round(r[1]*100)}% green (${Math.round(r[1]*90)} s of a 90 s cycle)</td>
+    h += `<tr><td>${Math.round(r[1]*100)}% green (${Math.round(r[1]*TRACE.cycle)} s of a ${TRACE.cycle} s cycle)</td>
       <td>${r[2]}</td><td>${four[i][2]}</td>
       <td>${r[3].toFixed(1)} s</td><td>${r[5]} veh</td></tr>`;
   });
@@ -1743,7 +1750,7 @@ function paintStep(){
 }
 
 /* The queue waiting upstream of the block, over the measured hour. Averaged
-   over the twelve samples and over each 90-second signal cycle, so the
+   over the twelve samples and over each signal cycle, so the
    sawtooth of building on red and emptying on green is stripped out and only
    the trend is left. */
 const QUEUE = /*QUEUE*/;
@@ -1820,8 +1827,8 @@ function paintQueue(){
     <p class="eyebrow">The queue waiting to get in</p>
     <h3>Does the block clear, hour after hour?</h3>
     <p class="sub">Vehicles still waiting upstream of the block, ${view.vol.toLocaleString()} through
-    veh/h, averaged over the twelve samples. The faint line is the real cycle-by-cycle queue
-    building on red and emptying on green; the bold line is that averaged over each 90-second
+    veh/h, median of the twelve samples. The faint line is the real cycle-by-cycle queue
+    building on red and emptying on green; the bold line is that averaged over each 60-second
     cycle, which is what shows whether it trends up.</p>
     <svg viewBox="0 0 ${W} ${H}" role="img"
       aria-label="Queue waiting upstream over the hour at ${view.vol} through vehicles per hour.

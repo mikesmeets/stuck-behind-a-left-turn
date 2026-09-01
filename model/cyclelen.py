@@ -1,13 +1,14 @@
-"""What changes with a 60-second cycle instead of 90?
+"""What would a 90-second cycle do instead of the 60 the corridor runs?
 
-Same green fraction (60%), so 36 s of green in 60 rather than 54 in 90.
-A shorter cycle means shorter reds, shorter queues and smaller platoons.
+Same green fraction (60%), so 54 s of green in 90 rather than 36 in 60.
+A longer cycle means longer reds, longer queues and bigger platoons -- and
+a bigger platoon is what traps a driver behind somebody waiting to turn.
 """
 import json
 from multiprocessing import Pool
 from roaddiet_sim import Sim
 
-LEVELS = [400, 550, 700, 850]
+LEVELS = [400, 550, 700, 850, 1000]
 SEEDS = [11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132]
 CYCLES = [60.0, 90.0]
 GC = 0.60

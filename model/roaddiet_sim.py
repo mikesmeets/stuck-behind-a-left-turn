@@ -106,8 +106,8 @@ WEAVE_V = 6.0                # m/s below which a turner is already blocking
 # run together and both directions start at the same moment, which also makes
 # the two directions symmetric -- statistics are taken from one of them, but
 # either would do.
-CYCLE = 90.0                 # s
-GREEN = 0.60 * CYCLE          # 54 s of green in a 90 s cycle
+CYCLE = 60.0                 # s -- the corridor runs 60 s cycles today
+GREEN = 0.60 * CYCLE          # 36 s of green in a 60 s cycle
 OFFSET = 0.0                 # simultaneous release at both ends
 MEASURED_DIR = 1
 H_SAT = 2.0                  # saturation headway per lane at the stop bar, s

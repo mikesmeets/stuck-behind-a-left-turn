@@ -1,5 +1,7 @@
 """Sample the upstream queue over the measured hour, for both cross-sections.
 
+Reported as the median of the twelve simulated hours.
+
 The sweep only reports the queue length at the final instant. The build-up
 edition needs the whole hour, because the honest story at 1,000 veh/h is that
 the three-lane queue never stops growing while the four-lane one hovers.
@@ -38,10 +40,15 @@ if __name__ == "__main__":
         for cfg, vph, out in p.imap_unordered(job, jobs):
             bag.setdefault(f"{cfg}_{vph}", []).append(out)
 
+    # Median across the twelve hours, not the mean: at 1,000 veh/h one of the
+    # four-lane hours gridlocks outright, and a single 700-vehicle queue would
+    # otherwise drag the whole line up and misrepresent the typical hour.
+    import statistics
     q = {}
     for k, runs in bag.items():
         n = min(len(r) for r in runs)
-        q[k] = [round(sum(r[i] for r in runs) / len(runs), 1) for i in range(n)]
+        q[k] = [round(statistics.median(r[i] for r in runs), 1)
+                for i in range(n)]
 
     npts = min(len(v) for v in q.values())
     q = {k: v[:npts] for k, v in q.items()}
@@ -50,14 +57,15 @@ if __name__ == "__main__":
     # The raw series sawtooths with the signal: the queue builds on red and
     # empties on green. Averaging over one full cycle strips that out and
     # leaves the only thing that matters here -- whether the queue trends up.
-    win = max(1, int(round(90.0 / SAMPLE_S)))
+    from roaddiet_sim import CYCLE
+    win = max(1, int(round(CYCLE / SAMPLE_S)))
     qs = {}
     for k, v in q.items():
         qs[k] = [round(sum(v[max(0, i - win + 1):i + 1])
                        / len(v[max(0, i - win + 1):i + 1]), 1)
                  for i in range(len(v))]
 
-    json.dump({"vols": VOLS, "t": t, "q": q, "qs": qs, "cycle_win_s": 90.0},
+    json.dump({"vols": VOLS, "t": t, "q": q, "qs": qs, "cycle_win_s": CYCLE},
               open("/home/claude/queue.json", "w"), separators=(",", ":"))
 
     for v in VOLS:

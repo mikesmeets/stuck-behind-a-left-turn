@@ -66,7 +66,7 @@ roundabout there.
 | Cross-section A | 4 lanes undivided — 2 through lanes per direction, no turn lane |
 | Cross-section B | 3 lanes — 1 through lane per direction + center two-way left-turn lane |
 | Driveways | 3 per direction, unsignalized, offset side to side: eastbound turns left at 250 / 500 / 750 ft, westbound at 375 / 625 / 875 ft |
-| Signals | One at each end. 90 s cycle, 54 s effective green (g/C = 0.60), **released simultaneously**. Each signal releases one direction into the block; **neither holds traffic on the way out**, so travel time is pure block traversal with no signal delay folded in |
+| Signals | One at each end. 60 s cycle — the timing the corridor runs today — with 36 s effective green (g/C = 0.60), **released simultaneously**. Each signal releases one direction into the block; **neither holds traffic on the way out**, so travel time is pure block traversal with no signal delay folded in |
 | Traffic | Vehicles arrive at the upstream signal at random, queue on red, discharge on green at a 2.0 s saturation headway per lane — so they enter the block in **platoons** |
 | Turn split | 10% turn left, spread evenly over that direction's three driveways |
 | Through volumes tested | 400, 550, 700 and 850 veh/h **per direction** (about 800 veh/h per direction in total at the 700 level, ~1,600 two-way) |
@@ -181,14 +181,14 @@ what happens as the road fills:
 
 | Gap between the 95th-percentile trip and the average trip | 400 | 550 | 700 | 850 |
 |---|---:|---:|---:|---:|
-| 4 lanes, no turn lane | +4.9 s | +9.3 s | +13.1 s | +17.1 s |
-| 3 lanes + center turn lane | +2.2 s | +2.2 s | +2.1 s | +1.9 s |
+| 4 lanes, no turn lane | +3.1 s | +7.2 s | +10.2 s | +13.7 s |
+| 3 lanes + center turn lane | +1.9 s | +1.7 s | +1.7 s | +1.6 s |
 
-The three-lane road's spread barely moves as it fills — about 2.2 seconds at every volume, easing
-to 1.9 at the busiest. The four-lane road's more than triples, from 4.9 to 17.1, because the busier the street the
+The three-lane road's spread barely moves as it fills — under two seconds at every volume, easing
+to 1.6 at the busiest. The four-lane road's more than quadruples, from 3.1 to 13.7, because the busier the street the
 harder it is to get around somebody waiting to turn. Both roads are carrying the same traffic at
 the same average speed the whole way. One of them delivers that average to almost everybody; the
-other delivers it on average, while handing about a tenth of drivers something much worse.
+other delivers it on average, while handing one driver in eight something much worse.
 
 That is the honest shape of this trade, and it is a better argument than a speed claim, because it
 is the delay people actually notice. Nobody complains about a trip that takes the time it usually
@@ -219,7 +219,7 @@ In absolute terms, on this one block and in one direction, per hour:
 | Through vehicles served (veh/h) | 405 | 405 | 556 | 556 | 711 | 711 | 858 | 859 |
 | Travel time, 1,000 ft (s) | 23.1 | 22.8 | 23.7 | 23.4 | 25.2 | 24.2 | 27.2 | 24.8 |
 | 95th-percentile travel time (s) | 28.0 | 25.1 | 33.0 | 25.6 | 38.3 | 26.3 | 44.2 | 26.7 |
-| Spread (95th − average, s) | +4.9 | +2.2 | +9.3 | +2.2 | +13.1 | +2.1 | +17.1 | +1.9 |
+| Spread (95th − average, s) | +3.1 | +1.9 | +7.2 | +1.7 | +10.2 | +1.7 | +13.7 | +1.6 |
 | Held up behind a left turn (%) | 3.1 | 0.0 | 5.9 | 0.0 | 11.0 | 0.0 | 17.3 | 0.0 |
 | Forced lane changes per 100 veh | 4.3 | 0.0 | 6.9 | 0.0 | 11.1 | 0.0 | 15.7 | 0.0 |
 | Left-turn wait (s) | 2.7 | 4.7 | 4.3 | 7.6 | 6.0 | 11.2 | 8.5 | 14.6 |
@@ -248,7 +248,7 @@ seventeen seconds.
 
 Every replay starts from the same place, deliberately. The simulation opens with an **empty street
 and the signal on red**. Traffic arrives and accumulates at the stop bar for one full red — 36 s
-of the 90 s cycle — and the replay window opens at the instant that first green turns, on both
+of the 60 s cycle — and the replay window opens at the instant that first green turns, on both
 cross-sections at once. So at 0:00 the block is clear, a queue is about to be released, and what
 follows is one platoon running into an empty block and a second one behind it. Same starting
 conditions in every sample, at every volume, on both roads.
@@ -373,7 +373,7 @@ reliable; at the stop bar it needs enough green.**
 | `build_pages_20260831_1800.py`, `build_writeups_20260831_1800.py` | Produce the public and complex editions from the single source |
 | `carryover_20260831_1800.py` | The block-clearance check |
 | `greensplit_20260831_2030.py`, `greensplit_20260831_2030.json` | The full sweep at 60% vs 65% green |
-| `cyclelen_20260831_2040.py`, `cyclelen_20260831_2040.json` | The full sweep at a 60 s vs 90 s cycle |
+| `cyclelen.py`, `cyclelen.json` | The full sweep at the 60 s cycle vs a 90 s one |
 | `order_seeds_20260831_1800.py` | Scores and orders the twelve traffic samples by when their left turns arrive |
 | `make_trace_20260831_1800.py` | Dumps the vehicle traces the animation replays, for all twelve hours |
 | `make_chart_20260831_1800.py`, `make_turnshare_chart_20260831_1800.py`, `make_sumo_chart_20260831_1800.py` | Build the figures |

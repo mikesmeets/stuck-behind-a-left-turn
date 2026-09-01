@@ -21,7 +21,7 @@ OUT = "/home/claude/road_diet_replay"
 
 VOL = 700            # which volume to show
 PICK = 0             # 0 = sample a
-SIM_SECONDS = 90.0   # one full signal cycle
+SIM_SECONDS = 120.0  # two full signal cycles
 FRAMES = 120         # GIF frames
 FPS = 12             # -> 10 s of GIF, about 7.5x real time
 WIDTH = 900          # browser width; the roads panel is a little narrower

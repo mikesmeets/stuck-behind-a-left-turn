@@ -23,7 +23,7 @@ HALF = NF / 2
 def turn_frames(cfg, vol, seed):
     """Frame at which each vehicle first becomes a visible left-turner."""
     first = {}
-    for i, (vehs, _, _, _) in enumerate(T["scen"][f"{cfg}_{vol}_{seed}"]):
+    for i, (vehs, *_rest) in enumerate(T["scen"][f"{cfg}_{vol}_{seed}"]):
         for v in vehs:
             if v[4] in (2, 3) and v[0] not in first:
                 first[v[0]] = i
