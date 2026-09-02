@@ -159,7 +159,11 @@ INTRO["buildup"] = (
 
 # The build-up edition offers one hour per volume: the walk-through is about
 # the volume ladder, and a sample picker would only get in the way.
-BUILDUP_PICK = {400: 8, 550: 9, 700: 8, 850: 1, 1000: 8}
+# One hour per volume, chosen by the same rule at every volume: the
+# 9th-busiest of the twelve for drivers held up behind a left turn. Picking
+# by a fixed rank rather than by eye keeps the ladder honest -- it rises
+# because the traffic rises, not because the samples were hand-sorted.
+BUILDUP_PICK = {400: 2, 550: 7, 700: 5, 850: 10, 1000: 1}
 
 SAMPLES = {
     "complex": {"mode": "all", "seeds": ORDER},
