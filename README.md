@@ -28,10 +28,10 @@ of the mechanism, not as a forecast.
 
 At 700 through vehicles per hour in each direction, both cross-sections serve
 the same traffic in near enough the same average time. The difference is in the
-spread: the four-lane road's 95th-percentile trip runs 10 seconds longer than
-its average, the three-lane road's under 2, and that gap widens as the street
-fills. About one four-lane driver in fourteen spends part of the trip stuck
-behind somebody waiting to turn left. On the three-lane road, none do.
+spread: the four-lane road's 95th-percentile trip runs 13 seconds longer than
+its average, the three-lane road's about 2, and that gap widens as the street
+fills. About one four-lane driver in nine spends part of the trip stuck behind
+somebody waiting to turn left. On the three-lane road, none do.
 
 Safety is the reason to do a road diet — FHWA reports a 19–47% overall crash
 reduction for 4-to-3 conversions. The operational numbers here exist to answer
@@ -39,7 +39,7 @@ the objection that it will cause gridlock, not to be the argument.
 
 ## Assumptions
 
-1,000 ft between two signals · 35 mph free-flow · 60 s cycle, 60% green ·
+1,000 ft between two signals · 35 mph free-flow · 90 s cycle, 60% green ·
 three unsignalized driveways per direction · 10% of traffic turning left ·
 400/550/700/850 through veh/h **per direction** (the build-up edition adds 1,000) · twelve independent simulated
 hours averaged per point.

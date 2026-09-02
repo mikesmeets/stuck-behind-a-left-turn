@@ -62,7 +62,7 @@ fig.text(0.048, 0.94,
          ha="left", fontsize=13.5, color=INK, fontweight="bold")
 fig.text(0.048, 0.90,
          "1,000 ft between two coordinated signals  \u00b7  three unsignalized driveways "
-         "each direction  \u00b7  10% turning left  \u00b7  35 mph, 60 s cycle, 60% green",
+         "each direction  \u00b7  10% turning left  \u00b7  35 mph, 90 s cycle, 60% green",
          ha="left", fontsize=9, color=INK3)
 fig.text(0.048, 0.022,
          "Toy microsimulation: IDM car-following, MOBIL lane changing with a 3-second "

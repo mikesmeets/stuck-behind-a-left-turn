@@ -65,7 +65,7 @@ roundabout there.
 | Cross-section A | 4 lanes undivided — 2 through lanes per direction, no turn lane |
 | Cross-section B | 3 lanes — 1 through lane per direction + center two-way left-turn lane |
 | Driveways | 3 per direction, unsignalized, offset side to side: eastbound turns left at 250 / 500 / 750 ft, westbound at 375 / 625 / 875 ft |
-| Signals | One at each end. 60 s cycle — the timing the corridor runs today — with 36 s effective green (g/C = 0.60), **released simultaneously**. Each signal releases one direction into the block; **neither holds traffic on the way out**, so travel time is pure block traversal with no signal delay folded in |
+| Signals | One at each end. 90 s cycle, 54 s effective green (g/C = 0.60), **released simultaneously**. Each signal releases one direction into the block; **neither holds traffic on the way out**, so travel time is pure block traversal with no signal delay folded in |
 | Traffic | Vehicles arrive at the upstream signal at random, queue on red, discharge on green at a 2.0 s saturation headway per lane — so they enter the block in **platoons** |
 | Turn split | 10% turn left, spread evenly over that direction's three driveways |
 | Through volumes tested | 400, 550, 700 and 850 veh/h **per direction** (about 800 veh/h per direction in total at the 700 level, ~1,600 two-way) |
@@ -180,14 +180,14 @@ what happens as the road fills:
 
 | Gap between the 95th-percentile trip and the average trip | 400 | 550 | 700 | 850 |
 |---|---:|---:|---:|---:|
-| 4 lanes, no turn lane | +3.1 s | +7.2 s | +10.2 s | +13.7 s |
-| 3 lanes + center turn lane | +1.9 s | +1.7 s | +1.7 s | +1.6 s |
+| 4 lanes, no turn lane | +4.9 s | +9.3 s | +13.1 s | +17.1 s |
+| 3 lanes + center turn lane | +2.2 s | +2.2 s | +2.1 s | +1.9 s |
 
-The three-lane road's spread barely moves as it fills — under two seconds at every volume, easing
-to 1.6 at the busiest. The four-lane road's more than quadruples, from 3.1 to 13.7, because the busier the street the
+The three-lane road's spread barely moves as it fills — about 2.2 seconds at every volume, easing
+to 1.9 at the busiest. The four-lane road's more than triples, from 4.9 to 17.1, because the busier the street the
 harder it is to get around somebody waiting to turn. Both roads are carrying the same traffic at
 the same average speed the whole way. One of them delivers that average to almost everybody; the
-other delivers it on average, while handing one driver in eight something much worse.
+other delivers it on average, while handing one driver in six something much worse.
 
 That is the honest shape of this trade, and it is a better argument than a speed claim, because it
 is the delay people actually notice. Nobody complains about a trip that takes the time it usually
@@ -218,7 +218,7 @@ In absolute terms, on this one block and in one direction, per hour:
 | Through vehicles served (veh/h) | 405 | 405 | 556 | 556 | 711 | 711 | 858 | 859 |
 | Travel time, 1,000 ft (s) | 23.1 | 22.8 | 23.7 | 23.4 | 25.2 | 24.2 | 27.2 | 24.8 |
 | 95th-percentile travel time (s) | 28.0 | 25.1 | 33.0 | 25.6 | 38.3 | 26.3 | 44.2 | 26.7 |
-| Spread (95th − average, s) | +3.1 | +1.9 | +7.2 | +1.7 | +10.2 | +1.7 | +13.7 | +1.6 |
+| Spread (95th − average, s) | +4.9 | +2.2 | +9.3 | +2.2 | +13.1 | +2.1 | +17.1 | +1.9 |
 | Held up behind a left turn (%) | 3.1 | 0.0 | 5.9 | 0.0 | 11.0 | 0.0 | 17.3 | 0.0 |
 | Forced lane changes per 100 veh | 4.3 | 0.0 | 6.9 | 0.0 | 11.1 | 0.0 | 15.7 | 0.0 |
 | Left-turn wait (s) | 2.7 | 4.7 | 4.3 | 7.6 | 6.0 | 11.2 | 8.5 | 14.6 |
@@ -254,11 +254,11 @@ unlucky trip and the typical one — at 5%, 10% and 15%.
 | Share turning left | 550 veh/h | | 700 veh/h | | 850 veh/h | |
 |---|---:|---:|---:|---:|---:|---:|
 | | 4 ln | 3 ln | 4 ln | 3 ln | 4 ln | 3 ln |
-| 5% | +3.3 s | +1.7 s | +5.1 s | +1.8 s | +9.2 s | +1.7 s |
-| 10% | +7.0 s | +1.7 s | +10.1 s | +1.7 s | +13.5 s | +1.6 s |
-| 15% | +9.0 s | +1.7 s | +11.7 s | +1.6 s | +15.1 s | +1.5 s |
+| 5% | +4.7 s | +2.3 s | +8.0 s | +2.4 s | +12.9 s | +2.0 s |
+| 10% | +8.7 s | +2.3 s | +12.7 s | +2.1 s | +17.4 s | +1.9 s |
+| 15% | +10.8 s | +2.2 s | +14.9 s | +2.0 s | +21.1 s | +1.8 s |
 
-**The three-lane road barely notices.** Its spread sits between 1.5 and 1.9 seconds in all nine
+**The three-lane road barely notices.** Its spread sits between 1.8 and 2.4 seconds in all nine
 cases, and *tightens* as either the volume or the turn share rises. Turning traffic simply is not
 in its through lane.
 
@@ -319,7 +319,7 @@ picture is fixed and inspectable rather than reshuffling on each load.
 
 Every replay starts from the same place, deliberately. The simulation opens with an **empty street
 and the signal on red**. Traffic arrives and accumulates at the stop bar for one full red — 36 s
-of the 60 s cycle — and the replay window opens at the instant that first green turns, on both
+of the 90 s cycle — and the replay window opens at the instant that first green turns, on both
 cross-sections at once. So at 0:00 the block is clear, a queue is about to be released, and what
 follows is one platoon running into an empty block and a second one behind it. Same starting
 conditions in every sample, at every volume, on both roads.
@@ -365,7 +365,7 @@ block for an entire signal cycle when there is no center lane to wait in.
 
 ## What the diet needs from the signals
 
-Everything above assumes the arterial gets 60% of the cycle — 36 seconds of green out of 60 —
+Everything above assumes the arterial gets 60% of the cycle — 54 seconds of green out of 90 —
 which is a normal split for a street like this one. That assumption is doing real work, and it is
 the one to check before promising anything.
 
@@ -378,9 +378,9 @@ Holding demand at 850 through vehicles per hour and varying only the green split
 
 | Green split at the signals | 3-lane served | 4-lane served | 3-lane travel time | 3-lane upstream queue |
 |---|---:|---:|---:|---:|
-| 50% green (30 s of a 60 s cycle) | 756 | 857 | 24.5 s | 132 veh |
-| **60% green (36 s of a 60 s cycle)** | **857** | **857** | **24.5 s** | **8 veh** |
-| 65% green (39 s of a 60 s cycle) | 857 | 857 | 24.3 s | 8 veh |
+| 50% green (45 s of a 90 s cycle) | 756 | 857 | 24.9 s | 130 veh |
+| **60% green (54 s of a 90 s cycle)** | **858** | **857** | **24.8 s** | **10 veh** |
+| 65% green (59 s of a 90 s cycle) | 857 | 857 | 24.5 s | 8 veh |
 
 At 60% green the single through lane serves exactly what the four-lane road manages, with a travel
 time two seconds better and a 95th percentile eighteen seconds better. At 65% it does the same. At
@@ -396,10 +396,10 @@ roads. What changes is the spread:
 
 | Gap between the unlucky trip and the average trip | 400 | 550 | 700 | 850 |
 |---|---:|---:|---:|---:|
-| 4 lanes, 60% green *(this model)* | +3.1 s | +7.2 s | +10.2 s | +13.7 s |
-| 4 lanes, 65% green | +2.2 s | +6.0 s | +8.8 s | +12.5 s |
-| 3 lanes, 60% green *(this model)* | +1.9 s | +1.7 s | +1.7 s | +1.6 s |
-| 3 lanes, 65% green | +2.0 s | +1.9 s | +1.9 s | +1.7 s |
+| 4 lanes, 60% green *(this model)* | +4.9 s | +9.3 s | +13.1 s | +17.1 s |
+| 4 lanes, 65% green | +3.9 s | +8.6 s | +12.1 s | +15.8 s |
+| 3 lanes, 60% green *(this model)* | +2.2 s | +2.2 s | +2.1 s | +1.9 s |
+| 3 lanes, 65% green | +2.3 s | +2.3 s | +2.3 s | +2.1 s |
 
 Going the other way, to 65%, would shrink the four-lane road's spread by about a second at every
 volume and *grow* the three-lane road's slightly. A tighter green packs the platoon more densely, which gives a blocked driver
@@ -410,34 +410,31 @@ reliable road either way, and by more at the 60% this model assumes.
 The arithmetic behind where it does break: a single through lane discharging at a two-second
 headway carries 1,800 veh/h × the split — 1,170 at 65%, 1,080 at 60%, 900 at 50%. Demand at the
 850 level is about 945 veh/h including the turners — under the first two and over the third. At
-half the cycle the single through lane serves only about 754 of the 850, and the queue upstream
+half the cycle the single through lane serves only about 756 of the 850, and the queue upstream
 never comes down.
 
-### Cycle length matters, and this corridor already has the good one
+### A shorter cycle helps — and helps the four-lane road more
 
-These pages model the 60-second cycle the corridor runs today. Holding the split at 60% and
-stretching the cycle to 90 s instead would add about a third to the four-lane road's spread and
-rather less to the three-lane road's, widening the gap between them. Across this range of volumes
-both cross-sections serve the same traffic either way; only the spread moves.
+Holding the split at 60% and shortening the cycle from 90 s to 60 s cuts the four-lane road's
+spread by about a quarter and the three-lane road's by rather less, so it narrows the gap between
+them. Across this range of volumes both cross-sections serve the same traffic either way; only
+the spread moves.
 
 | Gap between the unlucky trip and the average trip | 400 | 550 | 700 | 850 |
 |---|---:|---:|---:|---:|
-| 4 lanes, 60 s cycle *(this model)* | +3.1 s | +7.2 s | +10.2 s | +13.7 s |
-| 4 lanes, 90 s cycle | +4.9 s | +9.3 s | +13.1 s | +17.1 s |
-| 3 lanes, 60 s cycle *(this model)* | +1.9 s | +1.7 s | +1.7 s | +1.6 s |
-| 3 lanes, 90 s cycle | +2.2 s | +2.2 s | +2.1 s | +1.9 s |
+| 4 lanes, 90 s cycle *(this model)* | +4.9 s | +9.3 s | +13.1 s | +17.1 s |
+| 4 lanes, 60 s cycle | +3.1 s | +7.2 s | +10.2 s | +13.7 s |
+| 3 lanes, 90 s cycle *(this model)* | +2.2 s | +2.2 s | +2.1 s | +1.9 s |
+| 3 lanes, 60 s cycle | +1.9 s | +1.7 s | +1.7 s | +1.6 s |
 
 The reason is platoon size. A 90-second cycle releases a bigger burst after a longer red, so more
-drivers arrive behind any one left-turner at once and the queue behind it is longer. The
-corridor's 60-second cycle spreads the same hourly volume into smaller, more frequent groups,
-which leaves a blocked driver more gaps to escape into. Lengthening the cycle to 90 s would push
-drivers held up behind a left turn from 7.2% up to 11.0% at 700 veh/h, and from 12.3% to 17.3%
-at 850.
+drivers arrive behind any one left-turner at once and the queue behind it is longer. A 60-second
+cycle spreads the same hourly volume into smaller, more frequent groups, which leaves a blocked
+driver more gaps to escape into. Shortening the cycle to 60 s would drop drivers held up behind a
+left turn from 11.0% to 7.2% at 700 veh/h, and from 17.3% to 12.3% at 850.
 
-**State this one honestly.** A shorter cycle is a real partial fix for the four-lane road's
-problem, and someone will point that out — but the corridor already has one, and these figures
-are measured on it, so the four-lane road is not being flattered by a pessimistic signal
-assumption. It does not close the gap — at 700 veh/h the
+**State this one honestly.** Retiming to a shorter cycle is a real partial fix for the four-lane
+road's problem, and someone will point that out. It does not close the gap — at 700 veh/h the
 four-lane road still runs +10.2 s against +1.7 s — and it buys nothing on the safety side, which is
 the main case. It also has to survive the pedestrian crossing and side-street clearance times a
 60-second cycle leaves, which is a question for the corridor's own timing plan rather than for
@@ -545,7 +542,7 @@ the difference is really about lane count rather than left turns.
 | `build_pages_20260831_1800.py`, `build_writeups_20260831_1800.py` | Produce the public and complex editions from the single source |
 | `carryover_20260831_1800.py` | The block-clearance check |
 | `greensplit_20260831_2030.py`, `greensplit_20260831_2030.json` | The full sweep at 60% vs 65% green |
-| `cyclelen.py`, `cyclelen.json` | The full sweep at the 60 s cycle vs a 90 s one |
+| `cyclelen.py`, `cyclelen.json` | The full sweep at a 60 s vs 90 s cycle |
 | `order_seeds_20260831_1800.py` | Scores and orders the twelve traffic samples by when their left turns arrive |
 | `make_trace_20260831_1800.py` | Dumps the vehicle traces the animation replays, for all twelve hours |
 | `make_chart_20260831_1800.py`, `make_turnshare_chart_20260831_1800.py`, `make_sumo_chart_20260831_1800.py` | Build the figures |

@@ -56,30 +56,30 @@ STEPS = {
         "head": "Barely a difference worth arguing about",
         "body": [
             "A left-turner still stops in a travel lane on the four-lane road, and drivers still go around. But the street is empty enough that going around costs nothing: there is a gap in the next lane whenever you want one, and plenty of green left to catch.",
-            "Two drivers in a hundred get held up, and the unlucky trip runs <b>3.1 seconds</b> longer than the average against the three-lane road’s 1.9. If this were the whole picture, the road diet would be a safety project with no traffic argument attached either way."
+            "Three drivers in a hundred get held up, and the unlucky trip runs <b>4.9 seconds</b> longer than the average against the three-lane road’s 2.2. If this were the whole picture, the road diet would be a safety project with no traffic argument attached either way."
         ]
     },
     550: {
         "eyebrow": "550 veh/h · a normal busy hour",
         "head": "Still comfortable, but the gap opens",
         "body": [
-            "Same story, more of it. Between four and five drivers in a hundred are now held up behind somebody waiting to turn, and about six per hundred have to change lanes to get past.",
-            "The four-lane road’s spread has more than doubled to <b>7.2 seconds</b>. The three-lane road has not moved — it has actually tightened, to 1.7. That divergence is the whole build-up in miniature: one road is starting to feel the traffic and the other is not."
+            "Same story, more of it. Six drivers in a hundred are now held up behind somebody waiting to turn, and about seven per hundred have to change lanes to get past.",
+            "The four-lane road’s spread has nearly doubled to <b>9.3 seconds</b>. The three-lane road has not moved: still 2.2. That divergence is the whole build-up in miniature — one road is starting to feel the traffic and the other is not."
         ]
     },
     700: {
         "eyebrow": "700 veh/h · the busy intersections",
         "head": "The benefit shows up",
         "body": [
-            "There is a real amount of weaving now — <b>eight forced lane changes per hundred vehicles</b>, and seven percent of drivers spending part of the trip stuck behind a left turn. On the three-lane road, neither happens at all.",
-            "Both roads still get everybody through, in the same average time. The difference is entirely in the spread: <b>10.2 seconds</b> against 1.7 — six times as much. This is the volume most of the corridor’s busier intersections actually run at."
+            "There is a real amount of weaving now — <b>eleven forced lane changes per hundred vehicles</b>, and eleven percent of drivers spending part of the trip stuck behind a left turn. On the three-lane road, neither happens at all.",
+            "Both roads still get everybody through, in the same average time. The difference is entirely in the spread: <b>13.1 seconds</b> against 2.1 — six times as much. This is the volume most of the corridor’s busier intersections actually run at."
         ]
     },
     850: {
         "eyebrow": "850 veh/h · the busiest movement on the corridor",
         "head": "The weaving benefit gets large — and the headroom starts to go",
         "body": [
-            "A driver in eight is now held up, twelve per hundred are forced to weave, and the four-lane road’s unlucky trip runs <b>13.7 seconds</b> past its average. The three-lane road is still flat at 1.6.",
+            "A driver in six is now held up, sixteen per hundred are forced to weave, and the four-lane road’s unlucky trip runs <b>17.1 seconds</b> past its average. The three-lane road is still flat at 1.9.",
             "Both roads still serve the hour, and both leave a handful of vehicles at the stop bar when the green ends. But in the chart below the three-lane queue is starting to run heavier than the four-lane one and to take longer to clear — still flat over the hour, but no longer identical. The diet is at its most useful here and beginning to run out of room — which is what the next step is about."
         ]
     },
@@ -87,9 +87,9 @@ STEPS = {
         "eyebrow": "1,000 veh/h · past anything on this corridor",
         "head": "Where the road diet breaks",
         "body": [
-            "One through lane discharging at a two-second saturation headway with 60% of the cycle has a textbook ceiling near 1,080 vehicles an hour, and rather less than that in practice, because every green begins with a queue starting from rest. Demand here is 1,111 including the turners. It does not fit.",
-            "<b>The three-lane road fails, and it fails in every one of the twelve hours.</b> It serves about <b>915</b> through vehicles instead of 1,000 and ends the hour with roughly <b>127 still queued</b> behind the stop bar — the best of the twelve hours ends with 91, the worst with 141. Its trips stay short and predictable, because the cars that get through have an easy time of it, but a queue that never comes down is a failure whatever the travel times say. The chart below is that failure: watch the orange line climb and never return.",
-            "The four-lane road copes — <b>usually</b>. In eleven of the twelve hours it serves about 1,008 and ends with fewer than fifteen vehicles waiting. In the twelfth it gridlocks outright: a left-turner never finds a gap in the saturated opposing stream, the lane behind it never recovers, and the hour ends with <b>719</b> vehicles stranded upstream. That failure mode is the one a centre turn lane removes entirely, and it is worth more than the averages suggest.",
+            "One through lane discharging at a two-second saturation headway with 60% of the cycle has a ceiling near <b>1,080 vehicles an hour</b>. Demand here is 1,111 including the turners. It does not fit.",
+            "<b>The three-lane road fails, and it fails in every one of the twelve hours.</b> It serves about <b>927</b> through vehicles instead of 1,000 and ends the hour with roughly <b>108 still queued</b> behind the stop bar — the best of the twelve ends with 77, the worst with 128. Its trips stay short and predictable, because the cars that get through have an easy time of it, but a queue that never comes down is a failure whatever the travel times say. The chart below is that failure: watch the orange line climb and never return.",
+            "The four-lane road clears, and clears reliably — about <b>1,008</b> served with a dozen vehicles waiting at the end of the hour, in all twelve. It pays for that in weaving: a quarter of its drivers held up behind a left turn, twenty-two forced lane changes per hundred vehicles, and a <b>22-second</b> spread between the average trip and the unlucky one.",
             "<b>No intersection on this corridor is close to this.</b> The busiest movement measured anywhere on it is 831 vehicles an hour at Delancey Avenue. The breakdown point is real, and it is well above the street."
         ]
     }
@@ -97,15 +97,15 @@ STEPS = {
 
 # Sample order for the full edition: most front-loaded left turns first.
 # order_seeds.py recomputes it.
-ORDER = [77, 11, 88, 55, 33, 66, 44, 110, 22, 121, 132, 99]
+ORDER = [77, 88, 55, 11, 66, 33, 44, 110, 121, 22, 99, 132]
 
 # The public edition offers three chosen hours per volume, labelled a/b/c,
 # given here as positions in ORDER (the sample numbers on the full edition's
 # buttons) so they stay readable against what is on screen there.
-# Renumbered when the model moved to a 60 s cycle: these select the same
-# twelve simulated hours Michael chose (seeds 121/66/77, 110/99/55,
-# 77/22/99), which the reordering moved to different positions.
-PICKS = {550: [10, 6, 1], 700: [8, 12, 4], 850: [1, 9, 12]}
+# Renumbered whenever the sample ordering changes, so that these keep
+# selecting the same twelve simulated hours Michael chose: seeds 121/66/77
+# at 550, 110/99/55 at 700, 77/22/99 at 850.
+PICKS = {550: [9, 5, 1], 700: [8, 11, 3], 850: [1, 10, 11]}
 
 NOTE = {
     "complex":
@@ -159,7 +159,7 @@ INTRO["buildup"] = (
 
 # The build-up edition offers one hour per volume: the walk-through is about
 # the volume ladder, and a sample picker would only get in the way.
-BUILDUP_PICK = {400: 8, 550: 10, 700: 8, 850: 1, 1000: 8}
+BUILDUP_PICK = {400: 8, 550: 9, 700: 8, 850: 1, 1000: 8}
 
 SAMPLES = {
     "complex": {"mode": "all", "seeds": ORDER},

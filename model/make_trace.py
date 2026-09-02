@@ -2,7 +2,7 @@
 
 Every replay begins the same way, on purpose.  The simulation starts with an
 empty street and the signal on RED.  Traffic arrives and accumulates at the
-stop bar for one full red -- 24 s of a 60 s cycle -- and the replay window
+stop bar for one full red -- 36 s of a 90 s cycle -- and the replay window
 opens at the instant that first green turns, on both cross-sections at once.
 So the clock starts with a queue about to be released and nothing else on the
 block, in every sample, at every volume, which makes the samples comparable
@@ -16,13 +16,13 @@ import json
 from roaddiet_sim import (Sim, DT, WARMUP, SEG_LEN, DRIVEWAYS, DRIVEWAYS_OPP,
                           CYCLE, GREEN, OFFSET)
 
-WIN = 180.0          # seconds of animation -- three full signal cycles
+WIN = 180.0          # seconds of animation -- two full signal cycles
 STRIDE = 2           # record every 2nd step -> 0.5 s frames
 VOLS = [550, 700, 850]
 SEEDS = [11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132]
 
 # The signal opens red; the first green -- and the replay -- begins here.
-START = CYCLE - GREEN             # 24 s of accumulation, then release
+START = CYCLE - GREEN             # 36 s of accumulation, then release
 
 
 def trace(cfg, vph, seed, start):

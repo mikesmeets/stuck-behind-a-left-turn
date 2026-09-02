@@ -2,97 +2,97 @@
  {
   "seed": 77,
   "turns": 80,
-  "first_half": 62,
-  "second_half": 18,
-  "balance": 0.55,
-  "mean_pos": 0.3708217270194986
- },
- {
-  "seed": 11,
-  "turns": 103,
-  "first_half": 76,
-  "second_half": 27,
-  "balance": 0.47572815533980584,
-  "mean_pos": 0.38770046244963086
+  "first_half": 51,
+  "second_half": 29,
+  "balance": 0.275,
+  "mean_pos": 0.32106545961002786
  },
  {
   "seed": 88,
-  "turns": 78,
-  "first_half": 56,
-  "second_half": 22,
-  "balance": 0.4358974358974359,
-  "mean_pos": 0.3648667952289122
+  "turns": 80,
+  "first_half": 50,
+  "second_half": 30,
+  "balance": 0.25,
+  "mean_pos": 0.31786211699164346
  },
  {
   "seed": 55,
   "turns": 91,
-  "first_half": 62,
-  "second_half": 29,
-  "balance": 0.3626373626373626,
-  "mean_pos": 0.3826257308151459
+  "first_half": 56,
+  "second_half": 35,
+  "balance": 0.23076923076923078,
+  "mean_pos": 0.3271296948177171
  },
  {
-  "seed": 33,
-  "turns": 50,
-  "first_half": 34,
-  "second_half": 16,
-  "balance": 0.36,
-  "mean_pos": 0.4286908077994429
+  "seed": 11,
+  "turns": 104,
+  "first_half": 60,
+  "second_half": 44,
+  "balance": 0.15384615384615385,
+  "mean_pos": 0.3444664666809513
  },
  {
   "seed": 66,
   "turns": 100,
-  "first_half": 64,
-  "second_half": 36,
-  "balance": 0.28,
-  "mean_pos": 0.4142061281337047
+  "first_half": 52,
+  "second_half": 48,
+  "balance": 0.04,
+  "mean_pos": 0.3653760445682451
+ },
+ {
+  "seed": 33,
+  "turns": 50,
+  "first_half": 24,
+  "second_half": 26,
+  "balance": -0.04,
+  "mean_pos": 0.38657381615598885
  },
  {
   "seed": 44,
-  "turns": 82,
-  "first_half": 51,
-  "second_half": 31,
-  "balance": 0.24390243902439024,
-  "mean_pos": 0.40315238806984166
+  "turns": 83,
+  "first_half": 38,
+  "second_half": 45,
+  "balance": -0.08433734939759036,
+  "mean_pos": 0.38027318186394604
  },
  {
   "seed": 110,
   "turns": 99,
-  "first_half": 61,
-  "second_half": 38,
-  "balance": 0.23232323232323232,
-  "mean_pos": 0.45235080611125184
+  "first_half": 43,
+  "second_half": 56,
+  "balance": -0.13131313131313133,
+  "mean_pos": 0.4103711206775274
+ },
+ {
+  "seed": 121,
+  "turns": 88,
+  "first_half": 36,
+  "second_half": 52,
+  "balance": -0.18181818181818182,
+  "mean_pos": 0.45470372246138263
  },
  {
   "seed": 22,
   "turns": 62,
-  "first_half": 37,
-  "second_half": 25,
-  "balance": 0.1935483870967742,
-  "mean_pos": 0.4814448737532573
- },
- {
-  "seed": 121,
-  "turns": 87,
-  "first_half": 48,
+  "first_half": 23,
   "second_half": 39,
-  "balance": 0.10344827586206896,
-  "mean_pos": 0.5103256171357218
- },
- {
-  "seed": 132,
-  "turns": 61,
-  "first_half": 29,
-  "second_half": 32,
-  "balance": -0.04918032786885246,
-  "mean_pos": 0.5861454860952555
+  "balance": -0.25806451612903225,
+  "mean_pos": 0.43072153832329946
  },
  {
   "seed": 99,
   "turns": 45,
-  "first_half": 18,
-  "second_half": 27,
-  "balance": -0.2,
-  "mean_pos": 0.5512225317239244
+  "first_half": 12,
+  "second_half": 33,
+  "balance": -0.4666666666666667,
+  "mean_pos": 0.5062828845558651
+ },
+ {
+  "seed": 132,
+  "turns": 62,
+  "first_half": 12,
+  "second_half": 50,
+  "balance": -0.6129032258064516,
+  "mean_pos": 0.542007368137299
  }
 ]

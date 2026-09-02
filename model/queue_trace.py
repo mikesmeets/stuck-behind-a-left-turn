@@ -1,6 +1,6 @@
 """Sample the upstream queue over the measured hour, for both cross-sections.
 
-Reported as the median of the twelve simulated hours.
+Averaged over the twelve simulated hours.
 
 The sweep only reports the queue length at the final instant. The build-up
 edition needs the whole hour, because the honest story at 1,000 veh/h is that
@@ -40,15 +40,13 @@ if __name__ == "__main__":
         for cfg, vph, out in p.imap_unordered(job, jobs):
             bag.setdefault(f"{cfg}_{vph}", []).append(out)
 
-    # Median across the twelve hours, not the mean: at 1,000 veh/h one of the
-    # four-lane hours gridlocks outright, and a single 700-vehicle queue would
-    # otherwise drag the whole line up and misrepresent the typical hour.
-    import statistics
+    # Mean across the twelve hours, matching the sweep tables elsewhere. No
+    # hour is an outlier at this cycle length, so the mean and the median sit
+    # on top of each other and the chart cannot disagree with the numbers.
     q = {}
     for k, runs in bag.items():
         n = min(len(r) for r in runs)
-        q[k] = [round(statistics.median(r[i] for r in runs), 1)
-                for i in range(n)]
+        q[k] = [round(sum(r[i] for r in runs) / len(runs), 1) for i in range(n)]
 
     npts = min(len(v) for v in q.values())
     q = {k: v[:npts] for k, v in q.items()}
