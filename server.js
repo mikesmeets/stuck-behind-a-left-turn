@@ -32,11 +32,15 @@ const COMPRESSIBLE = new Set([".html", ".md", ".js", ".css", ".json", ".svg",
 
 // Friendly URLs, so the links people share do not carry a file extension.
 const ALIASES = {
+  // The build-up walk is the front page; the shorter and longer editions sit
+  // behind named routes. The old /buildup links still land in the right place.
   "/": "/index.html",
+  "/buildup": "/index.html",
+  "/build-up": "/index.html",
+  "/short": "/short.html",
+  "/public": "/short.html",
   "/full": "/full.html",
   "/detailed": "/full.html",
-  "/buildup": "/buildup.html",
-  "/build-up": "/buildup.html",
   "/writeup": "/writeup-public.md",
   "/writeup-full": "/writeup-full.md",
 };

@@ -189,7 +189,7 @@ REPLAYVOLS = {
     "buildup": [400, 550, 700, 850, 1000],
 }
 
-TITLES = {"public": "Public", "complex": "Complex", "buildup": "Build-Up"}
+TITLES = {"public": "Short Version", "complex": "Full Version", "buildup": None}
 
 SKELETON = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
@@ -210,9 +210,10 @@ for edition in ("public", "complex", "buildup"):
         # the sweep footnote points at a section the public page does not have
         page = page.replace("850&nbsp;veh/h is in\n    the table below.",
                             "850&nbsp;veh/h is in the table below.")
-    page = page.replace("<title>Stuck Behind a Left Turn</title>",
-                        f"<title>Stuck Behind a Left Turn "
-                        f"({TITLES[edition]})</title>")
+    if TITLES[edition]:
+        page = page.replace("<title>Stuck Behind a Left Turn</title>",
+                            f"<title>Stuck Behind a Left Turn "
+                            f"({TITLES[edition]})</title>")
     page = page.replace("/*SAMPLES*/", json.dumps(SAMPLES[edition]))
     page = page.replace("/*SAMPLENOTE*/", NOTE[edition])
     page = page.replace("/*SAMPLEINTRO*/", INTRO[edition])

@@ -18,9 +18,9 @@ of the mechanism, not as a forecast.
 
 | URL | What it is |
 |---|---|
-| `/` | The explainer — the replay, headline numbers, volume sweep, method note |
-| `/full` | The same, plus turn-share sensitivity and green-split analysis |
-| `/buildup` | The build-up walk: 400 → 1,000 veh/h, with the corridor's real intersections plotted on the scale and the upstream queue over the hour |
+| `/` | **The build-up walk** — 400 → 1,000 veh/h, with the corridor's real intersections plotted on the scale and the upstream queue over the hour. Also at `/buildup` |
+| `/short` | The single-volume explainer: the replay, headline numbers, volume sweep, method note |
+| `/full` | The same as `/short`, plus turn-share sensitivity and green-split analysis |
 | `/writeup` | The written version |
 | `/writeup-full` | The written version with the sensitivity sections |
 
