@@ -5,13 +5,13 @@
 //   <div data-chart="why-not">      why children don't walk or bike
 (function () {
   // Driven includes carpools and MHS students who drive themselves.
-  // Stack order keeps the orange bus away from the yellow driven segment:
+  // Stack order keeps the yellow bus away from the orange driven segment:
   // side by side those two are hard to tell apart, colorblind or not.
   const MODES = [
     { key:"walk",  name:"Walks",  color:"--s1" },
-    { key:"bus",   name:"Bus",    color:"--s2" },
+    { key:"bus",   name:"Bus",    color:"--s4" },
     { key:"bike",  name:"Bikes",  color:"--s3" },
-    { key:"drive", name:"Driven", color:"--s4" },
+    { key:"drive", name:"Driven", color:"--s2" },
   ];
   const SCHOOLS = [
     { name:"Chatsworth",     n:168, enrolled:652,  walk:106, bike:26,  bus:2,  drive:34 },
@@ -37,7 +37,7 @@
   ];
 
   const pct = (v, n) => Math.round(v / n * 100);
-  // White text on blue, fixed dark text on the green, orange and yellow fills (both themes).
+  // White text on blue, fixed dark text on the green, yellow and orange fills (both themes).
   const INK = { walk:"#fff", bike:"#16150f", bus:"#16150f", drive:"#16150f" };
 
   // Share of parents who rated their child's walking or biking route "somewhat

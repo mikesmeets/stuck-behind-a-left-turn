@@ -279,8 +279,8 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 @media (max-width:820px) { .school-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px) { .school-grid { grid-template-columns:1fr; } }
 .school-card { margin:0; background:var(--card); border:1px solid var(--rule); border-radius:10px; overflow:hidden; }
-.school-card img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; filter:grayscale(.15); }
-.photo-slot { aspect-ratio:4/3; display:grid; place-items:center; background:var(--grid); color:var(--ink-3); font-size:13px; }
+.school-card img { width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; display:block; }
+.photo-slot { aspect-ratio:16/10; display:grid; place-items:center; background:var(--grid); color:var(--ink-3); font-size:13px; }
 .school-card figcaption { padding:12px 14px 14px; margin:0; font-size:14px; color:var(--ink-2); line-height:1.45; }
 .school-card figcaption b { display:block; color:var(--ink); font-size:15px; }
 .school-card .yr { display:block; font-family:"Overpass Mono",ui-monospace,monospace; font-size:12px; color:var(--ink-3); margin:2px 0 6px; }
