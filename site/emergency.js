@@ -44,11 +44,13 @@
   const THREE = [
     ...wb([38.5], [[10, 76, 142, 208, 274, 340, 406, 472, 538, 604, 670, 736]]),
     // A driver waiting in the center lane to turn left gives up the turn and
-    // merges back into the pulled-over traffic, clearing the lane. [t, x, y, angle]
-    car([[0, 470, 72, 0], [1.6, 470, 72, 0], [2.1, 486, 80, 18], [2.7, 512, 102, 14], [3.1, 520, 111, 0], [T, 520, 111, 0]], { turn: true }),
-    // Eastbound traffic pulls toward the shoulder, leaving the gap the turner merges into.
+    // merges back into traffic; the car beside the spot squeezes toward the
+    // shoulder to make room, so the two end up side by side. [t, x, y, angle]
+    car([[0, 470, 72, 0], [1.6, 470, 72, 0], [2.1, 486, 80, 15], [2.7, 512, 94, 8], [3.1, 518, 99, 0], [T, 518, 99, 0]], { turn: true }),
+    car([[0, 488, 105.5], [1.6, 508, 105.5], [2.6, 520, 122], [T, 520, 122]]),
+    // The rest of eastbound traffic pulls toward the shoulder.
     ...[40, 104, 168, 232, 296, 360, 424, 552, 616, 680, 744].map(toShoulder),
-    truck([[0, -80, 104], [1, 10, 71], [2.4, 200, 71], [5.8, 900, 71], [T, 900, 71]]),
+    truck([[0, -80, 71], [1.4, 60, 71], [2.4, 200, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane
   ];
 
   const CAPTIONS = {
@@ -57,7 +59,7 @@
            [4.4, "The truck has to wait, then thread a path down the middle."],
            [8.8, "The truck gets through, but slowly, weaving between cars."]],
     three: [[0, "The same truck, the same traffic, on the road diet. One driver is waiting in the center lane to turn left."],
-            [1.8, "Drivers pull right. The driver waiting to turn left merges back into traffic, clearing the center lane."],
+            [1.8, "Drivers pull right. The driver waiting to turn left merges back into traffic, and the car beside them squeezes over to make room."],
             [3.3, "The truck drives straight down the empty center turn lane."],
             [5.8, "The truck is through the block."]],
   };
