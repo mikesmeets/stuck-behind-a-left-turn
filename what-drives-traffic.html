@@ -34,11 +34,18 @@
 
   <section class="section" aria-labelledby="why-h">
     <h2 id="why-h">Why daily traffic fell</h2>
+    <p class="prose">In 1990, 62% of Town of Mamaroneck workers drove to work. Today 44% do. That's about 8,800 car commuters in 1990 and 6,900 now, even though the town has more workers.<a class="cite" href="#src-census"></a></p>
     <div class="grid-3">
-      <div class="tile"><p class="label">More people take the train</p><p>As home prices have risen, more residents commute into the city by rail instead of driving.</p></div>
-      <div class="tile"><p class="label">More people work from home</p><p>Fewer commutes every day, especially since the pandemic.</p></div>
-      <div class="tile"><p class="label">More shopping happens online</p><p>E-commerce replaces trips to the store.</p></div>
+      <div class="tile"><p class="big">34%</p><p class="label">took transit by 2019</p><p>Transit's share of commuters grew from 27% in 1990. Nearly all of it is commuter rail.<a class="cite" href="#src-census"></a></p></div>
+      <div class="tile"><p class="big">27%</p><p class="label">work from home</p><p>Up from 7% in 2000. Since 2019, transit fell 11 points while working from home rose 19.<a class="cite" href="#src-census"></a></p></div>
+      <div class="tile"><p class="big">Fewer trips</p><p class="label">to the store</p><p>E-commerce replaces shopping trips.</p></div>
     </div>
+    <figure class="figure" style="margin-top:18px">
+      <h3>How Town of Mamaroneck workers get to work</h3>
+      <p class="sub">Driving has fallen at every count since 1990. Before the pandemic the shift went to the train; since then, to working from home.</p>
+      <div data-chart="commute-mode"></div>
+      <figcaption>Share of workers 16 and over, by how they usually get to work. 1990 and 2000 are from the decennial census; the rest are 5-year American Community Survey estimates, plotted at their last year. The 1990 report gives driving and transit only. The 2020–24 estimate includes pandemic years, so working from home may settle somewhat lower. The Town of Mamaroneck includes Larchmont and part of the Village of Mamaroneck.<a class="cite" href="#src-census"></a></figcaption>
+    </figure>
   </section>
 
   <section class="section" aria-labelledby="school-h">
@@ -88,6 +95,7 @@
     <summary>Sources</summary>
     <ol>
       <li id="src-aadt"><span class="src-title">NYSDOT traffic counts, Boston Post Road, 1990–2025</span><div class="src-note">Average annual daily traffic for four segments. Counts run from 1979; the chart shows 1990 onward.</div><a href="https://nysdottrafficdata.drakewell.com/sitedashboard.asp?node=NYSDOT_SC&amp;cosit=870122000000" target="_blank" rel="noopener">NYSDOT Traffic Data Viewer</a></li>
+      <li id="src-census"><span class="src-title">US Census Bureau, Means of Transportation to Work, Town of Mamaroneck</span><div class="src-note">1990: CPH-5-34, Table 5. 2000: Summary File 3, P030. 2006–10, 2015–19, 2020–24: ACS 5-year, B08301.</div><a href="https://www2.census.gov/library/publications/decennial/1990/cph-5/cph-5-34.pdf" target="_blank" rel="noopener">1990</a> · <a href="https://data.census.gov/table/DECENNIALSF32000.P030?g=060XX00US3611944842" target="_blank" rel="noopener">2000</a> · <a href="https://data.census.gov/table/ACSDT5Y2010.B08301?g=060XX00US3611944842" target="_blank" rel="noopener">2010</a> · <a href="https://data.census.gov/table/ACSDT5Y2019.B08301?g=060XX00US3611944842" target="_blank" rel="noopener">2019</a> · <a href="https://data.census.gov/table/ACSDT5Y2024.B08301?g=060XX00US3611944842" target="_blank" rel="noopener">2024</a></li>
       <li id="src-supt"><span class="src-title">Superintendent's day traffic count, Boston Post Road at Weaver St / Hommocks Rd</span><div class="src-note">Every vehicle, by movement, 8–9 am on Wednesday March 6, 2024 (no classes) and Thursday March 7, 2024 (school day), counted from video by Safe Routes to School volunteers.</div></li>
       <li id="src-survey"><span class="src-title">Mamaroneck Safe Routes to School parent survey, 2025</span><div class="src-note">How students get to school, as reported by parents.</div></li>
     </ol>
@@ -99,6 +107,7 @@
 </main>
 <script src="/site/nav.js"></script>
 <script src="/site/charts/traffic-trend.js"></script>
+<script src="/site/charts/commute-mode.js"></script>
 <script src="/site/site.js"></script>
 </body>
 </html>
