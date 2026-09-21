@@ -15,8 +15,8 @@
   ];
   const SCHOOLS = [
     { name:"Chatsworth",     n:168, enrolled:652,  walk:106, bike:26,  bus:2,  drive:34 },
-    { name:"Central",        n:166, enrolled:498,  walk:81,  bike:6,   bus:2,  drive:77 },
     { name:"Murray",         n:76,  enrolled:683,  walk:50,  bike:7,   bus:0,  drive:19 },
+    { name:"Central",        n:166, enrolled:498,  walk:81,  bike:6,   bus:2,  drive:77 },
     { name:"Mamaroneck Ave", n:123, enrolled:631,  walk:26,  bike:4,   bus:3,  drive:90 },
     { name:"Hommocks",       n:319, enrolled:1281, walk:98,  bike:109, bus:30, drive:82 },
     { name:"MHS",            n:172, enrolled:1779, walk:47,  bike:36,  bus:8,  drive:81 },
@@ -80,9 +80,9 @@
         el("text", { x:m.l - 6, y:y(v) + 4, "text-anchor":"end" }, axis).textContent = `${v}%`;
       }
       el("line", { class:"base", x1:m.l, x2:W - m.r, y1:y(0), y2:y(0) }, axis);
-      const gap = narrow ? 8 : 18, sep = narrow ? 10 : 24;         // sep sets "All" apart
+      const gap = narrow ? 14 : 36, sep = narrow ? 12 : 30;        // sep sets "All" apart
       const gw = (W - m.l - m.r - gap * (groups.length - 1) - sep) / groups.length;
-      const colW = gw * 0.62, unW = gw * 0.3, inner = gw - colW - unW;
+      const colW = gw * 0.56, unW = gw * 0.28, inner = gw - colW - unW;
       const marks = el("g", {}, svg), labels = el("g", {}, svg);
       hits = [];
       groups.forEach((s, i) => {
