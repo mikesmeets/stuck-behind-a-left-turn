@@ -239,6 +239,13 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .compare .v { font-family:"Source Serif 4",Georgia,serif; font-size:26px; font-weight:600; line-height:1.1; }
 .compare .v small { font-family:Overpass,sans-serif; font-size:13px; font-weight:400; color:var(--ink-3); margin-left:4px; }
 
+/* Subsection heading inside a section, e.g. local vs national data */
+.subhead {
+  font-family:"Overpass Mono",ui-monospace,monospace; font-size:13px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2);
+  margin:36px 0 12px; padding-top:14px; border-top:2px solid var(--ink);
+}
+
 /* ---------- 100% stacked bars (survey mode by school) ---------- */
 .stack100 { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
 .stack100 li { display:grid; grid-template-columns:minmax(150px,28%) 1fr; gap:4px 12px; align-items:center; }
