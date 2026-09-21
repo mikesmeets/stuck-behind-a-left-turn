@@ -40,17 +40,18 @@
     truck([[0, -80, 86], [2.4, 250, 86], [4.6, 312, 86], [5.6, 330, 101], [6.6, 440, 101], [7.6, 540, 101],
            [8.6, 610, 101], [9.6, 710, 101], [10.6, 860, 99], [T, 900, 99]]),
   ];
-  // Road diet: everyone pulls toward the shoulder; the truck uses the center lane.
-  const toShoulder = (x) => car([[0, x, 101], [1.6, x + 20, 101], [2.8, x + 32, 105], [T, x + 32, 105]]);
+  // Road diet: through traffic holds its lane; the truck uses the center lane.
+  // Eastbound drivers stay in place in their lane (FHWA: through traffic "can remain in place").
+  const toShoulder = (x) => car(still(x, 101));
   // Same traffic as today: 12 cars each way, now in one lane each way.
   const THREE = [
     ...wb([43], [[10, 76, 142, 208, 274, 340, 406, 472, 538, 604, 670, 736]]),
     // A driver waiting in the center lane to turn left gives up the turn and
     // merges back into traffic; the car beside the spot pulls into the bike
     // lane to make room. [t, x, y, angle]
-    car([[0, 470, 72, 0], [1.6, 470, 72, 0], [2.1, 486, 80, 15], [2.7, 512, 97, 8], [3.1, 518, 105, 0], [T, 518, 105, 0]], { turn: true }),
-    car([[0, 488, 101], [1.6, 508, 101], [2.6, 520, 123], [T, 520, 123]], { bike: true }),
-    // The rest of eastbound traffic pulls to the right edge of the lane.
+    car([[0, 450, 72, 0], [2.0, 450, 72, 0], [2.5, 466, 80, 16], [3.0, 484, 95, 8], [3.4, 488, 101, 0], [T, 488, 101, 0]], { turn: true }),
+    car([[0, 488, 101], [1.6, 488, 101], [2.4, 492, 123], [T, 492, 123]], { bike: true }),
+    // The rest of eastbound traffic stays where it is.
     ...[40, 104, 168, 232, 296, 360, 424, 552, 616, 680, 744].map(toShoulder),
     truck([[0, -80, 71], [1.4, 60, 71], [2.4, 200, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane
   ];
@@ -61,7 +62,7 @@
            [4.4, "The truck has to wait, then thread a path down the middle."],
            [8.8, "The truck gets through, but slowly, weaving between cars."]],
     three: [[0, "The same truck, the same traffic, on the road diet. One driver is waiting in the center lane to turn left."],
-            [1.8, "Drivers pull right. The driver waiting to turn left merges back into traffic, and the car beside them pulls into the bike lane to make room."],
+            [1.8, "Drivers stay in their lane. The car beside the driver waiting to turn left pulls into the bike lane, and that driver merges into the space."],
             [3.3, "The truck drives straight down the empty center turn lane."],
             [5.8, "The truck is through the block."]],
   };
@@ -105,7 +106,7 @@
       const [x, y, r] = at(a.keys, t);
       el.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})` + (r ? ` rotate(${r.toFixed(1)} 17 8)` : ""));
       if (q) q.style.opacity = t >= a.unsure[0] && t <= a.unsure[1] ? 1 : 0;
-      const bc = el.querySelector(".bike-callout"); if (bc) bc.style.opacity = t >= 2.4 ? 1 : 0;
+      const bc = el.querySelector(".bike-callout"); if (bc) bc.style.opacity = t >= 2.2 ? 1 : 0;
       if (la) { la.style.fill = flash ? "#e5484d" : "#3987e5"; lb.style.fill = flash ? "#3987e5" : "#e5484d"; }
     });
   }
