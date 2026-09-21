@@ -367,6 +367,11 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 /* ---------- Emergency animation ---------- */
 .em-row + .em-row { margin-top:18px; }
 .diagram .em-trail { opacity:.8; }
+.diagram .bikelane { fill:#2f7d4a; opacity:.75; }
+.diagram .bike-label { font:600 9px Overpass,system-ui,sans-serif; fill:#e8f5ec; letter-spacing:.04em; }
+.diagram .bike-callout rect { fill:#fff; stroke:#2f7d4a; stroke-width:1.5; }
+.diagram .bike-callout text { font:700 10px Overpass,system-ui,sans-serif; fill:#1e5a33; }
+.diagram .bike-callout { transition:opacity .3s; }
 .em-row svg { display:block; width:100%; height:auto; border-radius:6px; }
 .em-cap { font-size:15px; color:var(--ink); margin:8px 0 0; min-height:1.5em; }
 .em-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin-top:16px; padding-top:14px; border-top:1px solid var(--rule); }

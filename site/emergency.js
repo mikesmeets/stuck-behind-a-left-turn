@@ -10,9 +10,11 @@
     <line class="edge" x1="0" y1="21" x2="${W}" y2="21"/><line class="edge" x1="0" y1="139" x2="${W}" y2="139"/>
     <line class="lane" x1="0" y1="50" x2="${W}" y2="50"/><line class="lane" x1="0" y1="110" x2="${W}" y2="110"/>
     <line class="yellow" x1="0" y1="78" x2="${W}" y2="78"/><line class="yellow" x1="0" y1="82" x2="${W}" y2="82"/>`;
+  // Road diet with a bike lane on each side (y 20-38 and 122-140).
   const three = `<rect class="road" x="0" y="20" width="${W}" height="120"/>
-    <rect class="shoulder" x="0" y="20" width="${W}" height="9"/><rect class="shoulder" x="0" y="131" width="${W}" height="9"/>
-    <line class="edge" x1="0" y1="29" x2="${W}" y2="29"/><line class="edge" x1="0" y1="131" x2="${W}" y2="131"/>
+    <rect class="bikelane" x="0" y="20" width="${W}" height="18"/><rect class="bikelane" x="0" y="122" width="${W}" height="18"/>
+    <line class="edge" x1="0" y1="38" x2="${W}" y2="38"/><line class="edge" x1="0" y1="122" x2="${W}" y2="122"/>
+    <text class="bike-label" x="8" y="33">Bike lane</text><text class="bike-label" x="8" y="135">Bike lane</text>
     <line class="yellow" x1="0" y1="64" x2="${W}" y2="64"/><line class="yellow-dash" x1="0" y1="67.5" x2="${W}" y2="67.5"/>
     <line class="yellow" x1="0" y1="96" x2="${W}" y2="96"/><line class="yellow-dash" x1="0" y1="92.5" x2="${W}" y2="92.5"/>`;
 
@@ -39,16 +41,16 @@
            [8.6, 610, 101], [9.6, 710, 101], [10.6, 860, 99], [T, 900, 99]]),
   ];
   // Road diet: everyone pulls toward the shoulder; the truck uses the center lane.
-  const toShoulder = (x) => car([[0, x, 105.5], [1.6, x + 20, 105.5], [2.8, x + 32, 112], [T, x + 32, 112]]);
+  const toShoulder = (x) => car([[0, x, 101], [1.6, x + 20, 101], [2.8, x + 32, 105], [T, x + 32, 105]]);
   // Same traffic as today: 12 cars each way, now in one lane each way.
   const THREE = [
-    ...wb([38.5], [[10, 76, 142, 208, 274, 340, 406, 472, 538, 604, 670, 736]]),
+    ...wb([43], [[10, 76, 142, 208, 274, 340, 406, 472, 538, 604, 670, 736]]),
     // A driver waiting in the center lane to turn left gives up the turn and
-    // merges back into traffic; the car beside the spot squeezes toward the
-    // shoulder to make room, so the two end up side by side. [t, x, y, angle]
-    car([[0, 470, 72, 0], [1.6, 470, 72, 0], [2.1, 486, 80, 15], [2.7, 512, 94, 8], [3.1, 518, 99, 0], [T, 518, 99, 0]], { turn: true }),
-    car([[0, 488, 105.5], [1.6, 508, 105.5], [2.6, 520, 122], [T, 520, 122]]),
-    // The rest of eastbound traffic pulls toward the shoulder.
+    // merges back into traffic; the car beside the spot pulls into the bike
+    // lane to make room. [t, x, y, angle]
+    car([[0, 470, 72, 0], [1.6, 470, 72, 0], [2.1, 486, 80, 15], [2.7, 512, 97, 8], [3.1, 518, 105, 0], [T, 518, 105, 0]], { turn: true }),
+    car([[0, 488, 101], [1.6, 508, 101], [2.6, 520, 123], [T, 520, 123]], { bike: true }),
+    // The rest of eastbound traffic pulls to the right edge of the lane.
     ...[40, 104, 168, 232, 296, 360, 424, 552, 616, 680, 744].map(toShoulder),
     truck([[0, -80, 71], [1.4, 60, 71], [2.4, 200, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane
   ];
@@ -59,7 +61,7 @@
            [4.4, "The truck has to wait, then thread a path down the middle."],
            [8.8, "The truck gets through, but slowly, weaving between cars."]],
     three: [[0, "The same truck, the same traffic, on the road diet. One driver is waiting in the center lane to turn left."],
-            [1.8, "Drivers pull right. The driver waiting to turn left merges back into traffic, and the car beside them squeezes over to make room."],
+            [1.8, "Drivers pull right. The driver waiting to turn left merges back into traffic, and the car beside them pulls into the bike lane to make room."],
             [3.3, "The truck drives straight down the empty center turn lane."],
             [5.8, "The truck is through the block."]],
   };
@@ -82,7 +84,8 @@
       const el = document.createElementNS(NS, "g");
       if (a.kind === "car") {
         el.innerHTML = `<rect class="car${a.turn ? " turn" : ""}" width="34" height="16" rx="4"/>` +
-          (a.unsure ? `<text class="unsure" x="17" y="-4" text-anchor="middle">?</text>` : "");
+          (a.unsure ? `<text class="unsure" x="17" y="-4" text-anchor="middle">?</text>` : "") +
+          (a.bike ? `<g class="bike-callout"><rect x="40" y="0" width="150" height="16" rx="8"/><text x="115" y="12" text-anchor="middle">Bike lane: room to pull over</text></g>` : "");
       } else {
         el.innerHTML = `<rect class="truck-body" width="58" height="18" rx="3"/><rect class="truck-cab" x="44" width="14" height="18" rx="3"/>
           <rect class="truck-light a" x="38" y="2" width="5" height="6"/><rect class="truck-light b" x="38" y="10" width="5" height="6"/>`;
@@ -102,6 +105,7 @@
       const [x, y, r] = at(a.keys, t);
       el.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})` + (r ? ` rotate(${r.toFixed(1)} 17 8)` : ""));
       if (q) q.style.opacity = t >= a.unsure[0] && t <= a.unsure[1] ? 1 : 0;
+      const bc = el.querySelector(".bike-callout"); if (bc) bc.style.opacity = t >= 2.4 ? 1 : 0;
       if (la) { la.style.fill = flash ? "#e5484d" : "#3987e5"; lb.style.fill = flash ? "#3987e5" : "#e5484d"; }
     });
   }
