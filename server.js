@@ -41,6 +41,7 @@ const ALIASES = {
   "/parking": "/parking.html",
   "/business": "/parking.html",
   "/what-drives-traffic": "/what-drives-traffic.html",
+  "/process": "/process.html",
   // The simulation editions. The build-up walk used to be the front page, so
   // the old /buildup links land on it at its new address.
   "/simulation": "/simulation.html",

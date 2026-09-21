@@ -11,6 +11,7 @@
                             "/short.html", "/full.html"]],
     ["/parking", "Parking & business", ["/parking", "/parking.html", "/business"]],
     ["/what-drives-traffic", "What drives traffic", ["/what-drives-traffic", "/what-drives-traffic.html"]],
+    ["/process", "Process", ["/process", "/process.html"]],
   ];
   const here = location.pathname.replace(/\/+$/, "") || "/";
   const items = PAGES.map(([href, label, paths]) => {
