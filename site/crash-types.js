@@ -1,6 +1,6 @@
 // "How a road diet prevents each kind of crash": a tabbed, side-by-side diagram
 // of today's four lanes and the proposed three, one tab per crash type that
-// FHWA reports road diets reduce, plus emergency response. Renders into <div data-diagram="crash-types">.
+// FHWA reports road diets reduce. Renders into <div data-diagram="crash-types">.
 // Text lives in HTML (callout lists), so it stays readable on a phone.
 (function () {
   // ---- geometry: westbound on top (moving left), eastbound below (moving right)
@@ -188,29 +188,6 @@
       dietNotes: ["When the driver stops, the car behind stops too. There's no second lane to pass in.",
                   "The person crossing faces one lane of traffic at a time."],
     },
-    {
-      key: "emergency", win: 190, tab: "Emergency vehicles",
-      title: "A clear path for fire trucks and ambulances",
-      intro: "The worry is that fewer lanes will slow emergency response. FHWA found the opposite: &ldquo;Road Diets do not degrade response times,&rdquo; and the center turn lane can make them faster.<a class=\"cite\" href=\"#src-fhwa-ems\"></a>",
-      today: svg("Four lanes: a fire truck comes up behind traffic; the outside-lane driver pulls right, the inside-lane driver doesn't know where to go, and the truck has to weave between them.",
-        fourLane(`${car(385, 121)}${car(340, FOUR.ebIn)}${car(470, FOUR.ebIn)}${car(520, 121)}
-          ${car(250, FOUR.wbIn)}${car(430, FOUR.wbOut)}
-          ${truck(228, 101)}
-          ${unsure(357, 84)}${unsure(487, 84)}
-          <path class="truck-path" d="M290 110 C 318 110, 322 105, 345 105 S 385 115, 420 111 S 455 104, 540 107"/><polygon class="truck-path-head" points="550,107 539,101 540,113"/>
-          ${pin(402, 152, 1)}${pin(420, 64, 2)}${pin(257, 152, 3)}`, { driveway: false })),
-      todayNotes: ["Drivers in the outside lane pull over to the right.",
-                   "Drivers in the inside lane often aren't sure where to go.",
-                   "The truck has to thread a path between them, down the middle of the road."],
-      diet: svg("Three lanes: drivers pull right toward the shoulder and the fire truck drives straight down the empty center turn lane.",
-        threeLane(`${car(340, 111)}${car(470, 111)}${car(560, 111)}
-          ${car(300, THREE.wb)}${car(450, THREE.wb)}
-          ${truck(228, 71)}
-          <path class="truck-path" d="M290 80 L 560 80"/><polygon class="truck-path-head" points="570,80 559,74 559,86"/>
-          ${pin(357, 142, 1)}${pin(410, 52, 2)}`, { driveway: false })),
-      dietNotes: ["Drivers pull to the right, into the wider shoulder, and stay put.",
-                  "The truck uses the center turn lane as an open path around traffic."],
-    },
   ];
 
   // Zoom a drawing to the 400-wide window around its action.
@@ -238,7 +215,6 @@
         <li><i class="k-ped"></i>Person crossing</li>
         <li><i class="k-cone"></i>Driver's view</li>
         <li><i class="k-shadow"></i>Hidden from view</li>
-        <li><i class="k-truck"></i>Emergency vehicle</li>
       </ul>`;
     const tabs = [...root.querySelectorAll('[role="tab"]')], panels = [...root.querySelectorAll('[role="tabpanel"]')];
     const select = (i, focus) => {
