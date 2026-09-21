@@ -6,6 +6,7 @@
     ["/", "Take action", ["/", "/index.html"]],
     ["/questions", "Questions", ["/questions", "/questions.html", "/faq"]],
     ["/safety", "Safety", ["/safety", "/safety.html"]],
+    ["/crashes", "Crash record", ["/crashes", "/crashes.html"]],
     ["/traffic", "Traffic", ["/traffic", "/traffic.html", "/simulation", "/simulation.html",
                             "/buildup", "/build-up", "/short", "/public", "/full", "/detailed",
                             "/short.html", "/full.html"]],

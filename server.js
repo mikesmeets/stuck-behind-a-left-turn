@@ -37,6 +37,7 @@ const ALIASES = {
   "/questions": "/questions.html",
   "/faq": "/questions.html",
   "/safety": "/safety.html",
+  "/crashes": "/crashes.html",
   "/traffic": "/traffic.html",
   "/parking": "/parking.html",
   "/business": "/parking.html",
