@@ -264,6 +264,12 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .vcols + figcaption { margin-top:44px; }
 @media (max-width:480px) { .vlabel { font-size:11.5px; } .vbar span { font-size:10.5px; } }
 
+/* ---------- Side-by-side video ---------- */
+.sbs-labels { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:6px 0 6px;
+  font:600 12px "Overpass Mono",ui-monospace,monospace; color:var(--ink-2); text-transform:uppercase; letter-spacing:.04em; }
+.sbs-labels span:last-child { text-align:right; }
+.sbs-video { width:100%; aspect-ratio:32/9; display:block; background:#000; border-radius:6px; }
+
 /* ---------- Study cards (business evidence) ---------- */
 .study-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:18px; }
 @media (max-width:640px) { .study-grid { grid-template-columns:1fr; } }

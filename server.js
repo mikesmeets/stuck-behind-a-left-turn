@@ -102,6 +102,24 @@ http.createServer((req, res) => {
       res.writeHead(200, headers);
       fs.createReadStream(file).pipe(zlib.createGzip()).pipe(res);
     } else {
+      // Byte ranges: iOS Safari will not play an MP4 without them, and they let
+      // any browser seek a video without downloading all of it first.
+      headers["accept-ranges"] = "bytes";
+      const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || "");
+      if (m && (m[1] || m[2])) {
+        let start = m[1] ? parseInt(m[1], 10) : st.size - parseInt(m[2], 10);
+        let end = m[1] && m[2] ? parseInt(m[2], 10) : st.size - 1;
+        start = Math.max(0, start); end = Math.min(end, st.size - 1);
+        if (start > end) {
+          res.writeHead(416, { "content-range": `bytes */${st.size}` }).end();
+          return;
+        }
+        headers["content-range"] = `bytes ${start}-${end}/${st.size}`;
+        headers["content-length"] = end - start + 1;
+        res.writeHead(206, headers);
+        fs.createReadStream(file, { start, end }).pipe(res);
+        return;
+      }
       headers["content-length"] = st.size;
       res.writeHead(200, headers);
       fs.createReadStream(file).pipe(res);
