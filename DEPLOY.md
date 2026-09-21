@@ -47,11 +47,19 @@ railway up
 
 | URL | Page |
 |---|---|
-| `/` | The build-up walk from 400 to 1,000 veh/h (~0.9 MB, ~200 KB gzipped). Also `/buildup` |
+| `/` | Take action: the case, the crash record, the petition and the letter |
+| `/questions` | The FAQ hub (also `/faq`) |
+| `/safety` | Crash record, FHWA evidence, the schools |
+| `/traffic` | NYSDOT's finding, the replay, the corridor chart |
+| `/parking` | Parking, funding, business (also `/business`) |
+| `/what-drives-traffic` | AADT trend and the superintendent's-day count |
+| `/simulation` | The build-up walk from 400 to 1,000 veh/h (~0.9 MB). Also `/buildup` |
 | `/short` | The single-volume explainer (~1.3 MB, ~280 KB gzipped) |
 | `/full` | The full edition with the sensitivity sections (~4.9 MB, ~1.1 MB gzipped) |
 | `/writeup`, `/writeup-full` | The written versions |
-| `/media/...` | The MP4, GIF and stills |
+| `/site/...`, `/media/...` | Styles, scripts, photos, the MP4 and stills |
+
+`planning/`, `.claude/` and the repo's own Markdown notes are 404 on the site.
 
 `server.js` gzips HTML, Markdown, JSON and Python on the way out, which is
 what keeps the pages reasonable over cellular — they are large because the
@@ -60,7 +68,8 @@ entire simulation trace is inlined rather than fetched.
 ## Updating it later
 
 Change an assumption, rerun the model, rebuild the pages, commit, push.
-Railway redeploys on push.
+Railway redeploys on push. Editing the site pages themselves needs no build:
+they are hand-written HTML plus `site/`.
 
 ```
 python3 model/analyze.py
@@ -73,5 +82,5 @@ git commit -am "..." && git push
 
 Note that `build_pages.py` writes to `road_diet_weaving_buildup.html`,
 `road_diet_weaving_public.html` and `road_diet_weaving_complex.html`; copy those
-over `index.html`, `short.html` and `full.html` respectively, or edit the output
+over `simulation.html`, `short.html` and `full.html` respectively, or edit the output
 paths at the bottom of that script to write them directly.
