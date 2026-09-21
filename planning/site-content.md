@@ -140,3 +140,21 @@ Source: the FAQ posted on social media, carried over with these changes:
 - Permission to embed the ArcGIS map and NYSDOT boards
 - SRTS survey data for the chart (and response rate)
 - Sources: West Hartford emergency response; business impact; NHTS
+
+
+## Parked: CTDOT Fairfield Route 1 video (to use elsewhere)
+
+Removed from the FAQ "What is a road diet?" answer. Note: the owner has disabled embedding, so link out or use a thumbnail.
+
+```html
+        <p>Connecticut's DOT explained its own Route 1 road diet in Fairfield well. Jump to the parts you want:</p>
+        <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/0VQmZHiQlq0?start=1185" title="CTDOT Route 1 road diet presentation" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+        <ul class="chapters">
+          <li><a href="https://www.youtube.com/watch?v=0VQmZHiQlq0&amp;t=1080s" target="_blank" rel="noopener"><b>18:00</b>Where the project came from</a></li>
+          <li><a href="https://www.youtube.com/watch?v=0VQmZHiQlq0&amp;t=1185s" target="_blank" rel="noopener"><b>19:45</b>What a road diet is</a></li>
+          <li><a href="https://www.youtube.com/watch?v=0VQmZHiQlq0&amp;t=1645s" target="_blank" rel="noopener"><b>27:25</b>Benefits</a></li>
+          <li><a href="https://www.youtube.com/watch?v=0VQmZHiQlq0&amp;t=1920s" target="_blank" rel="noopener"><b>32:00</b>Traffic impact</a></li>
+          <li><a href="https://www.youtube.com/watch?v=0VQmZHiQlq0&amp;t=2100s" target="_blank" rel="noopener"><b>35:00</b>The crash data behind it</a></li>
+        </ul>
+        <p style="margin-top:14px">A good general explainer: <a href="https://www.youtube.com/watch?v=lm_zrAfRj20" target="_blank" rel="noopener">what a road diet is and why it works</a> (video).</p>
+```
