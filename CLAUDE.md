@@ -71,15 +71,35 @@ side-street traffic, one idealized block rather than a corridor.
 
 ## Layout
 
+The repo is a six-page advocacy site published by Mamaroneck School District
+Safe Routes to School, with the simulation as its Traffic evidence.
+
 ```
-index.html     the build-up walk, 400 → 1,000 veh/h          (also /buildup)
-short.html     single-volume explainer                        (/short, /public)
-full.html      the same plus sensitivity sections             (/full)
-writeup-*.md   written versions                               (/writeup*)
-server.js      Node stdlib only, gzip, path-traversal guard
-model/         the simulation and everything that builds the pages
-media/         GIF, MP4, still, charts — for email and slides
+index.html                  Take action: petition, email, meeting        (/)
+questions.html              FAQ hub; each answer links to a deep page    (/questions)
+safety.html                 crash record, FHWA, schools                  (/safety)
+traffic.html                NYSDOT's finding, replay, corridor chart     (/traffic)
+parking.html                parking, funding, business                   (/parking)
+what-drives-traffic.html    AADT trend, superintendent's-day count       (/what-drives-traffic)
+site/                       shared CSS/JS: nav, citations, diagram, charts
+site/site.js                CONFIG at the top: petition URL, email recipients,
+                            meeting date — fill these in, nothing else needs editing
+simulation.html  the build-up walk, 400 → 1,000 veh/h   (/simulation, /buildup)
+short.html       single-volume explainer                 (/short, /public)
+full.html        the same plus sensitivity sections      (/full)
+writeup-*.md     written versions                        (/writeup*)
+server.js        Node stdlib only, gzip, path-traversal guard; 404s planning/,
+                 .claude/ and the repo's own .md notes
+planning/        content plan and chart drafts — not served
+model/           the simulation and everything that builds the pages
+media/           GIF, MP4, still, charts — for email and slides
 ```
+
+The site pages are hand-written HTML. Every page, including the three
+simulation editions, carries `<nav class="sitenav" data-site-nav>`; `site/nav.js`
+fills it, so the menu lives in one place. Citations are `<a class="cite"
+href="#src-x">` pointing at an `<li id="src-x">` in the page's Sources list;
+`site.js` numbers them and opens a card on tap.
 
 Three editions are built from **one** template, `model/explainer_template.html`,
 so they cannot drift. Sections only some editions carry are fenced:
@@ -121,8 +141,10 @@ python3 model/build_writeups.py
 python3 model/make_chart.py model/make_turnshare_chart.py model/make_gif.py
 ```
 
-Then copy the outputs over `index.html` / `short.html` / `full.html` and the
-`media/` files, and commit.
+Then copy the outputs over `simulation.html` / `short.html` / `full.html` and the
+`media/` files, and commit. (The build-up edition used to be `index.html`; the
+front page is now the Take action page.) The template already carries the site
+nav placeholder, so rebuilt pages keep the menu.
 
 ## Traps that have bitten, in order of how much time they cost
 

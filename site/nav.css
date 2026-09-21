@@ -1,0 +1,54 @@
+/* Site navigation. Loaded on every page, including the simulation editions,
+   which carry their own stylesheet — so everything here is scoped to .sitenav
+   and defines its own tokens rather than relying on the page's. */
+/* The simulation editions leave the browser's default body margin in place;
+   drop it so the bar runs edge to edge. */
+body { margin:0; }
+.sitenav {
+  --sn-bg:#fbfaf6; --sn-ink:#16150f; --sn-ink-2:#565248; --sn-ink-3:#8b8579;
+  --sn-rule:#ddd8cb; --sn-accent:#2a78d6;
+  position:sticky; top:0; z-index:50;
+  background:var(--sn-bg); border-bottom:1px solid var(--sn-rule);
+  font-family:Overpass,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sitenav {
+    --sn-bg:#191a1d; --sn-ink:#f4f2ec; --sn-ink-2:#b3aea3; --sn-ink-3:#847f75;
+    --sn-rule:#2c2e32; --sn-accent:#3987e5;
+  }
+}
+:root[data-theme="dark"] .sitenav {
+  --sn-bg:#191a1d; --sn-ink:#f4f2ec; --sn-ink-2:#b3aea3; --sn-ink-3:#847f75;
+  --sn-rule:#2c2e32; --sn-accent:#3987e5;
+}
+.sitenav-inner {
+  max-width:1040px; margin:0 auto; padding:0 16px;
+  display:flex; align-items:center; gap:20px; min-height:52px;
+}
+.sitenav-brand {
+  display:flex; flex-direction:column; line-height:1.1; text-decoration:none;
+  color:var(--sn-ink); flex:none;
+}
+.sitenav-brand b { font-weight:800; font-size:15px; letter-spacing:-.01em; }
+.sitenav-brand span { font-size:11px; color:var(--sn-ink-3); letter-spacing:.02em; }
+.sitenav-links {
+  display:flex; gap:2px; margin:0; padding:0; list-style:none;
+  overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.sitenav-links::-webkit-scrollbar { display:none; }
+.sitenav-links a {
+  display:block; white-space:nowrap; text-decoration:none;
+  font-size:14px; color:var(--sn-ink-2); padding:15px 9px 13px;
+  border-bottom:2px solid transparent;
+}
+.sitenav-links a:hover { color:var(--sn-ink); }
+.sitenav-links a[aria-current="page"] { color:var(--sn-ink); border-bottom-color:var(--sn-accent); font-weight:600; }
+.sitenav-links a.sitenav-act {
+  color:var(--sn-ink); font-weight:600;
+}
+@media (max-width: 720px) {
+  .sitenav-inner { flex-direction:column; align-items:stretch; gap:0; padding:8px 0 0; }
+  .sitenav-brand { padding:0 16px 2px; }
+  .sitenav-links { padding:0 8px; }
+  .sitenav-links a { padding:10px 8px 9px; font-size:13.5px; }
+}

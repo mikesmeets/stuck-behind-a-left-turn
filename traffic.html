@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post Road Traffic</title>
+<meta name="description" content="Why a three-lane Boston Post Road can carry the same traffic as four lanes: NYSDOT's analysis, a traffic simulation, and every signal on the corridor.">
+<meta property="og:title" content="Fewer lanes, same traffic: the Post Road road diet">
+<meta property="og:description" content="NYSDOT's model and an independent simulation agree: three lanes handle today's traffic, with fewer drivers stuck behind left turns.">
+<meta property="og:image" content="/media/road_diet_still.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="/site/nav.css">
+<link rel="stylesheet" href="/site/site.css">
+</head>
+<body>
+<nav class="sitenav" data-site-nav></nav>
+<main class="page">
+
+  <section class="hero">
+    <p class="eyebrow">Traffic</p>
+    <h1>Fewer lanes, same traffic</h1>
+    <p class="lede">The fear is gridlock. NYSDOT's traffic model says three lanes handle today's traffic as well as four or better. So does an independent simulation, which also shows why.</p>
+  </section>
+
+  <section aria-labelledby="dot-h">
+    <div class="prose">
+      <h2 id="dot-h">What NYSDOT found</h2>
+      <p>NYSDOT counted turning movements at every signalized intersection on the corridor and modeled the road both ways. According to NYSDOT staff, the three-lane design keeps or improves traffic flow at every intersection but one.<a class="cite" href="#src-nysdot-model"></a></p>
+      <p>The exception is Orienta and Delancey, which already has a traffic problem. That's why a roundabout is proposed there.</p>
+      <p>That's NYSDOT's model, not ours. NYSDOT engineers are conservative, and the agency has every reason not to propose a design that jams a state highway.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="watch-h">
+    <h2 id="watch-h">Watch the difference</h2>
+    <p class="prose">One block of Boston Post Road, 1,000 feet between two signals, at 700 cars an hour each way, about what a busy intersection on the corridor carries at the evening peak. Four lanes on top, three on the bottom. The yellow cars are turning left.</p>
+    <figure class="figure">
+      <video src="/media/road_diet_replay.mp4" poster="/media/road_diet_still.png" autoplay muted loop playsinline preload="metadata" aria-label="Side-by-side traffic replay: four lanes above, three lanes below."></video>
+      <figcaption>On four lanes, each left-turner stops a lane and the cars behind weave around. On three, turners wait in the center lane and nobody behind them has to stop.</figcaption>
+    </figure>
+    <div class="btnrow" style="margin-top:14px"><a class="btn" href="/simulation">Play the interactive simulation</a></div>
+  </section>
+
+  <section class="section" aria-labelledby="numbers-h">
+    <div class="grid-2" style="align-items:start">
+      <div class="prose">
+        <h2 id="numbers-h">It's about reliability, not speed</h2>
+        <p>At 700 cars an hour, the average trip is about the same either way. The difference is the unlucky trip.</p>
+        <p>On four lanes, about one driver in nine gets stuck behind somebody waiting to turn, and the slowest trips run far longer than the average. On three lanes, nobody gets stuck, and every trip takes about the same time.</p>
+        <p>That predictability is also the safety story. The sudden stops and lane changes that slow the unlucky driver are the same moves that cause rear-end crashes and sideswipes.</p>
+      </div>
+      <div>
+        <div class="compare" role="table" aria-label="Simulated trip through one block at 700 vehicles per hour">
+          <div class="hd" role="columnheader"><i style="background:var(--s1)"></i>Four lanes (today)</div>
+          <div class="hd" role="columnheader"><i style="background:var(--s2)"></i>Three lanes</div>
+          <div class="metric" role="rowheader">Average trip through the block</div>
+          <div role="cell"><span class="v">25.2<small>sec</small></span></div>
+          <div role="cell"><span class="v">24.2<small>sec</small></span></div>
+          <div class="metric" role="rowheader">The slowest trip in 20</div>
+          <div role="cell"><span class="v">38.3<small>sec</small></span></div>
+          <div role="cell"><span class="v">26.3<small>sec</small></span></div>
+          <div class="metric" role="rowheader">Drivers held up behind a left-turner</div>
+          <div role="cell"><span class="v">1 in 9</span></div>
+          <div role="cell"><span class="v">None</span></div>
+        </div>
+        <p class="small muted" style="margin-top:8px">Twelve simulated hours averaged, 10% of drivers turning left, 90-second signal cycle.<a class="cite" href="#src-sim"></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="corridor-h">
+    <h2 id="corridor-h">Every signal on the corridor</h2>
+    <p class="prose">The busiest direction at each signalized intersection at the evening peak, against how much a three-lane road can carry in our simulation. That limit depends on how much green time the Post Road gets at each signal, which we don't know. So both are shown.</p>
+    <figure class="figure">
+      <div class="hbars-frame">
+        <ul class="hbars" id="corridor"></ul>
+        <div class="hbars-lines" aria-hidden="true">
+          <div class="ceil soft" style="left:75.4%"><span>≈754</span></div>
+          <div class="ceil" style="left:90%"><span>≈900</span></div>
+        </div>
+      </div>
+      <div class="hbars-axis" aria-hidden="true"><span></span>
+        <div class="ticks"><span style="left:0">0</span><span style="left:25%">250</span><span style="left:50%">500</span><span style="left:75%">750</span><span style="left:100%">1,000</span></div>
+      </div>
+      <figcaption>Through vehicles per hour, one direction, at the evening peak.<a class="cite" href="#src-counts"></a> <b>≈900</b>: the three-lane limit if the Post Road gets 60% of the green at each signal. <b>≈754</b>: the limit at 50%.<a class="cite" href="#src-sim"></a> The 60% limit comes out about the same with a 60- or 90-second signal cycle; the 50% limit was simulated with a 60-second cycle. Orienta and Delancey, the intersection NYSDOT flagged, are in bold.</figcaption>
+    </figure>
+    <div class="prose" style="margin-top:18px">
+      <p>If the Post Road gets 60% of the green, every intersection on the corridor sits under the limit. The closest is Delancey Avenue, the busiest movement at 831 cars an hour. At 50%, four would be over: the high school driveway, Fenimore, Alden and Delancey.</p>
+      <p>We don't know the real signal timing. NYSDOT does, and its model found trouble only at Orienta and Delancey. Both analyses point to Delancey as the tightest spot on the corridor, and NYSDOT is already proposing a fix there.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ems-h">
+    <div class="prose">
+      <h2 id="ems-h">Fire trucks and ambulances</h2>
+      <p>With a center turn lane, emergency vehicles have a path down the middle of the road, around stopped traffic. West Hartford, Connecticut studied response times when it built its road diets and found no problem.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="limits-h">
+    <div class="prose">
+      <h2 id="limits-h">What our simulation doesn't show</h2>
+      <p>The simulation illustrates how a center turn lane works. It is not a traffic study, and it isn't calibrated to observed counts. It leaves out pedestrians, parking, buses, trucks and side-street traffic, and it models one idealized block, not the whole corridor. NYSDOT's model is the one to rely on for the real street.</p>
+      <p>Some results don't favor the road diet, and we're including them:</p>
+      <ul>
+        <li>At 1,000 cars an hour each way, the three-lane road breaks down and the four-lane road doesn't. Nothing on the corridor comes close to that volume.</li>
+        <li>With only 5% of drivers turning left instead of 10%, the four-lane road is faster on average.</li>
+        <li>A shorter signal cycle helps the four-lane road. It's a real partial fix, but it doesn't address the crashes.</li>
+      </ul>
+      <p>The <a href="/full">detailed edition</a> has every sensitivity test, and the <a href="/writeup-full">write-up</a> has the method.</p>
+    </div>
+  </section>
+
+  <nav class="nextpage" aria-label="More">
+    <a href="/safety"><span>Back</span><b>Safety</b></a>
+    <a class="fwd" href="/parking"><span>Next</span><b>Parking &amp; business</b></a>
+  </nav>
+
+  <details class="sources">
+    <summary>Sources</summary>
+    <ol>
+      <li id="src-nysdot-model"><span class="src-title">NYSDOT traffic analysis, US-1 Complete Streets</span><div class="src-note">Turn counts at every signalized intersection and a corridor model, presented at the 2025 and 2026 open houses and described to us by NYSDOT staff.</div><a href="https://projectdocs.dot.ny.gov/westchester-county-us-route-1-complete-streets/" target="_blank" rel="noopener">NYSDOT project documents</a></li>
+      <li id="src-sim"><span class="src-title">"Stuck behind a left turn," a traffic microsimulation</span><div class="src-note">Car-following and lane-changing models, 12 simulated hours per case. Built by a Safe Routes to School volunteer; the model code is public.</div><a href="/simulation">The simulation</a> · <a href="https://github.com/mikesmeets/stuck-behind-a-left-turn" target="_blank" rel="noopener">Source code</a></li>
+      <li id="src-counts"><span class="src-title">NYSDOT turning-movement counts, evening peak</span><div class="src-note">Busiest direction of through traffic at each of the 17 signalized intersections.</div></li>
+    </ol>
+  </details>
+
+  <footer class="footer">
+    <p>Published by Mamaroneck School District Safe Routes to School, a volunteer group. We don't speak for NYSDOT or for the villages and town.</p>
+  </footer>
+</main>
+<script>
+// Evening-peak through volume, busier direction — same list as CORRIDOR in model/build_pages.py.
+(function () {
+  const CORRIDOR = [
+    ["The Pkwy & Harrison Ave", 416], ["Larchmont Ave", 445], ["Greenhaven Rd & Sterling Ave", 461],
+    ["Beach Ave", 481], ["Deane Pl & Winans St", 521], ["Lorenzen St & Pine Ridge Rd", 526],
+    ["Monroe Ave & Chatsworth Ave", 558], ["N Barry Ave", 571], ["Mamaroneck Ave", 575],
+    ["Hommocks Rd & Weaver St", 640], ["Dubois Ave", 650], ["Orienta Ave", 670],
+    ["Old Post Rd & Richbell Rd", 687], ["Mamaroneck HS driveway", 777], ["Fenimore Rd", 796],
+    ["Alden Rd", 808], ["Delancey Ave", 831],
+  ];
+  const flagged = new Set(["Orienta Ave", "Delancey Ave"]);
+  document.getElementById("corridor").innerHTML = CORRIDOR.map(([n, v]) =>
+    `<li${flagged.has(n) ? ' class="hl"' : ""}><span class="name">${n}</span>` +
+    `<span class="track"><span class="bar" style="width:${v / 10}%"></span>` +
+    `<span class="val" style="left:${v / 10}%">${v}</span></span></li>`).join("");
+})();
+</script>
+<script src="/site/nav.js"></script>
+<script src="/site/site.js"></script>
+</body>
+</html>

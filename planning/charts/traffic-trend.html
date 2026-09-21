@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post Road Traffic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --paper:#f2efe9; --card:#fbfaf6; --ink:#16150f; --ink-2:#565248; --ink-3:#8b8579;
+    --rule:#ddd8cb; --grid:#e1ddd1;
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+    --shadow:0 1px 2px rgba(22,21,15,.06), 0 8px 24px -18px rgba(22,21,15,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper:#141517; --card:#191a1d; --ink:#f4f2ec; --ink-2:#b3aea3; --ink-3:#847f75;
+      --rule:#2c2e32; --grid:#26282c;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper:#141517; --card:#191a1d; --ink:#f4f2ec; --ink-2:#b3aea3; --ink-3:#847f75;
+    --rule:#2c2e32; --grid:#26282c;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:Overpass,system-ui,-apple-system,"Segoe UI",sans-serif; }
+  .wrap { max-width:880px; margin:0 auto; padding:32px 16px 48px; }
+  .card { background:var(--card); border:1px solid var(--rule); border-radius:10px;
+          box-shadow:var(--shadow); padding:24px 24px 18px; }
+  .kicker { font-family:"Overpass Mono",ui-monospace,monospace; font-size:12px;
+            letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin:0 0 8px; }
+  h1 { font-family:"Source Serif 4",Georgia,serif; font-weight:600; font-size:clamp(22px,4vw,30px);
+       line-height:1.2; margin:0 0 10px; text-wrap:balance; }
+  .dek { font-family:"Source Serif 4",Georgia,serif; font-size:17px; line-height:1.5;
+         color:var(--ink-2); margin:0 0 18px; max-width:62ch; }
+  .legend { display:flex; flex-wrap:wrap; gap:6px 18px; margin:0 0 6px; padding:0; list-style:none;
+            font-size:14px; color:var(--ink-2); }
+  .legend li { display:flex; align-items:center; gap:7px; }
+  .legend i { width:16px; height:3px; border-radius:2px; display:inline-block; }
+  .tabs { display:flex; gap:4px; margin:0 0 4px; justify-content:flex-end; }
+  .tabs button { font:inherit; font-size:13px; color:var(--ink-2); background:none;
+                 border:1px solid var(--rule); border-radius:6px; padding:4px 10px; cursor:pointer; }
+  .tabs button[aria-pressed="true"] { color:var(--ink); border-color:var(--ink-3); }
+  .plot { position:relative; }
+  svg { display:block; width:100%; height:auto; overflow:visible; }
+  .axis text { font-family:"Overpass Mono",ui-monospace,monospace; font-size:11px; fill:var(--ink-3); }
+  .grid line { stroke:var(--grid); stroke-width:1; }
+  .base { stroke:var(--ink-3); stroke-width:1; }
+  .endlabel { font-size:12.5px; fill:var(--ink); font-weight:600; }
+  .endlabel tspan.v { font-family:"Overpass Mono",ui-monospace,monospace; font-weight:400; fill:var(--ink-2); }
+  .tip { position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--rule);
+         border-radius:8px; box-shadow:var(--shadow); padding:8px 10px; font-size:13px; line-height:1.35;
+         color:var(--ink); white-space:nowrap; opacity:0; transition:opacity .08s; }
+  .tip b { font-family:"Overpass Mono",ui-monospace,monospace; font-weight:600; }
+  .tip .muted { color:var(--ink-3); font-size:12px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:right; padding:6px 8px; border-bottom:1px solid var(--rule); }
+  th:first-child, td:first-child { text-align:left; }
+  th { color:var(--ink-3); font-weight:600; font-size:12px; }
+  td { font-family:"Overpass Mono",ui-monospace,monospace; }
+  td:first-child { font-family:inherit; }
+  .notes { font-size:13px; line-height:1.5; color:var(--ink-3); margin:14px 0 0; }
+  .notes p { margin:0 0 6px; }
+  .notes a { color:var(--ink-2); }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <p class="kicker">Boston Post Road · daily traffic</p>
+    <h1>Post Road traffic hasn't grown in 45 years, and it fell after 2019</h1>
+    <p class="dek">Mamaroneck is down a quarter since 2019, and Larchmont is down a quarter since 2014. Three of the four counted segments are at their lowest in the record.</p>
+
+    <div class="tabs" role="group" aria-label="View">
+      <button type="button" data-view="chart" aria-pressed="true">Chart</button>
+      <button type="button" data-view="table" aria-pressed="false">Table</button>
+    </div>
+    <ul class="legend" id="legend"></ul>
+
+    <div class="plot" id="plot">
+      <svg id="chart" role="img" aria-labelledby="chart-desc"><desc id="chart-desc"></desc></svg>
+      <div class="tip" id="tip" role="status"></div>
+    </div>
+    <div id="tablewrap" hidden></div>
+
+    <div class="notes">
+      <p>Average annual daily traffic (AADT), both directions. Each dot is a year NYSDOT counted that segment. Segments are counted every few years, not every year, so the lines connect counts and don't show what happened in between.</p>
+      <p>Source: NYSDOT, <a href="https://nysdottrafficdata.drakewell.com/sitedashboard.asp?node=NYSDOT_SC&amp;cosit=870122000000">Traffic Data Viewer</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const SERIES = [
+  { name:"Larchmont", color:"--s1", pts:[[1979,15430],[1980,21460],[1983,14630],[1985,18220],[1987,16760],[1990,13150],[1992,14220],[1996,15920],[2006,13935],[2011,13694],[2014,13241],[2024,10104]] },
+  { name:"Mamaroneck", color:"--s2", pts:[[1979,17810],[1980,18690],[1983,19080],[1987,19540],[1988,20680],[1991,18910],[1994,18130],[1996,21520],[2000,19301],[2003,20686],[2006,19286],[2016,19377],[2019,19936],[2024,14958]] },
+  { name:"Rye Neck to Barry", color:"--s3", pts:[[1979,17140],[1980,17130],[1988,16250],[1991,16620],[1996,18000],[1997,17590],[2006,17293],[2008,18134],[2019,16757],[2023,16049]] },
+  { name:"Rye Neck to Rye border", color:"--s4", pts:[[1980,8690],[1983,10700],[1985,10900],[1990,11100],[1992,12010],[1996,11850],[1999,13430],[2002,11963],[2005,11764],[2006,13042],[2009,11516],[2017,10300],[2025,9740]] },
+];
+const X0 = 1978, X1 = 2026, Y1 = 22000;
+const fmt = n => n.toLocaleString("en-US");
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; };
+
+document.getElementById("legend").innerHTML = SERIES.map(s =>
+  `<li><i style="background:var(${s.color})"></i>${s.name}</li>`).join("");
+document.getElementById("chart-desc").textContent =
+  "Line chart of daily traffic on four Boston Post Road segments, 1979 to 2025. " +
+  SERIES.map(s => `${s.name}: ${fmt(s.pts[0][1])} in ${s.pts[0][0]}, ${fmt(s.pts.at(-1)[1])} in ${s.pts.at(-1)[0]}.`).join(" ");
+
+let hits = [];
+function draw() {
+  const svg = document.getElementById("chart");
+  const W = document.getElementById("plot").clientWidth;
+  const narrow = W < 560;
+  const m = { t:10, r: narrow ? 12 : 168, b:26, l:46 };
+  const H = narrow ? 300 : 360;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  [...svg.querySelectorAll(":scope > g")].forEach(g => g.remove());
+  const x = v => m.l + (v - X0) / (X1 - X0) * (W - m.l - m.r);
+  const y = v => m.t + (1 - v / Y1) * (H - m.t - m.b);
+
+  const grid = el("g", { class:"grid" }, svg), axis = el("g", { class:"axis" }, svg);
+  for (let v = 0; v <= Y1; v += 5000) {
+    if (v) el("line", { x1:m.l, x2:W - m.r, y1:y(v), y2:y(v) }, grid);
+    el("text", { x:m.l - 8, y:y(v) + 4, "text-anchor":"end" }, axis).textContent = v ? `${v/1000}k` : "0";
+  }
+  el("line", { class:"base", x1:m.l, x2:W - m.r, y1:y(0), y2:y(0) }, axis);
+  const step = narrow ? 20 : 10;
+  for (let yr = 1980; yr <= 2020; yr += step)
+    el("text", { x:x(yr), y:H - 6, "text-anchor":"middle" }, axis).textContent = yr;
+
+  const marks = el("g", {}, svg);
+  hits = [];
+  SERIES.forEach(s => {
+    const c = css(s.color), card = css("--card");
+    el("polyline", { points:s.pts.map(([a,b]) => `${x(a)},${y(b)}`).join(" "),
+      fill:"none", stroke:c, "stroke-width":2, "stroke-linejoin":"round", "stroke-linecap":"round" }, marks);
+    s.pts.forEach(([a,b], i) => {
+      const last = i === s.pts.length - 1;
+      el("circle", { cx:x(a), cy:y(b), r:last ? 4.5 : 3, fill:c, stroke:card, "stroke-width":2 }, marks);
+      hits.push({ s, yr:a, v:b, px:x(a), py:y(b), prev:s.pts[i-1] });
+    });
+  });
+
+  // Direct end labels (wide screens), nudged apart so they never collide.
+  if (!narrow) {
+    const labs = SERIES.map(s => ({ s, yv:y(s.pts.at(-1)[1]) })).sort((a,b) => a.yv - b.yv);
+    for (let i = 1; i < labs.length; i++) labs[i].yv = Math.max(labs[i].yv, labs[i-1].yv + 32);
+    const g = el("g", {}, svg);
+    labs.forEach(({ s, yv }) => {
+      const [yr, v] = s.pts.at(-1);
+      const t = el("text", { class:"endlabel", x:x(X1) + 10, y:yv - 2 }, g);
+      t.textContent = s.name;
+      const tv = el("tspan", { class:"v", x:x(X1) + 10, dy:15 }, t);
+      tv.textContent = `${fmt(v)} (${yr})`;
+    });
+  }
+}
+
+const tip = document.getElementById("tip"), plot = document.getElementById("plot");
+function pointer(e) {
+  const r = plot.getBoundingClientRect(), vb = document.getElementById("chart").viewBox.baseVal;
+  const k = vb.width / r.width, px = (e.clientX - r.left) * k, py = (e.clientY - r.top) * k;
+  let best = null, bd = 24 * k;
+  for (const h of hits) { const d = Math.hypot(h.px - px, h.py - py); if (d < bd) { bd = d; best = h; } }
+  if (!best) { tip.style.opacity = 0; return; }
+  const chg = best.prev ? (best.v - best.prev[1]) / best.prev[1] * 100 : null;
+  tip.innerHTML = `<div>${best.s.name}, ${best.yr}</div><b>${fmt(best.v)}</b> vehicles/day` +
+    (chg === null ? "" : `<div class="muted">${chg >= 0 ? "+" : "−"}${Math.abs(chg).toFixed(0)}% vs ${best.prev[0]} count</div>`);
+  const tx = best.px / k, ty = best.py / k, tw = tip.offsetWidth;
+  tip.style.left = Math.min(Math.max(tx - tw / 2, 0), r.width - tw) + "px";
+  tip.style.top = Math.max(ty - tip.offsetHeight - 12, 0) + "px";
+  tip.style.opacity = 1;
+}
+plot.addEventListener("pointermove", pointer);
+plot.addEventListener("pointerdown", pointer);
+plot.addEventListener("pointerleave", () => tip.style.opacity = 0);
+
+// Table view: every count, by year.
+const years = [...new Set(SERIES.flatMap(s => s.pts.map(p => p[0])))].sort((a,b) => a - b);
+document.getElementById("tablewrap").innerHTML =
+  `<table><thead><tr><th>Year</th>${SERIES.map(s => `<th>${s.name}</th>`).join("")}</tr></thead><tbody>` +
+  years.map(yr => `<tr><td>${yr}</td>${SERIES.map(s => { const p = s.pts.find(q => q[0] === yr);
+    return `<td>${p ? fmt(p[1]) : ""}</td>`; }).join("")}</tr>`).join("") + "</tbody></table>";
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+  const t = b.dataset.view === "table";
+  document.querySelectorAll(".tabs button").forEach(o => o.setAttribute("aria-pressed", o === b));
+  plot.hidden = t; document.getElementById("legend").hidden = t;
+  document.getElementById("tablewrap").hidden = !t;
+}));
+
+draw();
+new ResizeObserver(draw).observe(plot);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+</script>
+</body>
+</html>

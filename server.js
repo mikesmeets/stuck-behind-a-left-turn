@@ -32,11 +32,20 @@ const COMPRESSIBLE = new Set([".html", ".md", ".js", ".css", ".json", ".svg",
 
 // Friendly URLs, so the links people share do not carry a file extension.
 const ALIASES = {
-  // The build-up walk is the front page; the shorter and longer editions sit
-  // behind named routes. The old /buildup links still land in the right place.
+  // The site. "/" is the call to action; the rest are the deep pages.
   "/": "/index.html",
-  "/buildup": "/index.html",
-  "/build-up": "/index.html",
+  "/questions": "/questions.html",
+  "/faq": "/questions.html",
+  "/safety": "/safety.html",
+  "/traffic": "/traffic.html",
+  "/parking": "/parking.html",
+  "/business": "/parking.html",
+  "/what-drives-traffic": "/what-drives-traffic.html",
+  // The simulation editions. The build-up walk used to be the front page, so
+  // the old /buildup links land on it at its new address.
+  "/simulation": "/simulation.html",
+  "/buildup": "/simulation.html",
+  "/build-up": "/simulation.html",
   "/short": "/short.html",
   "/public": "/short.html",
   "/full": "/full.html",
@@ -44,6 +53,9 @@ const ALIASES = {
   "/writeup": "/writeup-public.md",
   "/writeup-full": "/writeup-full.md",
 };
+
+// Working files that live in the repo but are not part of the site.
+const PRIVATE = /^\/(\.git|\.claude|planning|node_modules)(\/|$)|^\/(CLAUDE|DEPLOY|README)\.md$/i;
 
 http.createServer((req, res) => {
   let urlPath;
@@ -54,6 +66,11 @@ http.createServer((req, res) => {
     return;
   }
   urlPath = ALIASES[urlPath.replace(/\/+$/, "") || "/"] || urlPath;
+  if (PRIVATE.test(urlPath)) {
+    res.writeHead(404, { "content-type": "text/html; charset=utf-8" })
+       .end('<h1>404</h1><p><a href="/">Back to the site</a></p>');
+    return;
+  }
 
   // Resolve inside ROOT only — no path traversal.
   const file = path.join(ROOT, path.normalize(urlPath));
@@ -65,14 +82,16 @@ http.createServer((req, res) => {
   fs.stat(file, (err, st) => {
     if (err || !st.isFile()) {
       res.writeHead(404, { "content-type": "text/html; charset=utf-8" })
-         .end('<h1>404</h1><p><a href="/">Back to the explainer</a></p>');
+         .end('<h1>404</h1><p><a href="/">Back to the site</a></p>');
       return;
     }
     const ext = path.extname(file).toLowerCase();
     const headers = {
       "content-type": TYPES[ext] || "application/octet-stream",
-      "cache-control": ext === ".html" ? "public, max-age=300"
-                                       : "public, max-age=86400",
+      // Pages, styles and scripts change together, so they share a short
+      // cache; media is large and rarely changes.
+      "cache-control": [".html", ".css", ".js"].includes(ext) ? "public, max-age=300"
+                                                             : "public, max-age=86400",
       "x-content-type-options": "nosniff",
     };
     const accepts = (req.headers["accept-encoding"] || "").includes("gzip");
