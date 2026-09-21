@@ -9,6 +9,7 @@
   --veh:#cfcabc; --veh-edge:#2c2b26; --veh-turn:#e3ae1f; --veh-block:#d03b3b;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
   --accent:#2a78d6; --accent-ink:#ffffff;
+  --unsafe:#b3261e;
   --shadow:0 1px 2px rgba(22,21,15,.06), 0 8px 24px -18px rgba(22,21,15,.35);
 }
 @media (prefers-color-scheme: dark) {
@@ -21,6 +22,7 @@
     --veh:#9ea4ac; --veh-edge:#0e0f10; --veh-turn:#e0aa1e; --veh-block:#d64b4b;
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
     --accent:#3987e5; --accent-ink:#ffffff;
+    --unsafe:#ef9a9a;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
   }
 }
@@ -33,6 +35,7 @@
   --veh:#9ea4ac; --veh-edge:#0e0f10; --veh-turn:#e0aa1e; --veh-block:#d64b4b;
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
   --accent:#3987e5; --accent-ink:#ffffff;
+  --unsafe:#ef9a9a;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
 }
 
@@ -275,12 +278,12 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 
 /* ---------- Survey columns (mode by school + unsafe) ---------- */
 .chart-plot .seglabel { font:700 11px "Overpass Mono",ui-monospace,monospace; }
-.chart-plot .unsafe-bar { fill:var(--ink); }
+.chart-plot .unsafe-bar { fill:var(--unsafe); }
 .chart-plot .unsafe-label { font:700 11.5px "Overpass Mono",ui-monospace,monospace; fill:var(--ink); }
 .chart-plot .grouplabel { font:600 12.5px Overpass,system-ui,sans-serif; fill:var(--ink-2); }
 .chart-plot .grouplabel.total { fill:var(--ink); font-weight:800; }
 .chart-plot .grouplabel.small { font-size:11px; }
-.keyrow i.unsafe-key { background:var(--ink); width:8px; }
+.keyrow i.unsafe-key { background:var(--unsafe); width:8px; }
 .hbars.simple li { grid-template-columns:minmax(150px,40%) 1fr; }
 
 /* ---------- Photo pair ---------- */
