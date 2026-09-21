@@ -355,6 +355,13 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .ct-key .k-cone { background:rgba(255,255,255,.55); border-color:var(--ink-3); clip-path:polygon(0 50%,100% 0,100% 100%); border:0; background:var(--ink-3); }
 .ct-key .k-shadow { background:#3a3a3a; }
 .diagram .zebra { fill:var(--paint); opacity:.9; }
+.diagram .truck-body { fill:#f4f2ec; stroke:#b3261e; stroke-width:2; }
+.diagram .truck-cab { fill:#b3261e; }
+.diagram .truck-light { fill:#3987e5; }
+.diagram .truck-path { fill:none; stroke:#ff6b5e; stroke-width:3; stroke-dasharray:7 5; stroke-linecap:round; }
+.diagram .truck-path-head { fill:#ff6b5e; }
+.diagram .unsure { font:800 16px Overpass,system-ui,sans-serif; fill:#fff; }
+.ct-key .k-truck { background:#f4f2ec; border:2px solid #b3261e; width:22px; }
 .diagram .ped circle, .diagram .ped rect { fill:var(--accent); stroke:#fff; stroke-width:1.5; }
 
 /* ---------- Built for walking: school cards ---------- */
