@@ -4,7 +4,8 @@
 // Text lives in HTML (callout lists), so it stays readable on a phone.
 (function () {
   // ---- geometry: westbound on top (moving left), eastbound below (moving right)
-  const W = 640;
+  const W = 800;            // road length drawn; each view shows a 400-wide window of it
+  const VIEW = 400;
   const FOUR = { top: 20, bot: 140, wbOut: 27, wbIn: 57, ebIn: 87, ebOut: 117 };
   const THREE = { top: 20, bot: 140, wb: 38.5, ctr: 72, eb: 105.5 };
 
@@ -24,7 +25,26 @@
     `<path class="path ${cls}" d="${d}"/><polygon class="arrowhead ${cls}" points="${head}"/>`;
   const ped = (x, y) =>
     `<g class="ped"><circle cx="${x}" cy="${y - 7}" r="4.5"/><rect x="${x - 4}" y="${y - 2}" width="8" height="11" rx="3"/></g>`;
-  const sight = (x1, y1, x2, y2) => `<line class="sight" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+  // A driver's field of view: a cone from the eye toward (tx, ty), `spread`
+  // degrees either side, `len` long.
+  const cone = (ex, ey, tx, ty, spread = 16, len = 190) => {
+    const a = Math.atan2(ty - ey, tx - ex), s = (spread * Math.PI) / 180;
+    const p = (ang) => `${(ex + len * Math.cos(ang)).toFixed(1)},${(ey + len * Math.sin(ang)).toFixed(1)}`;
+    return `<g clip-path="url(#__CLIP__)"><polygon class="cone" points="${ex},${ey} ${p(a - s)} ${p(a - s / 2)} ${p(a)} ${p(a + s / 2)} ${p(a + s)}"/></g>`;
+  };
+  // What a car at (x, y) hides from the eye: the wedge between the rays that
+  // graze its corners, from the car out to `len`.
+  const shadow = (ex, ey, x, y, len = 260) => {
+    const corners = [[x, y], [x + 34, y], [x, y + 16], [x + 34, y + 16]];
+    const ang = ([cx, cy]) => Math.atan2(cy - ey, cx - ex);
+    corners.sort((p, q) => ang(p) - ang(q));
+    const lo = corners[0], hi = corners[3];
+    const ext = ([cx, cy]) => {
+      const a = ang([cx, cy]);
+      return `${(ex + len * Math.cos(a)).toFixed(1)},${(ey + len * Math.sin(a)).toFixed(1)}`;
+    };
+    return `<g clip-path="url(#__CLIP__)"><polygon class="shadow" points="${lo[0]},${lo[1]} ${ext(lo)} ${ext(hi)} ${hi[0]},${hi[1]}"/></g>`;
+  };
   const driveway = `<rect class="road" x="440" y="0" width="40" height="22"/>`;
   const crosswalk = (x, top, bot) => {
     let s = "";
@@ -52,13 +72,17 @@
       <line class="yellow" x1="0" y1="96" x2="${W}" y2="96"/><line class="yellow-dash" x1="0" y1="92.5" x2="${W}" y2="92.5"/>
       ${extra}`;
   }
-  const svg = (label, body) =>
-    `<svg viewBox="0 0 ${W} 165" role="img" aria-label="${label}"><g class="diagram">${body}</g></svg>`;
+  // Views and shadows are clipped to the pavement so they never spill onto the page.
+  let clipN = 0;
+  const svg = (label, body) => {
+    const id = `ct-road-${++clipN}`;
+    return `<svg viewBox="0 0 ${W} 165" role="img" aria-label="${label}"><defs><clipPath id="${id}"><rect x="0" y="20" width="${W}" height="120"/></clipPath></defs><g class="diagram">${body.replaceAll("__CLIP__", id)}</g></svg>`;
+  };
 
   // ---- the four scenarios -------------------------------------------------
   const SCENARIOS = [
     {
-      key: "rear-end", tab: "Rear-end",
+      key: "rear-end", win: 225, tab: "Rear-end",
       title: "Stopped in a travel lane",
       intro: "A classic four-lane crash. A driver stops in a travel lane to wait for a gap, and the driver behind doesn't stop in time.",
       today: svg("Four lanes: a driver waiting to turn left stops in the eastbound inside lane; the car behind brakes too late.",
@@ -82,7 +106,7 @@
                   "Traffic behind never has to stop for a turning car."],
     },
     {
-      key: "sideswipe", tab: "Sideswipe",
+      key: "sideswipe", win: 190, tab: "Sideswipe",
       title: "Swerving around the car ahead",
       intro: "Rather than wait, drivers swerve into the next lane to get around a stopped car. On lanes 9.5 feet wide, there's little room to do it safely.",
       today: svg("Four lanes: a driver swerves from the inside lane into the outside lane around a stopped car and hits a car already there.",
@@ -108,15 +132,15 @@
                   "One lane each way: no weaving, no lane-changing to get around."],
     },
     {
-      key: "left-turn", tab: "Left-turn",
+      key: "left-turn", win: 325, tab: "Left-turn",
       title: "Turning across two lanes you can't see",
       intro: "Turning left from a four-lane street means crossing two lanes of oncoming traffic. A car in the near lane can hide a car in the far lane until it's too late.",
       today: svg("Four lanes: a driver turning left across two oncoming lanes cannot see a car in the far lane, hidden behind a car in the near lane.",
-        fourLane(`${car(430, FOUR.ebIn, "turn")}
+        fourLane(`${cone(452, 95, 590, 40, 20, 200)}${shadow(452, 95, 495, FOUR.wbIn)}
+          ${car(430, FOUR.ebIn, "turn")}
           ${car(495, FOUR.wbIn)}
           ${car(570, FOUR.wbOut, "block")}
           ${arrow("M540 35 L 500 35", "492,35 501,30 501,40", "warn")}
-          ${sight(447, 95, 590, 35)}
           <path class="path" d="M462 95 C 478 95, 466 50, 462 12"/><polygon class="arrowhead" points="462,3 457,12 467,12"/>
           ${burst(463, 35)}
           ${car(150, FOUR.ebOut)}${car(90, FOUR.wbIn)}
@@ -125,9 +149,9 @@
                    "An oncoming car in the near lane blocks the view of the far lane.",
                    "A car in the far lane, hidden until the last second, drives into the turn."],
       diet: svg("Three lanes: the turning driver waits in the center lane and crosses one oncoming lane with a clear view.",
-        threeLane(`${car(430, THREE.ctr, "turn")}
+        threeLane(`${cone(452, 80, 590, 46, 20, 200)}
+          ${car(430, THREE.ctr, "turn")}
           ${car(575, THREE.wb)}
-          ${sight(447, 80, 590, 46)}
           <path class="path" d="M462 80 C 478 80, 466 45, 462 12"/><polygon class="arrowhead" points="462,3 457,12 467,12"/>
           ${car(150, THREE.eb)}${car(300, THREE.eb)}
           ${pin(420, 71, 1)}${pin(600, 20, 2)}`)),
@@ -135,17 +159,17 @@
                   "There's only one oncoming lane to cross, and nothing can hide in it."],
     },
     {
-      key: "pedestrian", tab: "Pedestrian",
+      key: "pedestrian", win: 75, tab: "Pedestrian",
       title: "The car you can't see past",
       intro: "Safety engineers call it the multiple-threat crash. One driver stops for someone in the crosswalk, and a driver in the next lane, who can't see them, keeps going.",
       today: svg("Four lanes: a car stops at the crosswalk in the outside lane; a car in the inside lane cannot see the pedestrian and keeps going.",
         fourLane(`${crosswalk(300, 20, 140)}
+          ${cone(249, 95, 330, 110, 20, 150)}${shadow(249, 95, 258, FOUR.ebOut, 170)}
           ${car(258, FOUR.ebOut)}
-          ${ped(313, 100)}
+          ${ped(299, 131)}
           ${car(215, FOUR.ebIn, "block")}
           ${arrow("M190 95 L 206 95", "214,95 205,90 205,100", "warn")}
-          ${sight(249, 95, 313, 95)}
-          ${burst(300, 95)}
+          ${burst(303, 101)}
           ${car(420, FOUR.wbIn)}${car(540, FOUR.wbOut)}
           ${pin(275, 152, 1)}${pin(232, 76, 2)}${pin(338, 104, 3)}`, { driveway: false })),
       todayNotes: ["A driver stops to let someone cross.",
@@ -153,6 +177,7 @@
                    "The person crossing steps out from in front of the stopped car."],
       diet: svg("Three lanes: when the car in the only travel lane stops at the crosswalk, there is no second lane where another driver can pass it.",
         threeLane(`${crosswalk(300, 29, 131)}
+          ${cone(292, 113.5, 330, 100, 20, 120)}
           ${car(258, THREE.eb)}${car(205, THREE.eb)}
           ${ped(313, 88)}
           ${car(430, THREE.wb)}
@@ -162,6 +187,8 @@
     },
   ];
 
+  // Zoom a drawing to the 400-wide window around its action.
+  const frame = (svgText, x0) => svgText.replace(`viewBox="0 0 ${W} 165"`, `viewBox="${x0} 0 ${VIEW} 165"`);
   const notes = (arr) => `<ol class="callouts">${arr.map((t, i) => `<li><span class="pin">${i + 1}</span><span>${t}</span></li>`).join("")}</ol>`;
 
   document.querySelectorAll('[data-diagram="crash-types"]').forEach((root) => {
@@ -175,14 +202,16 @@
         <h3>${s.title}</h3>
         <p class="sub">${s.intro}</p>
         <div class="ct-pair">
-          <div><p class="panel-title">Today · four narrow lanes</p>${s.today}${notes(s.todayNotes)}</div>
-          <div><p class="panel-title">Road diet · one lane each way and a center turn lane</p>${s.diet}${notes(s.dietNotes)}</div>
+          <div><p class="panel-title">Today · four narrow lanes</p>${frame(s.today, s.win)}${notes(s.todayNotes)}</div>
+          <div><p class="panel-title">Road diet · one lane each way and a center turn lane</p>${frame(s.diet, s.win)}${notes(s.dietNotes)}</div>
         </div>
       </div>`).join("")}
       <ul class="ct-key">
         <li><i class="k-turn"></i>Turning driver</li>
         <li><i class="k-block"></i>Driver at risk</li>
         <li><i class="k-ped"></i>Person crossing</li>
+        <li><i class="k-cone"></i>Driver's view</li>
+        <li><i class="k-shadow"></i>Hidden from view</li>
       </ul>`;
     const tabs = [...root.querySelectorAll('[role="tab"]')], panels = [...root.querySelectorAll('[role="tabpanel"]')];
     const select = (i, focus) => {
