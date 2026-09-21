@@ -8,7 +8,9 @@
     { name:"Rye Neck to Barry", color:"--s3", pts:[[1979,17140],[1980,17130],[1988,16250],[1991,16620],[1996,18000],[1997,17590],[2006,17293],[2008,18134],[2019,16757],[2023,16049]] },
     { name:"Rye Neck to Rye border", color:"--s4", pts:[[1980,8690],[1983,10700],[1985,10900],[1990,11100],[1992,12010],[1996,11850],[1999,13430],[2002,11963],[2005,11764],[2006,13042],[2009,11516],[2017,10300],[2025,9740]] },
   ];
-  const X0 = 1978, X1 = 2026, Y1 = 22000;
+  const START = 1990;   // the chart begins here; earlier counts stay in the data file
+  SERIES.forEach(s => { s.pts = s.pts.filter(([yr]) => yr >= START); });
+  const X0 = START - 1, X1 = 2026, Y1 = 22000;
   const fmt = n => n.toLocaleString("en-US");
   const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const NS = "http://www.w3.org/2000/svg";
@@ -31,7 +33,7 @@
           tip = root.querySelector(".chart-tip"), legend = root.querySelector(".chart-legend"),
           tablewrap = root.querySelector(".table-scroll");
     svg.querySelector("desc").textContent =
-      "Line chart of daily traffic on four Boston Post Road segments, 1979 to 2025. " +
+      `Line chart of daily traffic on four Boston Post Road segments, ${START} to 2025. ` +
       SERIES.map(s => `${s.name}: ${fmt(s.pts[0][1])} in ${s.pts[0][0]}, ${fmt(s.pts.at(-1)[1])} in ${s.pts.at(-1)[0]}.`).join(" ");
 
     let hits = [];
@@ -51,7 +53,7 @@
         el("text", { x:m.l - 8, y:y(v) + 4, "text-anchor":"end" }, axis).textContent = v ? `${v/1000}k` : "0";
       }
       el("line", { class:"base", x1:m.l, x2:W - m.r, y1:y(0), y2:y(0) }, axis);
-      for (let yr = 1980; yr <= 2020; yr += narrow ? 20 : 10)
+      for (let yr = 1990; yr <= 2020; yr += narrow ? 10 : 5)
         el("text", { x:x(yr), y:H - 6, "text-anchor":"middle" }, axis).textContent = yr;
       const marks = el("g", {}, svg);
       hits = [];
