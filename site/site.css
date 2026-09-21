@@ -300,7 +300,16 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .review > p { font-size:15.5px; color:var(--ink-2); max-width:760px; }
 .review-label { font-weight:700; color:var(--ink) !important; margin:16px 0 6px !important; font-size:14px !important; }
 .outcome-bar { display:flex; gap:2px; height:38px; font-size:13px; }
-.outcome-bar span { display:flex; align-items:center; padding:0 10px; white-space:nowrap; overflow:hidden; }
+.outcome-bar { position:relative; }
+.outcome-bar > span { display:flex; align-items:center; padding:0 10px; white-space:nowrap; cursor:help; outline-offset:2px; }
+.outcome-bar .bar-tip { display:none; position:absolute; top:calc(100% + 8px); left:0; z-index:5; width:min(360px, 88vw);
+  background:var(--card); color:var(--ink); border:1px solid var(--rule); border-radius:8px; box-shadow:var(--shadow);
+  padding:10px 12px; font-size:13.5px; white-space:normal; cursor:auto; }
+.outcome-bar .neu .bar-tip { left:auto; right:0; }
+.outcome-bar .bar-tip b { font-family:inherit; font-size:13.5px; margin:0; display:block; }
+.outcome-bar .bar-tip ul { margin:6px 0 0; padding-left:18px; }
+.outcome-bar .bar-tip li { margin:2px 0; }
+.outcome-bar > span:hover .bar-tip, .outcome-bar > span:focus .bar-tip, .outcome-bar > span:focus-within .bar-tip { display:block; }
 .outcome-bar span:first-child { border-radius:6px 0 0 6px; }
 .outcome-bar span:last-child { border-radius:0 6px 6px 0; }
 .outcome-bar b { font-family:"Source Serif 4",Georgia,serif; font-size:18px; margin-right:6px; }
