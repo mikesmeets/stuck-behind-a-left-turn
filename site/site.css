@@ -239,6 +239,19 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .compare .v { font-family:"Source Serif 4",Georgia,serif; font-size:26px; font-weight:600; line-height:1.1; }
 .compare .v small { font-family:Overpass,sans-serif; font-size:13px; font-weight:400; color:var(--ink-3); margin-left:4px; }
 
+/* ---------- 100% stacked bars (survey mode by school) ---------- */
+.stack100 { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.stack100 li { display:grid; grid-template-columns:minmax(150px,28%) 1fr; gap:4px 12px; align-items:center; }
+.stack100 li.total { border-top:1px solid var(--rule); padding-top:10px; }
+.stack100 .name { font-size:14px; font-weight:600; color:var(--ink); line-height:1.25; }
+.stack100 .name small { display:block; font-weight:400; font-size:12px; color:var(--ink-3); }
+.stack100 .stackbar { display:flex; gap:2px; height:24px; }
+.stack100 .seg { display:flex; align-items:center; justify-content:center; min-width:2px; font-size:12px; font-weight:700; font-family:"Overpass Mono",ui-monospace,monospace; }
+.stack100 .seg:first-child { border-radius:4px 0 0 4px; }
+.stack100 .seg:last-child { border-radius:0 4px 4px 0; }
+@media (max-width:560px) { .stack100 li { grid-template-columns:1fr; } }
+.hbars.simple li { grid-template-columns:minmax(150px,40%) 1fr; }
+
 /* ---------- Photo pair ---------- */
 .photos { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px; }
 .photos figure { margin:0; }
