@@ -246,17 +246,14 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
   margin:36px 0 12px; padding-top:14px; border-top:2px solid var(--ink);
 }
 
-/* ---------- 100% stacked bars (survey mode by school) ---------- */
-.stack100 { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
-.stack100 li { display:grid; grid-template-columns:minmax(150px,28%) 1fr; gap:4px 12px; align-items:center; }
-.stack100 li.total { border-top:1px solid var(--rule); padding-top:10px; }
-.stack100 .name { font-size:14px; font-weight:600; color:var(--ink); line-height:1.25; }
-.stack100 .name small { display:block; font-weight:400; font-size:12px; color:var(--ink-3); }
-.stack100 .stackbar { display:flex; gap:2px; height:24px; }
-.stack100 .seg { display:flex; align-items:center; justify-content:center; min-width:2px; font-size:12px; font-weight:700; font-family:"Overpass Mono",ui-monospace,monospace; }
-.stack100 .seg:first-child { border-radius:4px 0 0 4px; }
-.stack100 .seg:last-child { border-radius:0 4px 4px 0; }
-@media (max-width:560px) { .stack100 li { grid-template-columns:1fr; } }
+/* ---------- Survey columns (mode by school + unsafe) ---------- */
+.chart-plot .seglabel { font:700 11px "Overpass Mono",ui-monospace,monospace; }
+.chart-plot .unsafe-bar { fill:var(--ink); }
+.chart-plot .unsafe-label { font:700 11.5px "Overpass Mono",ui-monospace,monospace; fill:var(--ink); }
+.chart-plot .grouplabel { font:600 12.5px Overpass,system-ui,sans-serif; fill:var(--ink-2); }
+.chart-plot .grouplabel.total { fill:var(--ink); font-weight:800; }
+.chart-plot .grouplabel.small { font-size:11px; }
+.keyrow i.unsafe-key { background:var(--ink); width:8px; }
 .hbars.simple li { grid-template-columns:minmax(150px,40%) 1fr; }
 
 /* ---------- Photo pair ---------- */
