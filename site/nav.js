@@ -4,7 +4,7 @@
 (function () {
   const PAGES = [
     ["/", "Take action", ["/", "/index.html"]],
-    ["/questions", "Questions", ["/questions", "/questions.html", "/faq"]],
+    ["/faq", "FAQ", ["/faq", "/questions", "/questions.html"]],
     ["/safety", "Safety", ["/safety", "/safety.html"]],
     ["/crashes", "Crashes", ["/crashes", "/crashes.html"]],
     ["/traffic", "Traffic", ["/traffic", "/traffic.html", "/simulation", "/simulation.html",
