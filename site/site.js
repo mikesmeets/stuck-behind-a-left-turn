@@ -28,6 +28,8 @@ const LETTER_BODY =
 
 I'm writing to support NYSDOT's proposed redesign of Boston Post Road (US-1) through Larchmont and Mamaroneck.
 
+Everyone knows Boston Post Road is incredibly dangerous and there have been numerous fatal and near-fatal crashes. This is a unique opportunity to fix this critical connector before another fatality occurs. The Village of Larchmont, Village of Mamaroneck, and Town of Mamaroneck formally requested safety improvements two years ago and after a great deal of work NYSDOT has provided a design that will bring Boston Post Road up to current safety standards.
+
 The four lanes are about 9.5 feet wide, well under the 11-foot standard, and every driver waiting to turn left blocks one of them. The Federal Highway Administration lists four-to-three road diets as a proven safety countermeasure, with 19 to 47 percent fewer crashes. NYSDOT spent two years counting and modeling our traffic, and its analysis shows the three-lane design handles today's volumes and generally maintains or improves traffic flow. The project is paid for with state and federal money, at no cost to local taxpayers.
 
 Ten schools and more than 6,000 students sit along this corridor. Please support the road diet, and please help residents understand what is being proposed and why.
