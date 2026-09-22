@@ -658,6 +658,7 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 
 /* ---------- Home: who we are ---------- */
 .who-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:12px; margin-top:10px; }
-.who-grid .tile { border-top:3px solid var(--s1); }
+.who-grid .tile { padding-top:0; overflow:hidden; }
+.who-grid .tile img { display:block; width:calc(100% + 36px); max-width:none; margin:0 -18px 12px; aspect-ratio:4/3; object-fit:cover; height:auto; }
 .who-grid .tile .label { font-size:15px; margin-bottom:6px; }
 .who-grid .tile p:last-child { font-size:14px; color:var(--ink-2); margin:0; }
