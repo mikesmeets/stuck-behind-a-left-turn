@@ -10,8 +10,8 @@
 <meta property="og:image" content="/media/road_diet_still.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
-<link rel="stylesheet" href="/site/nav.css?v=202609220951">
-<link rel="stylesheet" href="/site/site.css?v=202609220951">
+<link rel="stylesheet" href="/site/nav.css?v=202609221002">
+<link rel="stylesheet" href="/site/site.css?v=202609221002">
 </head>
 <body>
 <nav class="sitenav" data-site-nav></nav>
@@ -89,31 +89,35 @@
     <h2 id="studies-h">Bigger studies</h2>
     <article class="study">
       <p class="study-kicker">Virginia &middot; Virginia Transportation Research Council, 2020 and 2022</p>
-      <h3>A statewide look at one state's road diets, then a crash study</h3>
-      <p>Virginia's DOT asked its research council to take stock of every road diet built in the state since 2010. The researchers found 66 projects covering about 39 miles, and asked the cities and counties that built them how they turned out.<a class="cite" href="#src-vtrc"></a> It's the broadest look at one region's road diets we've found.</p>
-      <p class="review-label">Did the road diet meet its goals? Local officials on 25 projects</p>
-      <div class="outcome-bar">
-        <span class="pos" style="flex:18;cursor:default"><b>18</b> met their goals</span>
-        <span class="neu" style="flex:3;cursor:default"><b>3</b> mixed</span>
-        <span class="neu" style="flex:3;cursor:default;opacity:.7"><b>3</b> too new</span>
-        <span class="neu" style="flex:1;cursor:default;opacity:.7" title="Unknown"><b>1</b></span>
+      <h3>One state's road diets, reviewed and then measured</h3>
+      <div class="va-grid">
+        <section class="va-box" aria-label="The 2020 review">
+          <a class="va-cover" href="https://vtrc.virginia.gov/media/vtrc/vtrc-pdf/vtrc-pdf/20-R19.pdf" target="_blank" rel="noopener"><img src="/media/studies/vtrc-20-r19-cover.jpg" width="360" height="466" loading="lazy" alt="Cover of the report How's That Diet Working: Performance of Virginia Road Diets, VTRC 20-R19."></a>
+          <p class="review-label" style="margin-top:0">The 2020 review</p>
+          <p>Virginia's DOT asked its research council to take stock of every road diet built in the state since 2010. It found 66 projects covering about 39 miles and asked the cities and counties that built them how they turned out.<a class="cite" href="#src-vtrc"></a></p>
+          <div class="va-pie">
+            <svg viewBox="0 0 180 180" class="va-donut" role="img" aria-label="18 of 25 road diets met their goals, 3 had mixed results, 3 were too new to judge, 1 unknown."><path d="M90.00,10.00 A80,80 0 1 1 11.42,104.99 L40.89,99.37 A50,50 0 1 0 90.00,40.00 Z" fill="var(--s1)" stroke="var(--card)" stroke-width="2"><title>Met their goals: 18 of 25</title></path><path d="M11.42,104.99 A80,80 0 0 1 22.45,47.13 L47.78,63.21 A50,50 0 0 0 40.89,99.37 Z" fill="var(--s4)" stroke="var(--card)" stroke-width="2"><title>Mixed results: 3 of 25</title></path><path d="M22.45,47.13 A80,80 0 0 1 70.10,12.51 L77.57,41.57 A50,50 0 0 0 47.78,63.21 Z" fill="var(--ink-3)" stroke="var(--card)" stroke-width="2"><title>Too new to judge: 3 of 25</title></path><path d="M70.10,12.51 A80,80 0 0 1 90.00,10.00 L90.00,40.00 A50,50 0 0 0 77.57,41.57 Z" fill="var(--grid)" stroke="var(--card)" stroke-width="2"><title>Unknown: 1 of 25</title></path><text x="90" y="88" text-anchor="middle" class="va-donut-big">18</text><text x="90" y="108" text-anchor="middle" class="va-donut-sm">of 25</text></svg>
+            <div><p class="va-pie-q">Did the road diet meet its goals? Local officials on 25 projects:</p><ul class="va-legend"><li><i style="background:var(--s1)"></i><b>18</b> met their goals</li><li><i style="background:var(--s4)"></i><b>3</b> mixed results</li><li><i style="background:var(--ink-3)"></i><b>3</b> too new to judge</li><li><i style="background:var(--grid)"></i><b>1</b> unknown</li></ul></div>
+          </div>
+          <ul class="va-facts">
+            <li><b>None</b> drew mostly negative feedback from the public; of the 18 that drew any, half was mostly positive and half mixed.</li>
+            <li><b>No</b> general congestion problems, the localities reported.</li>
+            <li><b>No</b> practically significant change in average speeds on the Fairfax County road diets the researchers measured.</li>
+          </ul>
+          <p class="study-caveat">Mixed: three Richmond projects where bike lanes ended awkwardly or a two-way bike track added delay. These are the judgments of the officials who built the projects, not measurements, and crashes were outside the study's scope.<a class="cite" href="#src-vtrc"></a></p>
+        </section>
+        <section class="va-box" aria-label="The 2022 crash study">
+          <p class="review-label" style="margin-top:0">The 2022 follow-up: crashes</p>
+          <p>Researchers at the same council then compared crashes before and after at 36 stretches of road and 39 intersections where Virginia turned four lanes into three between 2009 and 2018. They used the empirical Bayes method, which corrects for changes in traffic and for sites picked right after a bad year. Every result was statistically significant.<a class="cite" href="#src-vtrc-cmf"></a></p>
+          <div class="va-stats">
+            <div><p class="big">&minus;64%</p><p>crashes that killed or injured someone, along the converted stretches. Total crashes fell 38%.<a class="cite" href="#src-vtrc-cmf"></a></p></div>
+            <div><p class="big">&minus;46%</p><p>injury and fatal crashes at intersections on the converted roads. Total crashes there fell 35%.<a class="cite" href="#src-vtrc-cmf"></a></p></div>
+            <div><p class="big">2,600&ndash;17,000</p><p>vehicles a day on the roads studied. Boston Post Road carries 10,000 to 15,000.<a class="cite" href="#src-cmf-ch"></a><a class="cite" href="#src-aadt"></a></p></div>
+          </div>
+        </section>
       </div>
-      <p class="small muted" style="margin:6px 0 0">Mixed: three projects in Richmond, where bike lanes ended awkwardly or a two-way bike track added delay. Too new: just finished when surveyed. One answer unknown.<a class="cite" href="#src-vtrc"></a></p>
-      <div class="review-facts">
-        <div><p class="big">0</p><p>projects drew mostly negative feedback from the public. Of the 18 that drew feedback, half was mostly positive and half mixed.</p></div>
-        <div><p class="big">No</p><p>general congestion problems, the localities reported.</p></div>
-        <div><p class="big">No</p><p>practically significant change in average speeds on the Fairfax County road diets the researchers measured themselves.</p></div>
-      </div>
-      <p class="study-caveat">These are the judgments of the local officials who built the projects, not before-and-after measurements; few localities studied their road diets afterward. Crashes were outside the study's scope.<a class="cite" href="#src-vtrc"></a></p>
-      <p class="review-label" style="margin-top:22px">And Virginia kept building them</p>
+      <p class="review-label" style="margin-top:20px">And Virginia kept building them</p>
       <p>We count <b>at least 10 more</b> completed since 2019, from Seminary Road in Alexandria and Wilson Boulevard in Arlington to VDOT's own four-to-three conversions of Route 360 on the Northern Neck.<a class="cite" href="#src-va-since"></a> Since 2019 Virginia's highway safety program has also paid for road diets on local roads as a proven, low-cost safety fix, often restriped during repaving, the way NYSDOT plans to do it here.<a class="cite" href="#src-vdot-hsip"></a> That count is a floor: it includes only projects we could confirm were finished.</p>
-      <p class="review-label" style="margin-top:22px">Then the council measured crashes</p>
-      <p>A 2022 follow-up by researchers at the same council compared crashes before and after at 36 stretches of road and 39 intersections where Virginia turned four lanes into three between 2009 and 2018. It used the empirical Bayes method, which corrects for changes in traffic and for sites picked right after a bad year. Every result was statistically significant.<a class="cite" href="#src-vtrc-cmf"></a></p>
-      <div class="review-facts">
-        <div><p class="big">&minus;64%</p><p>crashes that killed or injured someone, along the converted stretches. Total crashes fell 38%.<a class="cite" href="#src-vtrc-cmf"></a></p></div>
-        <div><p class="big">&minus;46%</p><p>injury and fatal crashes at intersections on the converted roads. Total crashes there fell 35%.<a class="cite" href="#src-vtrc-cmf"></a></p></div>
-        <div><p class="big">2,600&ndash;17,000</p><p>vehicles a day on the roads studied, according to FHWA's listing. Boston Post Road carries 10,000 to 15,000.<a class="cite" href="#src-cmf-ch"></a><a class="cite" href="#src-aadt"></a></p></div>
-      </div>
     </article>
     <article class="study" style="margin-top:18px">
       <p class="study-kicker">Delaware &middot; DelDOT before-and-after studies, 2017&ndash;2024</p>
@@ -173,7 +177,7 @@
     <p>Published by Mamaroneck School District Safe Routes to School, a volunteer group. We don't speak for NYSDOT or for the villages and town.</p>
   </footer>
 </main>
-<script src="/site/nav.js?v=202609220951"></script>
-<script src="/site/site.js?v=202609220951"></script>
+<script src="/site/nav.js?v=202609221002"></script>
+<script src="/site/site.js?v=202609221002"></script>
 </body>
 </html>

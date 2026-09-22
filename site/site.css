@@ -627,3 +627,26 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 .vplay { position:absolute; left:50%; top:50%; width:68px; height:48px; margin:-24px 0 0 -34px; border-radius:12px; background:rgba(204,0,0,.92); transition:transform .15s; }
 .vplay::after { content:""; position:absolute; left:27px; top:14px; border-style:solid; border-width:10px 0 10px 17px; border-color:transparent transparent transparent #fff; }
 .vthumb:hover .vplay, .vthumb:focus-visible .vplay { transform:scale(1.08); }
+
+/* ---------- Examples: Virginia's two studies side by side ---------- */
+.va-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px; }
+.va-box { border:1px solid var(--rule); border-radius:10px; padding:16px; background:var(--paper); }
+.va-cover { float:right; width:92px; margin:0 0 8px 14px; border:1px solid var(--rule); box-shadow:var(--shadow); transition:transform .15s; }
+.va-cover:hover, .va-cover:focus-visible { transform:translateY(-2px); }
+.va-cover img { display:block; width:100%; height:auto; }
+.va-pie { clear:both; display:flex; align-items:center; gap:16px; margin:12px 0; }
+.va-donut { width:132px; height:132px; flex:none; }
+.va-donut-big { font:600 30px "Source Serif 4",Georgia,serif; fill:var(--ink); }
+.va-donut-sm { font:600 12px Overpass,sans-serif; fill:var(--ink-3); }
+.va-pie-q { font-size:13.5px; font-weight:700; color:var(--ink); margin:0 0 6px; }
+.va-legend { list-style:none; margin:0; padding:0; font-size:13.5px; color:var(--ink-2); }
+.va-legend li { margin:3px 0; }
+.va-legend i { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:7px; vertical-align:-1px; }
+.va-legend b { color:var(--ink); margin-right:3px; }
+.va-facts { margin:6px 0 10px; padding-left:18px; font-size:14px; color:var(--ink-2); }
+.va-facts li { margin:4px 0; }
+.va-facts b { color:var(--ink); }
+.va-stats > div { border-top:1px solid var(--rule); padding:10px 0 4px; }
+.va-stats .big { font:600 30px "Source Serif 4",Georgia,serif; color:var(--ink); margin:0; line-height:1.1; font-variant-numeric:lining-nums; }
+.va-stats p:not(.big) { margin:4px 0 0; font-size:14px; color:var(--ink-2); }
+@media (max-width:760px) { .va-grid { grid-template-columns:1fr; } }
