@@ -21,6 +21,8 @@
     ["Alden Rd", 808], ["Delancey Ave", 831],
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
+  // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
+  const DATA = "/site/data/sim-steps.json?v=2";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -318,7 +320,7 @@
     visible = es.some((e) => e.isIntersecting);
     if (visible && !loading) {
       loading = true;
-      fetch("/site/data/sim-steps.json").then((r) => r.json()).then((d) => { ready(d); requestAnimationFrame(tick); });
+      fetch(DATA).then((r) => r.json()).then((d) => { ready(d); requestAnimationFrame(tick); });
     }
   }, { rootMargin: "600px 0px" }).observe(root);
 
@@ -334,7 +336,7 @@
 
   // ?ss-vol=700&ss-t=112 renders a fixed moment, for checking a frame.
   if (fixed) {
-    fetch("/site/data/sim-steps.json").then((r) => r.json()).then((d) => {
+    fetch(DATA).then((r) => r.json()).then((d) => {
       io.disconnect(); ready(d); playing = false; vol = 0; setVol(+qp.get("ss-vol")); t = +qp.get("ss-t") || 0; show();
     });
   }

@@ -91,9 +91,9 @@ http.createServer((req, res) => {
     const ext = path.extname(file).toLowerCase();
     const headers = {
       "content-type": TYPES[ext] || "application/octet-stream",
-      // Pages, styles and scripts change together, so they share a short
+      // Pages, styles, scripts and their data change together, so they share a short
       // cache; media is large and rarely changes.
-      "cache-control": [".html", ".css", ".js"].includes(ext) ? "public, max-age=300"
+      "cache-control": [".html", ".css", ".js", ".json"].includes(ext) ? "public, max-age=300"
                                                              : "public, max-age=86400",
       "x-content-type-options": "nosniff",
     };
