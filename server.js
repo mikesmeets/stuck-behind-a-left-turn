@@ -23,6 +23,7 @@ const TYPES = {
   ".jpg": "image/jpeg",
   ".gif": "image/gif",
   ".mp4": "video/mp4",
+  ".pdf": "application/pdf",
   ".svg": "image/svg+xml",
   ".py": "text/plain; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
