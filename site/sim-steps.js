@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=3";
+  const DATA = "/site/data/sim-steps.json?v=4";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -241,10 +241,27 @@
     requestAnimationFrame(tick);
   }
 
+  // Make the change of step obvious: the number counts up (or down) to the new
+  // volume and the header flashes.
+  let shown = VOLS[0], countRaf = 0;
+  function countTo(v) {
+    const el = $(".ss-vol b"), from = shown, t0 = performance.now(), dur = 700;
+    cancelAnimationFrame(countRaf); shown = v;
+    if (reduce || !D) { el.textContent = v.toLocaleString(); return; }
+    const head = $(".ss-vol"); head.classList.remove("flash"); void head.offsetWidth; head.classList.add("flash");
+    const step = (now) => {
+      const u = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - u, 3);
+      const n = u === 1 ? v : Math.round((from + (v - from) * e) / 10) * 10;
+      el.textContent = n.toLocaleString();
+      if (u < 1) countRaf = requestAnimationFrame(step);
+    };
+    countRaf = requestAnimationFrame(step);
+  }
+
   function setVol(v) {
     if (v === vol && D) return;
     vol = v; t = reduce ? Math.max(90, STEP[v].start) : STEP[v].start; fired = new Set(); holdUntil = 0;
-    $(".ss-vol b").textContent = v.toLocaleString();
+    countTo(v);
     panel.querySelectorAll(".ss-q").forEach((e) => (e.hidden = !STEP[v].queue));
     steps.forEach((s) => s.classList.toggle("on", +s.dataset.vol === v));
     paintScale(); show();
