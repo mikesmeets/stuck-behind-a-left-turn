@@ -14,7 +14,7 @@
   const three = `<rect class="road" x="0" y="20" width="${W}" height="120"/>
     <rect class="bikelane" x="0" y="20" width="${W}" height="18"/><rect class="bikelane" x="0" y="122" width="${W}" height="18"/>
     <line class="edge" x1="0" y1="38" x2="${W}" y2="38"/><line class="edge" x1="0" y1="122" x2="${W}" y2="122"/>
-    <text class="bike-label" x="8" y="33">Bike lane</text><text class="bike-label" x="8" y="135">Bike lane</text>
+    <text class="bike-label" x="108" y="33">Bike lane</text><text class="bike-label" x="108" y="135">Bike lane</text>
     <line class="yellow" x1="0" y1="64" x2="${W}" y2="64"/><line class="yellow-dash" x1="0" y1="67.5" x2="${W}" y2="67.5"/>
     <line class="yellow" x1="0" y1="96" x2="${W}" y2="96"/><line class="yellow-dash" x1="0" y1="92.5" x2="${W}" y2="92.5"/>`;
 
@@ -53,7 +53,7 @@
     car([[0, 488, 101], [1.6, 488, 101], [2.4, 492, 123], [T, 492, 123]], { bike: true }),
     // The rest of eastbound traffic stays where it is.
     ...[40, 104, 168, 232, 296, 360, 424, 552, 616, 680, 744].map(toShoulder),
-    truck([[0, -80, 71], [1.4, 60, 71], [2.4, 200, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane
+    truck([[0, -80, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane; one smooth run, no stop-and-go
   ];
 
   const CAPTIONS = {
@@ -86,7 +86,7 @@
       if (a.kind === "car") {
         el.innerHTML = `<rect class="car${a.turn ? " turn" : ""}" width="34" height="16" rx="4"/>` +
           (a.unsure ? `<text class="unsure" x="17" y="-4" text-anchor="middle">?</text>` : "") +
-          (a.bike ? `<g class="bike-callout"><rect x="40" y="0" width="150" height="16" rx="8"/><text x="115" y="12" text-anchor="middle">Bike lane: room to pull over</text></g>` : "");
+          (a.bike ? `<g class="bike-callout"><rect x="-158" y="0" width="150" height="16" rx="8"/><text x="-83" y="12" text-anchor="middle">Bike lane: room to pull over</text></g>` : "");
       } else {
         el.innerHTML = `<rect class="truck-body" width="58" height="18" rx="3"/><rect class="truck-cab" x="44" width="14" height="18" rx="3"/>
           <rect class="truck-light a" x="38" y="2" width="5" height="6"/><rect class="truck-light b" x="38" y="10" width="5" height="6"/>`;
@@ -128,6 +128,10 @@
         <span class="small muted">An illustration of what FHWA describes, not a timed measurement.</span>
       </div>`;
     const [s4, s3] = root.querySelectorAll("svg"), [c4, c3] = root.querySelectorAll(".em-cap"), btn = root.querySelector(".em-play");
+    // On a phone the whole 800-wide block is too small to read, so zoom to the
+    // middle of it, where the turner, the bike lane and the truck's pass are.
+    const fit = () => { const vb = root.clientWidth < 560 ? "100 0 600 160" : `0 0 ${W} 160`; s4.setAttribute("viewBox", vb); s3.setAttribute("viewBox", vb); };
+    fit(); addEventListener("resize", fit);
     const i4 = build(s4, four, FOUR), i3 = build(s3, three, THREE);
     const show = (t) => { draw(i4, t); draw(i3, t); c4.textContent = caption(CAPTIONS.four, t); c3.textContent = caption(CAPTIONS.three, t); };
 
