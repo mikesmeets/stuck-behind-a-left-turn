@@ -24,9 +24,9 @@ const CONFIG = {
 
 const LETTER_SUBJECT = "I support the Boston Post Road road diet";
 const LETTER_BODY =
-`[Add a sentence about why this matters to you: where you live, how you use the Post Road.]
+`[Add a sentence about why this matters to you: where you live, if you have kids, how you use the Post Road.]
 
-I'm writing to support NYSDOT's proposed redesign of Boston Post Road (US-1) through Larchmont and Mamaroneck, including the change from four travel lanes to three.
+I'm writing to support NYSDOT's proposed redesign of Boston Post Road (US-1) through Larchmont and Mamaroneck.
 
 The four lanes are about 9.5 feet wide, well under the 11-foot standard, and every driver waiting to turn left blocks one of them. The Federal Highway Administration lists four-to-three road diets as a proven safety countermeasure, with 19 to 47 percent fewer crashes. NYSDOT spent two years counting and modeling our traffic, and its analysis shows the three-lane design handles today's volumes and generally maintains or improves traffic flow. The project is paid for with state and federal money, at no cost to local taxpayers.
 
