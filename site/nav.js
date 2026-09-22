@@ -24,7 +24,7 @@
   }).join("");
   const html =
     `<div class="sitenav-inner">` +
-      `<a class="sitenav-brand" href="/"><b>Boston Post Road</b><span>Safe Routes to School</span></a>` +
+      `<a class="sitenav-brand" href="/"><b>Boston Post Road</b><span>Mamaroneck and Rye Neck Safe Routes to School</span></a>` +
       `<ul class="sitenav-links">${items}</ul>` +
     `</div>`;
   function fill() {
