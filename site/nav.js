@@ -5,6 +5,7 @@
   const PAGES = [
     ["/", "Take action", ["/", "/index.html"]],
     ["/faq", "FAQ", ["/faq", "/questions", "/questions.html"]],
+    ["/examples", "Examples", ["/examples", "/examples.html"]],
     ["/safety", "Safety", ["/safety", "/safety.html"]],
     ["/crashes", "Crashes", ["/crashes", "/crashes.html"]],
     ["/traffic", "Traffic", ["/traffic", "/traffic.html", "/simulation", "/simulation.html",
@@ -13,7 +14,6 @@
     ["/emergency", "Emergencies", ["/emergency", "/emergency.html"]],
     ["/parking", "Parking & business", ["/parking", "/parking.html", "/business"]],
     ["/what-drives-traffic", "What drives traffic", ["/what-drives-traffic", "/what-drives-traffic.html"]],
-    ["/examples", "Examples", ["/examples", "/examples.html"]],
     ["/process", "Process", ["/process", "/process.html"]],
   ];
   const here = location.pathname.replace(/\/+$/, "") || "/";
