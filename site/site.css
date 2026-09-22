@@ -617,3 +617,8 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 .feature-stats b { display:block; font-family:"Source Serif 4",Georgia,serif; font-size:32px; font-weight:600; line-height:1.1; font-variant-numeric:lining-nums; }
 .feature-stats span { font-size:13.5px; color:var(--ink-2); }
 @media (max-width:760px) { .feature { grid-template-columns:1fr; padding:16px; } }
+
+/* Google Street View embeds (Google's own embed; its imagery can't be copied as a picture) */
+.sv { position:relative; aspect-ratio:16/10; border-radius:8px; overflow:hidden; background:var(--grid); }
+.sv iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+.study-media .sv { border-radius:10px 10px 0 0; }
