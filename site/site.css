@@ -607,3 +607,13 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 @keyframes ss-pop { 0% { transform:scale(1); } 30% { transform:scale(1.12); color:var(--s2); } 100% { transform:scale(1); } }
 .ss-vol b { display:inline-block; transform-origin:left bottom; }
 @media (prefers-reduced-motion: reduce) { .ss-vol.flash, .ss-vol.flash b { animation:none; } }
+
+/* ---------- Examples: the double-wide feature card ---------- */
+.feature { display:grid; grid-template-columns:1.1fr 1fr; gap:26px; align-items:start; background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:22px; box-shadow:var(--shadow); }
+.feature h2 { margin:2px 0 10px; }
+.feature-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
+.feature-stats > div { border-top:3px solid var(--s1); padding-top:8px; }
+.feature-stats > div + div { border-top-color:var(--s2); }
+.feature-stats b { display:block; font-family:"Source Serif 4",Georgia,serif; font-size:32px; font-weight:600; line-height:1.1; font-variant-numeric:lining-nums; }
+.feature-stats span { font-size:13.5px; color:var(--ink-2); }
+@media (max-width:760px) { .feature { grid-template-columns:1fr; padding:16px; } }
