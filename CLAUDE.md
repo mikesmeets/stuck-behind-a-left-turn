@@ -137,6 +137,7 @@ python3 model/cyclelen.py       # 60 s vs 90 s
 python3 model/order_seeds.py    # re-ranks the samples  <-- see warning below
 python3 model/refresh_data.py   # pushes results into the template
 python3 model/build_pages.py    # writes the three editions
+python3 model/make_steps.py     # Traffic page scroll replay (reads QUEUE from simulation.html)
 python3 model/build_writeups.py
 python3 model/make_chart.py model/make_turnshare_chart.py model/make_gif.py
 ```
