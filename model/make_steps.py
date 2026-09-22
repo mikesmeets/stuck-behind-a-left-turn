@@ -5,8 +5,9 @@ first green, three minutes -- with one addition: each frame also carries the
 number of vehicles waiting upstream of each end of the block (the entry
 queue), so the page can show the line that isn't getting in.
 
-One hour per volume.  400, 550 and 1,000 are the build-up edition's
-hours. 700 is seed 77, chosen because one four-lane driver is stuck behind a
+One hour per volume.  550 and 1,000 are the build-up edition's
+hours. 400 is seed 44, whose first weave comes 12.5 seconds in. 700 is seed 77,
+chosen because one four-lane driver is stuck behind a
 left-turner for about 20 seconds; 850 is seed 88, a middling hour in which the
 road diet leaves cars at the light when a green ends (the four-lane road clears).
 
@@ -25,7 +26,7 @@ from roaddiet_sim import Sim, DT, SEG_LEN, DRIVEWAYS, DRIVEWAYS_OPP, CYCLE, GREE
 
 WIN, STRIDE = 180.0, 2
 START = CYCLE - GREEN
-PICKS = {400: 88, 550: 44, 700: 77, 850: 88, 1000: 77}
+PICKS = {400: 44, 550: 44, 700: 77, 850: 88, 1000: 77}
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 
 

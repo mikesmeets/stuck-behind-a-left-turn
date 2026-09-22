@@ -22,14 +22,14 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202609221059";
+  const DATA = "/site/data/sim-steps.json?v=202609221511";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
   // Targets: veh (a vehicle id), turner (a car waiting in the center lane), queue (the entrance).
   const STEP = {
     400: { start: 0, notes: [
-      { t: 47.5, hold: 3.5, until: 56, road: "4lane", veh: 21,
+      { t: 12.5, hold: 3.5, until: 22, road: "4lane", veh: 8,
         text: "A driver goes around someone waiting to turn left. At this traffic level it's easy: the next lane is open." }] },
     550: { start: 0, notes: [
       { t: 16, hold: 4, until: 26, road: "4lane", veh: 17,
