@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=4";
+  const DATA = "/site/data/sim-steps.json?v=5";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -38,7 +38,9 @@
         text: "On the road diet, the turning driver waits in the center lane. Nobody swerves and nobody gets stuck. Smooth and boring, which is the point." }] },
     700: { start: 90, notes: [
       { t: 110, hold: 3, until: 132, road: "4lane", veh: 60,
-        text: "Stuck behind a left turn for {n} seconds. The next lane is full, so there's no way around." }] },
+        text: "Stuck behind a left turn for {n} seconds. The next lane is full, so there's no way around." },
+      { t: 121, hold: 4.5, until: 142, road: "3lane", band: true, side: "below",
+        text: "The same traffic on the road diet: a steady stream in each through lane. Nobody stuck, nobody swerving. Boring, and safe." }] },
     850: { start: 0, queue: true, notes: [
       { t: 54, hold: 4, until: 68, road: "3lane", queue: true,
         text: "The light turns red with 6 cars still waiting to get in. On four lanes, every car made the green." }] },
@@ -168,9 +170,15 @@
     const fi = fIndex(fr, t), fj = Math.min(fr.length - 1, fi + 1), u = Math.min(1, (t - fi * dt) / dt);
     ctx.clearRect(0, 0, c.width, c.height);
     drawRoad(ctx, cfg, c.width, fr[fi][2], fr[fi][3], C);
+    const note = activeNote(cfg), focus = note && note.veh != null ? note.veh : null;
+    if (note && note.band) {       // the through lanes, one each way, drawn as a soft green band
+      ctx.save(); ctx.fillStyle = C.go; ctx.globalAlpha = 0.22;
+      const lanes = cfg === "3lane" ? [0, 2] : [0, 1, 2, 3];
+      lanes.forEach((l) => ctx.fillRect(mx(0), TOP + l * LH + 2, mx(SEG) - mx(0), LH - 4));
+      ctx.restore();
+    }
     const next = new Map(); for (const v of fr[fj][0]) next.set(v[0], v);
     const sw = swerving(fr, fi), at = (where[cfg] = new Map());
-    const note = activeNote(cfg), focus = note && note.veh != null ? note.veh : null;
     for (const v of fr[fi][0]) {
       const [id, dir, x10, lat100, kind] = v;
       let xm = x10 / 10, lc = lat100 / 100, dlc = 0;
@@ -208,13 +216,14 @@
       let target = null;
       if (n.veh != null) target = where[cfg].get(n.veh);
       else if (n.turner) target = [...where[cfg].values()].find((p) => (p.kind === 2 || p.kind === 3) && p.lc > 0.6);
+      if (!target && n.band) target = { x: mx(SEG * 0.55), y: TOP + (N[cfg] - 0.5) * LH };
       if (!target) target = n.queue ? { x: mx(0) - 8, y: TOP + N[cfg] * LH * 0.75 } : { x: CW / 2, y: TOP + N[cfg] * LH / 2 };
       el.hidden = false;
       el.textContent = n.text.replace("{n}", heldSeconds(cfg, n.veh));
       const c = cv[cfg], k = c.clientWidth / CW, px = target.x * k, py = target.y * k;
       const w = el.offsetWidth, h = el.offsetHeight;
       const left = Math.max(4, Math.min(c.clientWidth - w - 4, px - w * 0.3));
-      const above = py > c.clientHeight / 2;           // the bubble goes on the side with more room
+      const above = n.side ? n.side === "above" : py > c.clientHeight / 2;   // default: the side with more room
       el.style.left = left + "px";
       el.style.top = (above ? c.offsetTop + py - h - 14 : c.offsetTop + py + 14) + "px";
       el.dataset.side = above ? "above" : "below";
