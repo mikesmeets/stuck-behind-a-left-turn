@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=2";
+  const DATA = "/site/data/sim-steps.json?v=3";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -309,7 +309,9 @@
 
   function ready(d) {
     D = d; SEG = d.seg; PX = CW / (SEG + 60); mx = (m) => (m - X0) * PX;
-    root.querySelectorAll("[data-queue-chart]").forEach((el) => queueChart(el, +el.closest(".ss-step").dataset.vol));
+    if (d.hour) root.querySelectorAll("[data-queue-chart]").forEach((el) => {
+      try { queueChart(el, +el.closest(".ss-step").dataset.vol); } catch (e) { console.error("queue chart", e); }
+    });
     t = reduce ? Math.max(90, STEP[vol].start) : STEP[vol].start;
   }
 
@@ -320,7 +322,8 @@
     visible = es.some((e) => e.isIntersecting);
     if (visible && !loading) {
       loading = true;
-      fetch(DATA).then((r) => r.json()).then((d) => { ready(d); requestAnimationFrame(tick); });
+      fetch(DATA, { cache: "no-cache" }).then((r) => r.json()).then((d) => { ready(d); requestAnimationFrame(tick); })
+        .catch((e) => { console.error("replay data", e); $(".ss-clock").textContent = "Couldn't load the replay. Reload the page."; });
     }
   }, { rootMargin: "600px 0px" }).observe(root);
 
