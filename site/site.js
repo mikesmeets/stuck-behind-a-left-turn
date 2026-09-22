@@ -4,8 +4,20 @@
 const CONFIG = {
   // The change.org petition.
   petitionUrl: "",
-  // Who the "Email your officials" letter goes to.
-  emailTo: [],
+  // Who the "Email your officials" letter goes to. Official addresses from each
+  // body's own site, checked September 19, 2026. Rep. Latimer has no public
+  // email (web form only), so he's linked separately on the page.
+  emailTo: [
+    // Town of Mamaroneck Town Board
+    "supervisor@townofmamaroneckny.org", "JKing@TownofMamaroneckNY.org", "RNichinsky@TownofMamaroneckNY.gov",
+    "DMoss@townofmamaroneckny.gov", "aregenstreich@townofmamaroneckny.gov",
+    // Village of Larchmont Board of Trustees
+    "mayor@larchmontny.gov", "pfanelli@larchmontny.gov", "tpare@larchmontny.gov", "dmagid@larchmontny.gov", "ipost@larchmontny.gov",
+    // Village of Mamaroneck Board of Trustees
+    "storres@vomny.org", "nlucas@vomny.org", "mderose@vomny.org", "dkushnick@vomny.org", "esilver@vomny.org",
+    // State Senate District 37, Assembly District 91, County Legislature District 7
+    "smayer@nysenate.gov", "OtisS@nyassembly.gov", "Nambiar@Westchesterlegislatorsny.gov",
+  ],
   // e.g. "Tuesday, October 21, 7 pm · Mamaroneck High School". Empty = not yet announced.
   meeting: "",
 };
