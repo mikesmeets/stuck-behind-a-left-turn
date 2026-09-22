@@ -1,4 +1,4 @@
-// Mamaroneck Safe Routes to School parent survey, 2024–25 school year.
+// Mamaroneck and Rye Neck Safe Routes to School parent survey, 2024–25 school year.
 // Source: "2024-2025 Survey WIP 2025-04-10.xlsx" (School Share pivot, Combined
 // Results). 1,024 responses; one response per child.
 //   <div data-chart="school-mode">  primary way each school's students get there
