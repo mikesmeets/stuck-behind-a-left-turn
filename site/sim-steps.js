@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202609221511";
+  const DATA = "/site/data/sim-steps.json?v=202609222023";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -71,14 +71,22 @@
       <span><i class="k-swerve"></i>swerving around a turner</span>
       <span class="muted">Three minutes of one simulated evening peak at 2× speed</span>
     </div>`;
-  const $ = (s) => panel.querySelector(s);
+  // One view: the panel, the current step's card under it, and Next beside the card.
+  const stepsWrap = root.querySelector(".ss-steps");
+  const below = document.createElement("div"); below.className = "ss-below";
+  below.appendChild(stepsWrap);
+  below.insertAdjacentHTML("beforeend", '<button type="button" class="ss-next" disabled>Next in 15s</button>');
+  root.appendChild(below);
+  const $ = (s) => root.querySelector(s);
   const cv = { "4lane": $('[data-road="4lane"]'), "3lane": $('[data-road="3lane"]') };
   const noteEl = { "4lane": cv["4lane"].nextElementSibling, "3lane": cv["3lane"].nextElementSibling };
   // Stick just below the site menu, whose height changes on phones.
-  const pin = () => { const nav = document.querySelector(".sitenav"); panel.style.top = (nav ? nav.getBoundingClientRect().height : 52) + 8 + "px"; };
-  pin(); addEventListener("resize", pin); addEventListener("load", pin);
 
   let D = null, vol = VOLS[0], t = 0, playing = true, last = 0, visible = false, holdUntil = 0, fired = new Set();
+  // Not everyone scrolls, so a button advances the steps too. It stays disabled
+  // for the first WAIT seconds of each step, long enough to watch what happens.
+  const WAIT = 15;
+  let stepAge = 0;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce) { playing = false; $(".ss-play").textContent = "Play"; }
 
@@ -239,6 +247,8 @@
   }
   function tick(now) {
     const d = last ? (now - last) / 1000 : 0; last = now;
+    if (playing && visible && D) stepAge += d;
+    paintNext();
     if (playing && visible && D && now >= holdUntil) {
       const nt = t + d * SPEED;
       const hit = STEP[vol].notes.find((n) => !fired.has(n) && t < n.t && nt >= n.t);
@@ -267,8 +277,19 @@
     countRaf = requestAnimationFrame(step);
   }
 
+  function paintNext() {
+    const btn = $(".ss-next"), i = VOLS.indexOf(vol), last = i === VOLS.length - 1;
+    const left = Math.ceil(WAIT - stepAge);
+    btn.disabled = left > 0;
+    btn.textContent = left > 0 ? `Next in ${left}s`
+      : last ? `Start over: ${VOLS[0].toLocaleString()} ↺` : `Next: ${VOLS[i + 1].toLocaleString()} →`;
+  }
+
+  const goTo = (i) => setVol(VOLS[i]);
+
   function setVol(v) {
     if (v === vol && D) return;
+    stepAge = 0;
     vol = v; t = reduce ? Math.max(90, STEP[v].start) : STEP[v].start; fired = new Set(); holdUntil = 0;
     countTo(v);
     panel.querySelectorAll(".ss-q").forEach((e) => (e.hidden = !STEP[v].queue));
@@ -276,15 +297,15 @@
     paintScale(); show();
   }
 
+  $(".ss-next").addEventListener("click", () => {
+    const i = VOLS.indexOf(vol);
+    goTo(i === VOLS.length - 1 ? 0 : i + 1);
+  });
+
   $(".ss-play").addEventListener("click", (e) => {
     playing = !playing; holdUntil = 0; e.currentTarget.textContent = playing ? "Pause" : "Play";
   });
 
-  // The step whose card crosses a line low on the screen, below the sticky panel, sets the volume.
-  const io = new IntersectionObserver((es) => {
-    es.forEach((e) => { if (e.isIntersecting) setVol(+e.target.dataset.vol); });
-  }, { rootMargin: "-70% 0px -29% 0px" });
-  steps.forEach((s) => io.observe(s));
   steps[0].classList.add("on");
   paintScale();
 
@@ -366,7 +387,7 @@
   // ?ss-vol=700&ss-t=112 renders a fixed moment, for checking a frame.
   if (fixed) {
     fetch(DATA).then((r) => r.json()).then((d) => {
-      io.disconnect(); ready(d); playing = false; vol = 0; setVol(+qp.get("ss-vol")); t = +qp.get("ss-t") || 0; show();
+      ready(d); playing = false; vol = 0; setVol(+qp.get("ss-vol")); t = +qp.get("ss-t") || 0; show();
     });
   }
 })();
