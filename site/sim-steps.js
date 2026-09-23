@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202609231133";
+  const DATA = "/site/data/sim-steps.json?v=202609231143";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -70,6 +70,7 @@
       <span><i style="background:var(--veh-block)"></i>held up behind a left turn</span>
       <span><i class="k-swerve"></i>swerving around a turner</span>
       <span class="muted">Three minutes of one simulated evening peak at 2× speed</span>
+      <button type="button" class="ss-tour-again">What am I looking at?</button>
     </div>`;
   // One view: the panel, the current step's card under it, and Next beside the card.
   const stepsWrap = root.querySelector(".ss-steps");
@@ -77,6 +78,16 @@
   below.appendChild(stepsWrap);
   below.insertAdjacentHTML("beforeend", '<button type="button" class="ss-next" disabled>Next in 15s</button>');
   root.appendChild(below);
+  root.insertAdjacentHTML("beforeend", `
+    <div class="ss-tour" hidden>
+      <div class="ss-tour-ring"></div>
+      <div class="ss-tour-bubble" role="dialog" aria-live="polite">
+        <p class="ss-tour-text"></p>
+        <div class="ss-tour-row"><span class="ss-tour-count"></span>
+          <button type="button" class="ss-tour-skip">Skip</button>
+          <button type="button" class="ss-tour-next">Next</button></div>
+      </div>
+    </div>`);
   const $ = (s) => root.querySelector(s);
   const cv = { "4lane": $('[data-road="4lane"]'), "3lane": $('[data-road="3lane"]') };
   const noteEl = { "4lane": cv["4lane"].nextElementSibling, "3lane": cv["3lane"].nextElementSibling };
@@ -247,7 +258,7 @@
   }
   function tick(now) {
     const d = last ? (now - last) / 1000 : 0; last = now;
-    if (playing && visible && D) stepAge += d;
+    if (playing && visible && D && tourAt < 0) stepAge += d;
     paintNext();
     if (playing && visible && D && now >= holdUntil) {
       const nt = t + d * SPEED;
@@ -286,6 +297,62 @@
   }
 
   const goTo = (i) => setVol(VOLS[i]);
+
+  // ---------- the three intro overlays: what the number, the dots and the two roads are
+  const TOUR = [
+    { sel: ".ss-vol", text: "Start with this number. It's the traffic that decides whether a road diet works: vehicles an hour going straight through, in one direction, at the evening peak." },
+    { sel: ".ss-scale", text: "Each blue dot is one signalized intersection on Boston Post Road, placed at the peak one-direction traffic NYSDOT measured there. The shaded band shows where this step sits." },
+    { sel: ".ss-road", text: "Both roads get the same vehicles in the same order, with the same drivers turning left. The only difference is the lanes they have to do it in." },
+  ];
+  let tourAt = -1;
+  const tour = $(".ss-tour"), ring = $(".ss-tour-ring"), bubble = $(".ss-tour-bubble");
+
+  function placeTour() {
+    if (tourAt < 0) return;
+    const rr = root.getBoundingClientRect();
+    const els = [...root.querySelectorAll(TOUR[tourAt].sel)];
+    if (!els.length) return endTour();
+    const r = els.map((e) => e.getBoundingClientRect()).reduce((a, b) => ({
+      top: Math.min(a.top, b.top), left: Math.min(a.left, b.left),
+      right: Math.max(a.right, b.right), bottom: Math.max(a.bottom, b.bottom) }));
+    const pad = 8;
+    const top = r.top - rr.top - pad, left = r.left - rr.left - pad;
+    const w = r.right - r.left + pad * 2, h = r.bottom - r.top + pad * 2;
+    Object.assign(ring.style, { top: top + "px", left: left + "px", width: w + "px", height: h + "px" });
+    bubble.style.width = Math.min(360, rr.width - 24) + "px";
+    const below = top + h + 12, above = top - bubble.offsetHeight - 12;
+    const fits = below + bubble.offsetHeight < rr.height || above < 0;
+    bubble.style.top = (fits ? below : above) + "px";
+    bubble.style.left = Math.max(8, Math.min(rr.width - bubble.offsetWidth - 8, left)) + "px";
+  }
+
+  function showTour(i) {
+    tourAt = i;
+    tour.hidden = false;
+    $(".ss-tour-text").textContent = TOUR[i].text;
+    $(".ss-tour-count").textContent = `${i + 1} of ${TOUR.length}`;
+    $(".ss-tour-next").textContent = i === TOUR.length - 1 ? "Start the replay" : "Next";
+    // On the last overlay, hold a frame with traffic on it, so "the same vehicles" is visible.
+    if (D) { t = STEP[vol].start + (i === TOUR.length - 1 ? 24 : 0); show(); }
+    placeTour(); requestAnimationFrame(placeTour);
+  }
+  function endTour() {
+    tourAt = -1; tour.hidden = true;
+    try { sessionStorage.setItem("bpr-sim-tour", "1"); } catch (e) { /* private mode */ }
+    if (D) { t = STEP[vol].start; fired = new Set(); show(); }
+    if (!reduce) { playing = true; $(".ss-play").textContent = "Pause"; }
+    stepAge = 0;
+  }
+  function startTour() {
+    playing = false; $(".ss-play").textContent = "Play";
+    t = STEP[vol].start; fired = new Set(); holdUntil = 0; show();
+    showTour(0);
+  }
+  $(".ss-tour-next").addEventListener("click", () => (tourAt < TOUR.length - 1 ? showTour(tourAt + 1) : endTour()));
+  $(".ss-tour-skip").addEventListener("click", endTour);
+  $(".ss-tour-again").addEventListener("click", startTour);
+  addEventListener("resize", placeTour);
+  addEventListener("scroll", placeTour, { passive: true });
 
   function setVol(v) {
     if (v === vol && D) return;
@@ -369,7 +436,12 @@
     visible = es.some((e) => e.isIntersecting);
     if (visible && !loading) {
       loading = true;
-      fetch(DATA, { cache: "no-cache" }).then((r) => r.json()).then((d) => { ready(d); requestAnimationFrame(tick); })
+      fetch(DATA, { cache: "no-cache" }).then((r) => r.json()).then((d) => {
+        ready(d); requestAnimationFrame(tick);
+        let seen = false;
+        try { seen = sessionStorage.getItem("bpr-sim-tour") === "1"; } catch (e) { /* private mode */ }
+        if (!seen) startTour();
+      })
         .catch((e) => { console.error("replay data", e); $(".ss-clock").textContent = "Couldn't load the replay. Reload the page."; });
     }
   }, { rootMargin: "600px 0px" }).observe(root);

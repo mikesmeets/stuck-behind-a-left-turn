@@ -10,8 +10,8 @@
 <meta property="og:image" content="/media/road_diet_still.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
-<link rel="stylesheet" href="/site/nav.css?v=202609231133">
-<link rel="stylesheet" href="/site/site.css?v=202609231133">
+<link rel="stylesheet" href="/site/nav.css?v=202609231143">
+<link rel="stylesheet" href="/site/site.css?v=202609231143">
 </head>
 <body>
 <nav class="sitenav" data-site-nav></nav>
@@ -33,16 +33,58 @@
           <p class="eyebrow">400 vehicles an hour</p>
           <h3>Moderate traffic: no real difference</h3>
           <p>This is moderate traffic, about what several intersections carry at the evening peak, including Larchmont Avenue and Beach Avenue. A driver waiting to turn left on four lanes blocks a lane, but the next lane is nearly empty, so drivers behind just go around. The two roads work about the same.</p>
+          <div class="compare" role="table" aria-label="Simulated trips through the block at 400 vehicles an hour">
+            <div class="hd" role="columnheader"><i style="background:var(--s1)"></i>Four lanes</div>
+            <div class="hd" role="columnheader"><i style="background:var(--s2)"></i>Road diet</div>
+            <div class="metric" role="rowheader">Average trip through the block</div>
+            <div role="cell"><span class="v">23.1<small>sec</small></span></div>
+            <div role="cell"><span class="v">22.8<small>sec</small></span></div>
+            <div class="metric" role="rowheader">The slowest trip in 20</div>
+            <div role="cell"><span class="v">28.0<small>sec</small></span></div>
+            <div role="cell"><span class="v">25.1<small>sec</small></span></div>
+            <div class="metric" role="rowheader">Drivers held up behind a left turn</div>
+            <div role="cell"><span class="v">3%</span></div>
+            <div role="cell"><span class="v">None</span></div>
+          </div>
+          <p class="small muted" style="margin:6px 0 0">Averages over twelve simulated hours at this volume, not the three minutes shown.<a class="cite" href="#src-sim"></a></p>
         </article>
         <article class="ss-step" data-vol="550">
           <p class="eyebrow">550 vehicles an hour</p>
           <h3>The road diet's benefits start to show</h3>
           <p>On four lanes, drivers start getting stuck behind someone waiting to turn left (shown in red). On the road diet, the turning driver waits in the center lane and nobody behind has to stop. Mamaroneck Avenue and North Barry Avenue are around this level.</p>
+          <div class="compare" role="table" aria-label="Simulated trips through the block at 550 vehicles an hour">
+            <div class="hd" role="columnheader"><i style="background:var(--s1)"></i>Four lanes</div>
+            <div class="hd" role="columnheader"><i style="background:var(--s2)"></i>Road diet</div>
+            <div class="metric" role="rowheader">Average trip through the block</div>
+            <div role="cell"><span class="v">23.7<small>sec</small></span></div>
+            <div role="cell"><span class="v">23.4<small>sec</small></span></div>
+            <div class="metric" role="rowheader">The slowest trip in 20</div>
+            <div role="cell"><span class="v">33.0<small>sec</small></span></div>
+            <div role="cell"><span class="v">25.6<small>sec</small></span></div>
+            <div class="metric" role="rowheader">Drivers held up behind a left turn</div>
+            <div role="cell"><span class="v">6%</span></div>
+            <div role="cell"><span class="v">None</span></div>
+          </div>
+          <p class="small muted" style="margin:6px 0 0">Averages over twelve simulated hours at this volume, not the three minutes shown.<a class="cite" href="#src-sim"></a></p>
         </article>
         <article class="ss-step" data-vol="700">
           <p class="eyebrow">700 vehicles an hour</p>
           <h3>The benefit peaks</h3>
           <p>With this much traffic, the next lane is full. If you're stuck behind a left-turning driver on four lanes, you're really stuck: watch for the car held up for about 20 seconds. On the road diet, nobody is. This is what the busiest intersections carry, like Old Post Road and Richbell, and Orienta Avenue.</p>
+          <div class="compare" role="table" aria-label="Simulated trips through the block at 700 vehicles an hour">
+            <div class="hd" role="columnheader"><i style="background:var(--s1)"></i>Four lanes</div>
+            <div class="hd" role="columnheader"><i style="background:var(--s2)"></i>Road diet</div>
+            <div class="metric" role="rowheader">Average trip through the block</div>
+            <div role="cell"><span class="v">25.2<small>sec</small></span></div>
+            <div role="cell"><span class="v">24.2<small>sec</small></span></div>
+            <div class="metric" role="rowheader">The slowest trip in 20</div>
+            <div role="cell"><span class="v">38.3<small>sec</small></span></div>
+            <div role="cell"><span class="v">26.3<small>sec</small></span></div>
+            <div class="metric" role="rowheader">Drivers held up behind a left turn</div>
+            <div role="cell"><span class="v">1 in 9</span></div>
+            <div role="cell"><span class="v">None</span></div>
+          </div>
+          <p class="small muted" style="margin:6px 0 0">Averages over twelve simulated hours at this volume, not the three minutes shown.<a class="cite" href="#src-sim"></a></p>
         </article>
         <article class="ss-step" data-vol="850">
           <p class="eyebrow">850 vehicles an hour</p>
@@ -171,8 +213,8 @@
     `<span class="val" style="left:${v / 10}%">${v}</span></span></li>`).join("");
 })();
 </script>
-<script src="/site/sim-steps.js?v=202609231133"></script>
-<script src="/site/nav.js?v=202609231133"></script>
-<script src="/site/site.js?v=202609231133"></script>
+<script src="/site/sim-steps.js?v=202609231143"></script>
+<script src="/site/nav.js?v=202609231143"></script>
+<script src="/site/site.js?v=202609231143"></script>
 </body>
 </html>
