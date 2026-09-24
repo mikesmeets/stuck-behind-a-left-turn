@@ -37,7 +37,7 @@
     ...wb([27, 57], [[40, 170, 300, 430, 560, 690], [100, 230, 360, 490, 620, 750]]),
     ...[100, 210, 320, 430, 540, 650, 760].map(pullRight),
     ...[380, 480, 580, 680, 780].map(unsure),
-    truck([[0, -80, 86], [2.4, 250, 86], [4.6, 312, 86], [5.6, 330, 101], [6.6, 440, 101], [7.6, 540, 101],
+    truck([[0, -30, 86], [2.4, 250, 86], [4.6, 312, 86], [5.6, 330, 101], [6.6, 440, 101], [7.6, 540, 101],
            [8.6, 610, 101], [9.6, 710, 101], [10.6, 860, 99], [T, 900, 99]]),
   ];
   // Road diet: through traffic holds its lane; the truck uses the center lane.
@@ -53,7 +53,7 @@
     car([[0, 488, 101], [1.6, 488, 101], [2.4, 492, 123], [T, 492, 123]], { bike: true }),
     // The rest of eastbound traffic stays where it is.
     ...[40, 104, 168, 232, 296, 360, 424, 552, 616, 680, 744].map(toShoulder),
-    truck([[0, -80, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane; one smooth run, no stop-and-go
+    truck([[0, -20, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane; one smooth run, no stop-and-go
   ];
 
   const CAPTIONS = {
@@ -123,17 +123,23 @@
         <svg viewBox="0 0 ${W} 160" role="img" aria-label="Animation: on the road diet, drivers pull right and the fire truck drives straight down the center turn lane."></svg>
         <p class="em-cap" aria-live="polite"></p>
       </div>
+      <div class="em-progress"><i></i></div>
       <div class="em-controls">
         <button type="button" class="btn em-play">Play</button>
         <span class="small muted">An illustration of what FHWA describes, not a timed measurement.</span>
       </div>`;
     const [s4, s3] = root.querySelectorAll("svg"), [c4, c3] = root.querySelectorAll(".em-cap"), btn = root.querySelector(".em-play");
+    const bar = root.querySelector(".em-progress i");
     // On a phone the whole 800-wide block is too small to read, so zoom to the
     // middle of it, where the turner, the bike lane and the truck's pass are.
-    const fit = () => { const vb = root.clientWidth < 560 ? "100 0 600 160" : `0 0 ${W} 160`; s4.setAttribute("viewBox", vb); s3.setAttribute("viewBox", vb); };
+    const fit = () => { const vb = root.clientWidth < 560 ? "40 0 600 160" : `0 0 ${W} 160`; s4.setAttribute("viewBox", vb); s3.setAttribute("viewBox", vb); };
     fit(); addEventListener("resize", fit);
     const i4 = build(s4, four, FOUR), i3 = build(s3, three, THREE);
-    const show = (t) => { draw(i4, t); draw(i3, t); c4.textContent = caption(CAPTIONS.four, t); c3.textContent = caption(CAPTIONS.three, t); };
+    const show = (t) => {
+      draw(i4, t); draw(i3, t);
+      c4.textContent = caption(CAPTIONS.four, t); c3.textContent = caption(CAPTIONS.three, t);
+      bar.style.width = (Math.min(t, T) / T * 100).toFixed(1) + "%";
+    };
 
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     // ?em-t=5 renders a fixed moment (for checking a frame; no playback).
