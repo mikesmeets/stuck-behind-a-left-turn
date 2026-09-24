@@ -149,7 +149,8 @@
     };
     btn.addEventListener("click", () => {
       cancelAnimationFrame(raf);
-      if (reduce) { show(8.9); btn.textContent = "Replay"; return; }
+      // A click is an explicit request to watch it, so it plays even when the
+      // browser asks for reduced motion; that setting only stops it autoplaying.
       btn.textContent = "Playing…";
       start = performance.now(); raf = requestAnimationFrame(frame);
     });
