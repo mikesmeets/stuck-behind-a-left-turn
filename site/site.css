@@ -375,8 +375,6 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .diagram .bike-callout { transition:opacity .3s; }
 .em-row svg { display:block; width:100%; height:auto; border-radius:6px; }
 .em-cap { font-size:15px; color:var(--ink); margin:8px 0 0; min-height:1.5em; }
-.em-progress { height:4px; border-radius:2px; background:var(--grid); margin-top:10px; overflow:hidden; }
-.em-progress i { display:block; height:100%; width:0; background:var(--accent); }
 .em-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin-top:16px; padding-top:14px; border-top:1px solid var(--rule); }
 
 /* ---------- Built for walking: school cards ---------- */

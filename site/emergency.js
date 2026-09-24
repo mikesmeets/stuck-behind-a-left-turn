@@ -20,7 +20,7 @@
 
   // ---------- actors: keyframes [t, x, y]; the truck is 58 wide, cars 34
   const car = (keys, extra = {}) => ({ kind: "car", keys, ...extra });
-  const truck = (keys) => ({ kind: "truck", keys });
+  const truck = (keys, extra = {}) => ({ kind: "truck", keys, ...extra });
   const still = (x, y) => [[0, x, y], [T, x, y]];
 
   // Today: outside-lane cars pull to the curb; inside-lane cars hesitate,
@@ -53,7 +53,7 @@
     car([[0, 488, 101], [1.6, 488, 101], [2.4, 492, 123], [T, 492, 123]], { bike: true }),
     // The rest of eastbound traffic stays where it is.
     ...[40, 104, 168, 232, 296, 360, 424, 552, 616, 680, 744].map(toShoulder),
-    truck([[0, -20, 71], [5.8, 900, 71], [T, 900, 71]]),   // starts in the center lane; one smooth run, no stop-and-go
+    truck([[0, -20, 71], [6.6, 900, 71], [T, 900, 71]], { steady: true }),   // starts in the center lane; one smooth run, no stop-and-go
   ];
 
   const CAPTIONS = {
@@ -68,11 +68,22 @@
   };
 
   const ease = (u) => u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
-  const at = (keys, t) => {
+  // A truck running the length of the block gets a gentler profile than ease:
+  // it builds up, holds one speed, then eases off, so it never sprints through
+  // the middle. RAMP is the share of the run spent speeding up and slowing down.
+  const RAMP = 0.18;
+  const steadyEase = (u) => {
+    const a = RAMP, total = 1 - a;
+    const s = u < a ? (u * u) / (2 * a)
+      : u <= 1 - a ? a / 2 + (u - a)
+      : total - ((1 - u) * (1 - u)) / (2 * a);
+    return s / total;
+  };
+  const at = (keys, t, ez = ease) => {
     if (t <= keys[0][0]) return [keys[0][1], keys[0][2], keys[0][3] || 0];
     for (let i = 1; i < keys.length; i++) {
       const [t1, x1, y1, r1 = 0] = keys[i], [t0, x0, y0, r0 = 0] = keys[i - 1];
-      if (t <= t1) { const u = ease((t - t0) / (t1 - t0 || 1)); return [x0 + (x1 - x0) * u, y0 + (y1 - y0) * u, r0 + (r1 - r0) * u]; }
+      if (t <= t1) { const u = ez((t - t0) / (t1 - t0 || 1)); return [x0 + (x1 - x0) * u, y0 + (y1 - y0) * u, r0 + (r1 - r0) * u]; }
     }
     const k = keys[keys.length - 1]; return [k[1], k[2], k[3] || 0];
   };
@@ -100,10 +111,10 @@
     // The truck's route so far, traced from its rear bumper's midpoint.
     const tr = items.find((i) => i.a.kind === "truck");
     const trail = tr.el.parentNode.querySelector(".em-trail"), pts = [];
-    for (let u = 0; u <= t; u += 0.08) { const [x, y] = at(tr.a.keys, u); pts.push(`${x.toFixed(1)},${(y + 9).toFixed(1)}`); }
+    for (let u = 0; u <= t; u += 0.08) { const [x, y] = at(tr.a.keys, u, tr.a.steady ? steadyEase : ease); pts.push(`${x.toFixed(1)},${(y + 9).toFixed(1)}`); }
     trail.setAttribute("d", pts.length > 1 ? "M" + pts.join(" L") : "");
     items.forEach(({ a, el, q, la, lb }) => {
-      const [x, y, r] = at(a.keys, t);
+      const [x, y, r] = at(a.keys, t, a.steady ? steadyEase : ease);
       el.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})` + (r ? ` rotate(${r.toFixed(1)} 17 8)` : ""));
       if (q) q.style.opacity = t >= a.unsure[0] && t <= a.unsure[1] ? 1 : 0;
       const bc = el.querySelector(".bike-callout"); if (bc) bc.style.opacity = t >= 2.2 ? 1 : 0;
@@ -123,13 +134,11 @@
         <svg viewBox="0 0 ${W} 160" role="img" aria-label="Animation: on the road diet, drivers pull right and the fire truck drives straight down the center turn lane."></svg>
         <p class="em-cap" aria-live="polite"></p>
       </div>
-      <div class="em-progress"><i></i></div>
       <div class="em-controls">
         <button type="button" class="btn em-play">Play</button>
         <span class="small muted">An illustration of what FHWA describes, not a timed measurement.</span>
       </div>`;
     const [s4, s3] = root.querySelectorAll("svg"), [c4, c3] = root.querySelectorAll(".em-cap"), btn = root.querySelector(".em-play");
-    const bar = root.querySelector(".em-progress i");
     // On a phone the whole 800-wide block is too small to read, so zoom to the
     // middle of it, where the turner, the bike lane and the truck's pass are.
     const fit = () => { const vb = root.clientWidth < 560 ? "40 0 600 160" : `0 0 ${W} 160`; s4.setAttribute("viewBox", vb); s3.setAttribute("viewBox", vb); };
@@ -138,7 +147,6 @@
     const show = (t) => {
       draw(i4, t); draw(i3, t);
       c4.textContent = caption(CAPTIONS.four, t); c3.textContent = caption(CAPTIONS.three, t);
-      bar.style.width = (Math.min(t, T) / T * 100).toFixed(1) + "%";
     };
 
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
