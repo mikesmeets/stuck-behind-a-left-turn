@@ -327,6 +327,7 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 @media (max-width:480px) { .outcome-bar { height:auto; flex-wrap:wrap; } .outcome-bar span { padding:8px 10px; } }
 
 .inline-figure { margin:10px 0 6px; }
+.figure > img { display:block; width:100%; height:auto; border-radius:6px; }
 .inline-figure img { width:100%; height:auto; border-radius:6px; border:1px solid var(--rule); }
 .inline-figure figcaption { font-size:13px; color:var(--ink-3); margin-top:6px; }
 /* The prose column is narrow; let this wide aerial use the full page width. */
