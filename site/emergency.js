@@ -146,9 +146,13 @@
     const fixed = parseFloat(new URLSearchParams(location.search).get("em-t"));
     if (!isNaN(fixed)) { show(Math.min(Math.max(fixed, 0), T)); return; }
     show(reduce ? 5 : 0);
-    let raf = 0, start = 0;
+    // The clock is the animation frame's own timestamp, never performance.now():
+    // mixing the two can make the first frame's elapsed time negative, which
+    // leaves the replay stuck on its opening frame.
+    let raf = 0, start = null;
     const frame = (now) => {
-      const t = Math.min((now - start) / 1000, T);
+      if (start === null) start = now;
+      const t = Math.max(0, Math.min((now - start) / 1000, T));
       show(t);
       if (t < T) raf = requestAnimationFrame(frame);
       else btn.textContent = "Replay";
@@ -158,7 +162,8 @@
       // A click is an explicit request to watch it, so it plays even when the
       // browser asks for reduced motion; that setting only stops it autoplaying.
       btn.textContent = "Playing…";
-      start = performance.now(); raf = requestAnimationFrame(frame);
+      start = null; show(0);
+      raf = requestAnimationFrame(frame);
     });
     // Start once, when the diagram first scrolls into view.
     if (!reduce && "IntersectionObserver" in window) {
