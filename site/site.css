@@ -683,3 +683,7 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 .ss-tour-next { font:inherit; font-size:14px; font-weight:700; padding:8px 16px; border:0; border-radius:6px; background:var(--accent); color:var(--accent-ink); cursor:pointer; }
 .ss-tour-again { font:inherit; font-size:12.5px; background:none; border:0; padding:0; color:var(--accent); text-decoration:underline; cursor:pointer; }
 @media (max-width:640px) { .ss-tour-text { font-size:14px; } }
+.sv-pair { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.sv-pair .sv { aspect-ratio:4/3; border-radius:0; }
+.study-media .sv-pair .sv:first-child { border-radius:10px 0 0 0; }
+.study-media .sv-pair .sv:last-child { border-radius:0 10px 0 0; }
