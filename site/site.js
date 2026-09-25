@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------
 const CONFIG = {
   // The change.org petition.
-  petitionUrl: "",
+  petitionUrl: "https://www.change.org/p/make-boston-post-road-safe-for-everyone",
   // Who the "Email your officials" letter goes to. Official addresses from each
   // body's own site, checked September 19, 2026. Rep. Latimer has no public
   // email (web form only), so he's linked separately on the page.
