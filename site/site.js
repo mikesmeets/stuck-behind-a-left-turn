@@ -64,6 +64,12 @@ Thank you,
     "?subject=" + encodeURIComponent(LETTER_SUBJECT) +
     "&body=" + encodeURIComponent(LETTER_BODY);
   $$("[data-email]").forEach(a => { a.href = mailto; });
+  // Gmail in a browser doesn't answer mailto: links, so offer its compose window too.
+  const gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" +
+    encodeURIComponent(CONFIG.emailTo.join(",")) +
+    "&su=" + encodeURIComponent(LETTER_SUBJECT) +
+    "&body=" + encodeURIComponent(LETTER_BODY);
+  $$("[data-email-gmail]").forEach(a => { a.href = gmail; a.target = "_blank"; a.rel = "noopener"; });
   $$("[data-letter]").forEach(pre => { pre.textContent = LETTER_BODY; });
   $$("[data-recipients]").forEach(el => {
     el.textContent = CONFIG.emailTo.length ? CONFIG.emailTo.join(", ") : "Recipient list coming soon.";
