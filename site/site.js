@@ -17,6 +17,8 @@ const CONFIG = {
     "storres@vomny.org", "nlucas@vomny.org", "mderose@vomny.org", "dkushnick@vomny.org", "esilver@vomny.org",
     // State Senate District 37, Assembly District 91, County Legislature District 7
     "smayer@nysenate.gov", "OtisS@nyassembly.gov", "Nambiar@Westchesterlegislatorsny.gov",
+    // NYSDOT's design project manager for the corridor, Hudson Valley Region
+    "chris.hann@dot.ny.gov",
   ],
   // e.g. "Tuesday, October 21, 7 pm · Mamaroneck High School". Empty = not yet announced.
   meeting: "",
