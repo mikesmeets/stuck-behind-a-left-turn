@@ -740,3 +740,26 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 /* The standalone email page's letter */
 .letter-body { white-space:pre-wrap; font-family:Overpass,system-ui,sans-serif; font-size:15px; line-height:1.6;
   color:var(--ink-2); background:var(--card); border:1px solid var(--rule); border-radius:10px; padding:16px 18px; margin:0; }
+
+/* ---------- Pile of documents (NYSDOT's work to date), stacked like photographs ---------- */
+.pile { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:0; margin:24px 0 0; padding:10px 0; }
+.snap { margin:0 -5px 14px; transform:rotate(var(--r,0deg)); transition:transform .18s ease, box-shadow .18s ease; }
+.snap a { display:block; background:#fdfcf9; padding:9px 9px 0; border:1px solid var(--rule); border-radius:3px;
+  box-shadow:0 1px 2px rgba(22,21,15,.10), 0 14px 26px -18px rgba(22,21,15,.6); text-decoration:none; }
+.snap img { display:block; width:100%; height:auto; background:#fff; }
+.snap figcaption { font-size:12px; line-height:1.35; color:var(--ink-2); padding:8px 12px 10px 2px; }
+.snap.tall { width:228px; }
+.snap.wide { width:320px; }
+.snap:hover, .snap:focus-within { transform:rotate(0deg) translateY(-4px); z-index:2; position:relative; }
+.snap:hover a, .snap:focus-within a { box-shadow:0 2px 4px rgba(22,21,15,.14), 0 22px 36px -20px rgba(22,21,15,.75); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .snap a { background:#211f1c; }
+}
+:root[data-theme="dark"] .snap a { background:#211f1c; }
+@media (max-width:560px) {
+  .pile { gap:2px; }
+  .snap { margin:0 -3px 12px; --r:0deg; }
+  .snap.tall { width:150px; }
+  .snap.wide { width:210px; }
+}
+@media (prefers-reduced-motion: reduce) { .snap { transition:none; } }
