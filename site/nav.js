@@ -6,6 +6,9 @@
     ["/", "Take action", ["/", "/index.html"]],
     ["/faq", "FAQ", ["/faq", "/questions", "/questions.html"]],
     ["/examples", "Examples", ["/examples", "/examples.html"]],
+    // Still being written: the tab only shows when the site is run locally.
+    ...(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+        ? [["/concerns", "Concerns", ["/concerns", "/concerns.html"]]] : []),
     ["/safety", "Safety", ["/safety", "/safety.html"]],
     ["/crashes", "Crashes", ["/crashes", "/crashes.html"]],
     ["/traffic", "Traffic", ["/traffic", "/traffic.html", "/simulation", "/simulation.html",
