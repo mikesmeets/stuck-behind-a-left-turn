@@ -772,3 +772,18 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 .doc-row img { display:block; width:100%; height:auto; background:#fff; padding:5px;
   border:1px solid var(--rule); border-radius:6px; box-shadow:var(--shadow); box-sizing:border-box; }
 .doc-row span { display:block; font-size:12px; line-height:1.35; color:var(--ink-2); margin-top:7px; }
+
+/* ---------- Before / after pairs (the worries page) ---------- */
+.ba { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0 18px; align-items:stretch; }
+.ba-side { border:1px solid var(--rule); border-radius:10px; padding:16px 18px; background:var(--card); box-shadow:var(--shadow); }
+.ba-before { border-left:4px solid var(--ink-3); }
+.ba-after { border-left:4px solid var(--accent); }
+.ba-tag { font:700 11.5px Overpass,system-ui,sans-serif; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--ink-3); margin:0 0 8px; }
+.ba-after .ba-tag { color:var(--accent); }
+.ba blockquote { margin:0; font:400 17px/1.45 "Source Serif 4",Georgia,serif; color:var(--ink); }
+.ba-after blockquote { font-weight:600; }
+.ba-who { font-size:13px; line-height:1.4; color:var(--ink-2); margin:10px 0 0; }
+.ba-note { margin-top:-4px; }
+.ba-note.fair { color:var(--ink-2); border-left:3px solid var(--rule); padding-left:14px; }
+@media (max-width:640px) { .ba { grid-template-columns:1fr; gap:10px; } .ba blockquote { font-size:16px; } }
