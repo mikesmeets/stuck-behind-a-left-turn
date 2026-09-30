@@ -10,8 +10,8 @@
 <meta property="og:image" content="/media/road_diet_still.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
-<link rel="stylesheet" href="/site/nav.css?v=202609301246">
-<link rel="stylesheet" href="/site/site.css?v=202609301246">
+<link rel="stylesheet" href="/site/nav.css?v=202609301251">
+<link rel="stylesheet" href="/site/site.css?v=202609301251">
 </head>
 <body>
 <nav class="sitenav" data-site-nav></nav>
@@ -49,7 +49,7 @@
   </section>
 
   <section class="section" aria-labelledby="all-h">
-    <h2 id="all-h">Every crash, not only the ones on foot</h2>
+    <h2 id="all-h">We have an &ldquo;elevated number&rdquo; of motor vehicle crashes</h2>
     <p class="prose">Those numbers are people walking and biking. Counting every reported crash on Boston Post Road in Larchmont and Mamaroneck over the same eleven years:<a class="cite" href="#src-allcrashes"></a></p>
     <div class="grid-3" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:10px">
       <div class="tile"><p class="big">1,664</p><p class="label">crashes</p></div>
@@ -59,26 +59,43 @@
     </div>
     <figure class="figure" style="margin-top:18px">
       <h3 id="types-h">What kind of crashes</h3>
-      <p class="sub">Reported crashes by collision type, 2015&ndash;2025. The two in blue are the ones a center turn lane is designed to prevent.</p>
-      <ul class="ctype">
-        <li class="on"><span class="ct-l">Overtaking</span><span class="ct-bar" style="width:100.0%"></span><span class="ct-n">593</span></li>
-        <li class="on"><span class="ct-l">Rear End</span><span class="ct-bar" style="width:66.4%"></span><span class="ct-n">394</span></li>
-        <li><span class="ct-l">Right Angle</span><span class="ct-bar" style="width:33.9%"></span><span class="ct-n">201</span></li>
-        <li><span class="ct-l">Right Turn</span><span class="ct-bar" style="width:8.3%"></span><span class="ct-n">49</span></li>
-        <li><span class="ct-l">Left Turn</span><span class="ct-bar" style="width:5.4%"></span><span class="ct-n">32</span></li>
-        <li><span class="ct-l">Sideswipe</span><span class="ct-bar" style="width:5.1%"></span><span class="ct-n">30</span></li>
-        <li><span class="ct-l">Head-on</span><span class="ct-bar" style="width:2.7%"></span><span class="ct-n">16</span></li>
-        <li><span class="ct-l">Other/Unknown</span><span class="ct-bar" style="width:58.9%"></span><span class="ct-n">349</span></li>
-      </ul>
-      <figcaption>Overtaking and rear-end crashes are <b>59% of the total</b>, 987 of 1,664.<a class="cite" href="#src-allcrashes"></a></figcaption>
+      <p class="sub">Reported crashes by collision type, 2015&ndash;2025. The three in blue are the ones a center turn lane is designed to prevent.</p>
+      <div class="pie-wrap">
+        <svg class="pie" viewBox="0 0 264 264" role="img" aria-label="Pie chart of 1,664 crashes by collision type. Overtaking 593, rear end 394 and sideswipe 30 together make 61 percent; right angle 201; right turn 49; left turn 32; head-on 16; other or unknown 349.">
+      <path d="M132.00,132.00 L132.00,4.00 A128.00,128.00 0 0 1 232.46,211.32 Z" fill="var(--pie-a)" stroke="var(--card)" stroke-width="2"><title>Overtaking: 593 crashes, 35.6%</title></path>
+      <path d="M132.00,132.00 L232.46,211.32 A128.00,128.00 0 0 1 61.29,238.70 Z" fill="var(--pie-b)" stroke="var(--card)" stroke-width="2"><title>Rear end: 394 crashes, 23.7%</title></path>
+      <path d="M132.00,132.00 L61.29,238.70 A128.00,128.00 0 0 1 49.68,230.02 Z" fill="var(--pie-c)" stroke="var(--card)" stroke-width="2"><title>Sideswipe: 30 crashes, 1.8%</title></path>
+      <path d="M132.00,132.00 L49.68,230.02 A128.00,128.00 0 0 1 4.82,146.47 Z" fill="var(--pie-1)" stroke="var(--card)" stroke-width="2"><title>Right angle: 201 crashes, 12.1%</title></path>
+      <path d="M132.00,132.00 L4.82,146.47 A128.00,128.00 0 0 1 4.33,122.82 Z" fill="var(--pie-2)" stroke="var(--card)" stroke-width="2"><title>Right turn: 49 crashes, 2.9%</title></path>
+      <path d="M132.00,132.00 L4.33,122.82 A128.00,128.00 0 0 1 6.37,107.50 Z" fill="var(--pie-3)" stroke="var(--card)" stroke-width="2"><title>Left turn: 32 crashes, 1.9%</title></path>
+      <path d="M132.00,132.00 L6.37,107.50 A128.00,128.00 0 0 1 8.07,99.96 Z" fill="var(--pie-4)" stroke="var(--card)" stroke-width="2"><title>Head-on: 16 crashes, 1.0%</title></path>
+      <path d="M132.00,132.00 L8.07,99.96 A128.00,128.00 0 0 1 132.00,4.00 Z" fill="var(--pie-5)" stroke="var(--card)" stroke-width="2"><title>Other/unknown: 349 crashes, 21.0%</title></path>
+      <text class="pie-pct" x="203.4" y="102.4">36%</text>
+      <text class="pie-pct" x="144.5" y="215.4">24%</text>
+      <text class="pie-pct" x="62.1" y="174.5">12%</text>
+      <text class="pie-pct" x="83.4" y="74.3">21%</text>
+        </svg>
+        <ul class="pie-legend">
+        <li class="on"><span class="pl-sw" style="background:var(--pie-a)"></span><span class="pl-n">Overtaking</span><span class="pl-v">593</span><span class="pl-p">35.6%</span></li>
+        <li class="on"><span class="pl-sw" style="background:var(--pie-b)"></span><span class="pl-n">Rear end</span><span class="pl-v">394</span><span class="pl-p">23.7%</span></li>
+        <li class="on"><span class="pl-sw" style="background:var(--pie-c)"></span><span class="pl-n">Sideswipe</span><span class="pl-v">30</span><span class="pl-p">1.8%</span></li>
+        <li><span class="pl-sw" style="background:var(--pie-1)"></span><span class="pl-n">Right angle</span><span class="pl-v">201</span><span class="pl-p">12.1%</span></li>
+        <li><span class="pl-sw" style="background:var(--pie-2)"></span><span class="pl-n">Right turn</span><span class="pl-v">49</span><span class="pl-p">2.9%</span></li>
+        <li><span class="pl-sw" style="background:var(--pie-3)"></span><span class="pl-n">Left turn</span><span class="pl-v">32</span><span class="pl-p">1.9%</span></li>
+        <li><span class="pl-sw" style="background:var(--pie-4)"></span><span class="pl-n">Head-on</span><span class="pl-v">16</span><span class="pl-p">1.0%</span></li>
+        <li><span class="pl-sw" style="background:var(--pie-5)"></span><span class="pl-n">Other/unknown</span><span class="pl-v">349</span><span class="pl-p">21.0%</span></li>
+        </ul>
+      </div>
+      <figcaption>Overtaking, rear-end and sideswipe crashes are <b>61% of the total</b>, 1,017 of 1,664.<a class="cite" href="#src-allcrashes"></a></figcaption>
     </figure>
     <div class="prose" style="margin-top:18px">
-      <p>That is the four-lane road describing itself. A driver stops in the travel lane to turn left; the car behind either brakes hard, which is the rear-end crash, or swings into the next lane, which is the overtaking crash. Take those two away and more than half the crashes on this road go with them.</p>
+      <p>That is the four-lane road describing itself. A driver stops in the travel lane to turn left; the car behind either brakes hard, which is the rear-end crash, or swings into the next lane, which is the overtaking or sideswipe crash. Take those three away and three out of every five crashes on this road go with them.</p>
       <p>Notice how small the left-turn number is: 32 out of 1,664. The driver waiting to turn is rarely the one in the collision. The crash lands on the people behind, and gets recorded as something else.</p>
     </div>
     <figure class="figure" style="margin-top:22px">
+      <div class="pullquote"><p>&ldquo;Initial Data Review &ndash; Elevated Number of Crashes Compared to Similar Type Corridors.&rdquo;<span class="who">NYSDOT, traffic data slide, stakeholder meeting, November 2024</span></p></div>
       <img src="/media/work/slide-9.jpg" width="1200" height="689" loading="lazy" alt="NYSDOT slide headed Work Progressed to Date, listing traffic data collection: intersection traffic counts, signal timings and existing conditions modeling, and three years of crash data, ending with the line: Initial Data Review, Elevated Number of Crashes Compared to Similar Type Corridors.">
-      <figcaption>NYSDOT reached the same conclusion from its own three years of records. The last line of its traffic data slide: <b>&ldquo;Initial Data Review &ndash; Elevated Number of Crashes Compared to Similar Type Corridors.&rdquo;</b><a class="cite" href="#src-work"></a></figcaption>
+      <figcaption>NYSDOT reached the same conclusion from its own three years of crash records, on the last line of its traffic data slide.<a class="cite" href="#src-work"></a></figcaption>
     </figure>
   </section>
 
@@ -110,7 +127,7 @@
     <p>Published by Mamaroneck and Rye Neck Safe Routes to School, a volunteer group. We don't speak for NYSDOT or for the villages and town.</p>
   </footer>
 </main>
-<script src="/site/nav.js?v=202609301246"></script>
-<script src="/site/site.js?v=202609301246"></script>
+<script src="/site/nav.js?v=202609301251"></script>
+<script src="/site/site.js?v=202609301251"></script>
 </body>
 </html>
