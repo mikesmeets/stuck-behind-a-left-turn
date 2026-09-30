@@ -789,3 +789,18 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 .ba-note { margin-top:-4px; }
 .ba-note.fair { color:var(--ink-2); border-left:3px solid var(--rule); padding-left:14px; }
 @media (max-width:640px) { .ba { grid-template-columns:1fr; gap:10px; } .ba blockquote { font-size:16px; } }
+
+/* ---------- Crash types: a ranked bar list ---------- */
+.ctype { list-style:none; margin:14px 0 0; padding:0; display:grid; gap:6px; }
+.ctype li { display:grid; grid-template-columns:132px minmax(0,1fr) 56px; align-items:center; gap:10px; }
+.ctype .ct-l { font-size:14px; line-height:1.3; color:var(--ink-2); }
+.ctype .ct-bar { height:16px; border-radius:0 4px 4px 0; background:var(--ink-3); opacity:.3; min-width:2px; }
+.ctype .ct-n { font:600 14px "Overpass Mono",ui-monospace,monospace; color:var(--ink-2); text-align:right; }
+.ctype li.on .ct-l { color:var(--ink); font-weight:600; }
+.ctype li.on .ct-bar { background:var(--accent); opacity:1; }
+.ctype li.on .ct-n { color:var(--ink); }
+@media (max-width:560px) {
+  .ctype li { grid-template-columns:100px minmax(0,1fr) 46px; gap:8px; }
+  .ctype .ct-l { font-size:13px; }
+  .ctype .ct-n { font-size:13px; }
+}

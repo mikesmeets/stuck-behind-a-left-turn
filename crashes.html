@@ -10,8 +10,8 @@
 <meta property="og:image" content="/media/road_diet_still.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
-<link rel="stylesheet" href="/site/nav.css?v=202609301209">
-<link rel="stylesheet" href="/site/site.css?v=202609301209">
+<link rel="stylesheet" href="/site/nav.css?v=202609301246">
+<link rel="stylesheet" href="/site/site.css?v=202609301246">
 </head>
 <body>
 <nav class="sitenav" data-site-nav></nav>
@@ -48,6 +48,40 @@
     </div>
   </section>
 
+  <section class="section" aria-labelledby="all-h">
+    <h2 id="all-h">Every crash, not only the ones on foot</h2>
+    <p class="prose">Those numbers are people walking and biking. Counting every reported crash on Boston Post Road in Larchmont and Mamaroneck over the same eleven years:<a class="cite" href="#src-allcrashes"></a></p>
+    <div class="grid-3" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:10px">
+      <div class="tile"><p class="big">1,664</p><p class="label">crashes</p></div>
+      <div class="tile"><p class="big">5</p><p class="label">people killed</p></div>
+      <div class="tile"><p class="big">11</p><p class="label">seriously injured</p></div>
+      <div class="tile"><p class="big">282</p><p class="label">injured</p></div>
+    </div>
+    <figure class="figure" style="margin-top:18px">
+      <h3 id="types-h">What kind of crashes</h3>
+      <p class="sub">Reported crashes by collision type, 2015&ndash;2025. The two in blue are the ones a center turn lane is designed to prevent.</p>
+      <ul class="ctype">
+        <li class="on"><span class="ct-l">Overtaking</span><span class="ct-bar" style="width:100.0%"></span><span class="ct-n">593</span></li>
+        <li class="on"><span class="ct-l">Rear End</span><span class="ct-bar" style="width:66.4%"></span><span class="ct-n">394</span></li>
+        <li><span class="ct-l">Right Angle</span><span class="ct-bar" style="width:33.9%"></span><span class="ct-n">201</span></li>
+        <li><span class="ct-l">Right Turn</span><span class="ct-bar" style="width:8.3%"></span><span class="ct-n">49</span></li>
+        <li><span class="ct-l">Left Turn</span><span class="ct-bar" style="width:5.4%"></span><span class="ct-n">32</span></li>
+        <li><span class="ct-l">Sideswipe</span><span class="ct-bar" style="width:5.1%"></span><span class="ct-n">30</span></li>
+        <li><span class="ct-l">Head-on</span><span class="ct-bar" style="width:2.7%"></span><span class="ct-n">16</span></li>
+        <li><span class="ct-l">Other/Unknown</span><span class="ct-bar" style="width:58.9%"></span><span class="ct-n">349</span></li>
+      </ul>
+      <figcaption>Overtaking and rear-end crashes are <b>59% of the total</b>, 987 of 1,664.<a class="cite" href="#src-allcrashes"></a></figcaption>
+    </figure>
+    <div class="prose" style="margin-top:18px">
+      <p>That is the four-lane road describing itself. A driver stops in the travel lane to turn left; the car behind either brakes hard, which is the rear-end crash, or swings into the next lane, which is the overtaking crash. Take those two away and more than half the crashes on this road go with them.</p>
+      <p>Notice how small the left-turn number is: 32 out of 1,664. The driver waiting to turn is rarely the one in the collision. The crash lands on the people behind, and gets recorded as something else.</p>
+    </div>
+    <figure class="figure" style="margin-top:22px">
+      <img src="/media/work/slide-9.jpg" width="1200" height="689" loading="lazy" alt="NYSDOT slide headed Work Progressed to Date, listing traffic data collection: intersection traffic counts, signal timings and existing conditions modeling, and three years of crash data, ending with the line: Initial Data Review, Elevated Number of Crashes Compared to Similar Type Corridors.">
+      <figcaption>NYSDOT reached the same conclusion from its own three years of records. The last line of its traffic data slide: <b>&ldquo;Initial Data Review &ndash; Elevated Number of Crashes Compared to Similar Type Corridors.&rdquo;</b><a class="cite" href="#src-work"></a></figcaption>
+    </figure>
+  </section>
+
   <section class="section" aria-labelledby="wait-h">
     <div class="prose">
       <h2 id="wait-h">Don't wait for the fatal crash. The evidence is already here.</h2>
@@ -66,6 +100,8 @@
     <summary>Sources</summary>
     <ol>
       <li id="src-crashes"><span class="src-title">NYSDOT crash records, 2015–2025, mapped by Mamaroneck and Rye Neck Safe Routes to School</span><div class="src-note">Pedestrian and bicycle crashes in Larchmont and Mamaroneck, including the 46 cyclists and 44 pedestrians hit on Boston Post Road. Eleven years rather than ten, because 2020, with its pandemic lockdowns, wasn't a normal year.</div><a href="https://arcg.is/qr9LO3" target="_blank" rel="noopener">Crash map</a></li>
+      <li id="src-allcrashes"><span class="src-title">NYSDOT crash records for Boston Post Road, Larchmont and Mamaroneck, 2015&ndash;2025, compiled by Mamaroneck and Rye Neck Safe Routes to School</span><div class="src-note">1,664 reported crashes: 5 people killed, 11 seriously injured, 282 injured. By collision type: overtaking 593, rear end 394, right angle 201, right turn 49, left turn 32, sideswipe 30, head-on 16, other or unknown 349.</div><a href="https://arcg.is/qr9LO3" target="_blank" rel="noopener">Crash map</a></li>
+      <li id="src-work"><span class="src-title">NYSDOT, US Route 1 Complete Streets Project, Stakeholder Meeting #2, November 22, 2024</span><div class="src-note">The &ldquo;Traffic Data Collection&rdquo; slide: intersection counts, signal timings and existing conditions modeling, and crash data for the three years to April 30, 2024, from the NYSDOT CLEAR crash data viewer. The slide&rsquo;s closing line reports an elevated number of crashes compared with similar corridors.</div><a href="https://projectdocs.dot.ny.gov/westchester-county-us-route-1-complete-streets/" target="_blank" rel="noopener">NYSDOT project documents</a></li>
       <li id="src-fatal"><span class="src-title">Fatal crashes on Boston Post Road, 2017–2023</span><div class="src-note">Three crashes, five deaths, on a 1.5-mile stretch. Compiled by Mamaroneck and Rye Neck Safe Routes to School.</div></li>
     </ol>
   </details>
@@ -74,7 +110,7 @@
     <p>Published by Mamaroneck and Rye Neck Safe Routes to School, a volunteer group. We don't speak for NYSDOT or for the villages and town.</p>
   </footer>
 </main>
-<script src="/site/nav.js?v=202609301209"></script>
-<script src="/site/site.js?v=202609301209"></script>
+<script src="/site/nav.js?v=202609301246"></script>
+<script src="/site/site.js?v=202609301246"></script>
 </body>
 </html>
