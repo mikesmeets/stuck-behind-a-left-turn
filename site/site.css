@@ -816,9 +816,11 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
   .pie-legend { flex:1 1 100%; }
 }
 
-/* ---------- A pulled-out quote box ---------- */
-.pullquote { background:var(--paper); border:1px solid var(--rule); border-left:4px solid var(--accent);
-  border-radius:10px; padding:16px 18px; margin:0 0 14px; }
-.pullquote p { margin:0; font:600 19px/1.4 "Source Serif 4",Georgia,serif; color:var(--ink); }
-.pullquote .who { display:block; margin-top:8px; font:400 13px Overpass,system-ui,sans-serif; color:var(--ink-2); }
-@media (max-width:560px) { .pullquote p { font-size:17px; } }
+
+/* ---------- Marking up a screenshot ---------- */
+.markup { position:relative; display:block; }
+.markup img { display:block; width:100%; height:auto; }
+.mk-box { position:absolute; border:3px solid var(--unsafe); border-radius:5px; box-shadow:0 0 0 3px rgba(255,255,255,.55); }
+.mk-tag { position:absolute; transform:translateY(2px); background:var(--unsafe); color:#fff; border-radius:4px;
+  padding:3px 8px; font:700 12px Overpass,system-ui,sans-serif; letter-spacing:.02em; white-space:nowrap; }
+@media (max-width:560px) { .mk-tag { font-size:10px; padding:2px 6px; } }
