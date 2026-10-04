@@ -43,4 +43,36 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fill);
   else fill();
+
+  // ---- Analytics -----------------------------------------------------------
+  // GoatCounter: no cookies, no device identifier, so no consent banner needed.
+  // Put the site code here to switch it on; empty means off. Every page loads
+  // this file, including the generated simulation editions, so this is the only
+  // place it needs to go.
+  const GOATCOUNTER = "";               // e.g. "bostonpostroadsafety"
+  const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  if (GOATCOUNTER && !LOCAL) {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "//gc.zgo.at/count.js";
+    s.setAttribute("data-goatcounter", `https://${GOATCOUNTER}.goatcounter.com/count`);
+    document.head.appendChild(s);
+
+    // Count the things we actually care about, not only page views.
+    const ACTIONS = [
+      ["[data-petition]", "action-petition", "Signed the petition"],
+      ["[data-email-gmail]", "action-email-gmail", "Opened the letter in Gmail"],
+      ["[data-email]", "action-email", "Opened the letter in a mail app"],
+      ["[data-copy-letter]", "action-copy-letter", "Copied the letter"],
+      ['a[href$=".pdf"]', "download-pdf", "Opened a source document"],
+    ];
+    document.addEventListener("click", (e) => {
+      for (const [sel, path, title] of ACTIONS) {
+        if (e.target.closest(sel)) {
+          window.goatcounter?.count({ path, title, event: true });
+          return;
+        }
+      }
+    });
+  }
 })();
