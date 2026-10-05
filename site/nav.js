@@ -49,7 +49,7 @@
   // Put the site code here to switch it on; empty means off. Every page loads
   // this file, including the generated simulation editions, so this is the only
   // place it needs to go.
-  const GOATCOUNTER = "";               // e.g. "bostonpostroadsafety"
+  const GOATCOUNTER = "bostonpostroadsafety";
   const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   if (GOATCOUNTER && !LOCAL) {
     const s = document.createElement("script");
