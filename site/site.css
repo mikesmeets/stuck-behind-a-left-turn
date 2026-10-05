@@ -153,6 +153,8 @@ b, strong { font-weight:700; }
 .timeline.stacked li:last-child { padding-bottom:0; }
 .timeline.stacked li:last-child::before { display:none; }
 .timeline.stacked b { font-size:15px; margin-bottom:3px; }
+.timeline.stacked p { margin:8px 0 0; }
+.timeline.stacked p b { display:inline; font-size:inherit; color:var(--ink); }
 .timeline.stacked .doc-row { margin:12px 0 2px; grid-template-columns:repeat(auto-fill,minmax(150px,210px));
   justify-content:start; gap:12px; }
 .timeline.stacked .doc-row img { padding:4px; }
