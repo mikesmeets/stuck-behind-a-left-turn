@@ -1,6 +1,7 @@
-// "How a road diet prevents each kind of crash": a tabbed, side-by-side diagram
-// of today's four lanes and the proposed three, one tab per crash type that
+// "How a road diet prevents each kind of crash": side-by-side diagrams of
+// today's four lanes and the proposed three, one block per crash type that
 // FHWA reports road diets reduce. Renders into <div data-diagram="crash-types">.
+// All four are laid out one after another -- nothing is hidden behind a control.
 // Text lives in HTML (callout lists), so it stays readable on a phone.
 (function () {
   // ---- geometry: westbound on top (moving left), eastbound below (moving right)
@@ -85,7 +86,7 @@
   // ---- the four scenarios -------------------------------------------------
   const SCENARIOS = [
     {
-      key: "rear-end", win: 225, tab: "Rear-end",
+      key: "rear-end", win: 225, label: "Rear-end",
       title: "Stopped in a travel lane",
       intro: "A classic four-lane crash. A driver stops in a travel lane to wait for a gap, and the driver behind doesn't stop in time.",
       today: svg("Four lanes: a driver waiting to turn left stops in the eastbound inside lane; the car behind brakes too late.",
@@ -109,7 +110,7 @@
                   "Traffic behind never has to stop for a turning car."],
     },
     {
-      key: "sideswipe", win: 190, tab: "Sideswipe",
+      key: "sideswipe", win: 190, label: "Sideswipe / overtaking",
       title: "Swerving around the car ahead",
       intro: "Rather than wait, drivers swerve into the next lane to get around a stopped car. On lanes 9.5 feet wide, there's little room to do it safely.",
       today: svg("Four lanes: a driver swerves from the inside lane into the outside lane around a stopped car and hits a car already there.",
@@ -135,7 +136,7 @@
                   "One lane each way: no weaving, no lane-changing to get around."],
     },
     {
-      key: "left-turn", win: 325, tab: "Left-turn",
+      key: "left-turn", win: 325, label: "Left-turn",
       title: "Turning across two lanes you can't see",
       intro: "Turning left from a four-lane street means crossing two lanes of oncoming traffic. A car in the near lane can hide a car in the far lane until it's too late.",
       today: svg("Four lanes: a driver turning left across two oncoming lanes cannot see a car in the far lane, hidden behind a car in the near lane.",
@@ -162,7 +163,7 @@
                   "There's only one oncoming lane to cross, and nothing can hide in it."],
     },
     {
-      key: "pedestrian", win: 75, tab: "Pedestrian",
+      key: "pedestrian", win: 75, label: "Pedestrian",
       title: "The car you can't see past",
       intro: "Safety engineers call it the multiple-threat crash. One driver stops for someone in the crosswalk, and a driver in the next lane, who can't see them, keeps going.",
       today: svg("Four lanes: a car stops at the crosswalk in the outside lane; a car in the inside lane cannot see the pedestrian and keeps going.",
@@ -195,20 +196,17 @@
   const notes = (arr) => `<ol class="callouts">${arr.map((t, i) => `<li><span class="pin">${i + 1}</span><span>${t}</span></li>`).join("")}</ol>`;
 
   document.querySelectorAll('[data-diagram="crash-types"]').forEach((root) => {
-    const id = "ct" + Math.random().toString(36).slice(2, 7);
     root.innerHTML = `
-      <div class="ct-tabs" role="tablist" aria-label="Crash type">
-        ${SCENARIOS.map((s, i) => `<button type="button" role="tab" id="${id}-t${i}" aria-controls="${id}-p${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${s.tab}</button>`).join("")}
-      </div>
-      ${SCENARIOS.map((s, i) => `
-      <div class="ct-panel" role="tabpanel" id="${id}-p${i}" aria-labelledby="${id}-t${i}"${i === 0 ? "" : " hidden"}>
-        <h3>${s.title}</h3>
+      ${SCENARIOS.map((s) => `
+      <section class="ct-panel" aria-labelledby="ct-${s.key}">
+        <p class="eyebrow">${s.label}</p>
+        <h3 id="ct-${s.key}">${s.title}</h3>
         <p class="sub">${s.intro}</p>
         <div class="ct-pair">
           <div><p class="panel-title">Today · four narrow lanes</p>${frame(s.today, s.win)}${notes(s.todayNotes)}</div>
           <div><p class="panel-title">Road diet · one lane each way and a center turn lane</p>${frame(s.diet, s.win)}${notes(s.dietNotes)}</div>
         </div>
-      </div>`).join("")}
+      </section>`).join("")}
       <ul class="ct-key">
         <li><i class="k-turn"></i>Turning driver</li>
         <li><i class="k-block"></i>Driver at risk</li>
@@ -216,18 +214,5 @@
         <li><i class="k-cone"></i>Driver's view</li>
         <li><i class="k-shadow"></i>Hidden from view</li>
       </ul>`;
-    const tabs = [...root.querySelectorAll('[role="tab"]')], panels = [...root.querySelectorAll('[role="tabpanel"]')];
-    const select = (i, focus) => {
-      tabs.forEach((t, j) => { t.setAttribute("aria-selected", j === i); t.tabIndex = j === i ? 0 : -1; });
-      panels.forEach((p, j) => { p.hidden = j !== i; });
-      if (focus) tabs[i].focus();
-    };
-    tabs.forEach((t, i) => {
-      t.addEventListener("click", () => select(i));
-      t.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") select((i + 1) % tabs.length, true);
-        if (e.key === "ArrowLeft") select((i - 1 + tabs.length) % tabs.length, true);
-      });
-    });
   });
 })();

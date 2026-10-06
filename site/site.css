@@ -349,10 +349,9 @@ figcaption, .figure .note { font-size:13px; line-height:1.5; color:var(--ink-3);
 .prose li .inline-figure { width:min(100vw - 72px, 968px); max-width:none; }  /* page width minus gutters and the list indent */
 
 /* ---------- Crash-type diagram (Safety page) ---------- */
-.ct-tabs { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 16px; }
-.ct-tabs button { font:inherit; font-size:14px; font-weight:600; padding:8px 14px; border-radius:999px; cursor:pointer;
-  border:1px solid var(--rule); background:var(--paper); color:var(--ink-2); }
-.ct-tabs button[aria-selected="true"] { background:var(--ink); color:var(--card); border-color:var(--ink); }
+/* The four crash types run one after another; a rule separates them. */
+.ct-panel + .ct-panel { margin-top:34px; padding-top:30px; border-top:1px solid var(--rule); }
+.ct-panel .eyebrow { margin:0 0 4px; }
 .ct-panel h3 { font-size:22px; margin:0 0 6px; }
 .ct-pair { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:8px; }
 @media (max-width:760px) { .ct-pair { grid-template-columns:1fr; gap:18px; } }
