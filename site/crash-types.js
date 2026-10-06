@@ -138,7 +138,7 @@
     {
       key: "left-turn", win: 325, label: "Left-turn",
       title: "Turning across two lanes you can't see",
-      intro: "Turning left from a four-lane street means crossing two lanes of oncoming traffic. A car in the near lane can hide a car in the far lane until it's too late.",
+      intro: "Turning left from a four-lane street means crossing two lanes of oncoming traffic. A car in the near lane creates a <b>blind spot</b> that hides a car in the far lane until it's too late.",
       today: svg("Four lanes: a driver turning left across two oncoming lanes cannot see a car in the far lane, hidden behind a car in the near lane.",
         fourLane(`${cone(452, 95, 590, 40, 20, 200)}${shadow(452, 95, 495, FOUR.wbIn)}
           ${car(430, FOUR.ebIn, "turn")}
@@ -150,7 +150,7 @@
           ${car(150, FOUR.ebOut)}${car(90, FOUR.wbIn)}
           ${pin(420, 76, 1)}${pin(512, 76, 2)}${pin(600, 12, 3)}`)),
       todayNotes: ["A driver waits to turn left across two oncoming lanes.",
-                   "An oncoming car in the near lane blocks the view of the far lane.",
+                   "An oncoming car in the near lane creates a blind spot over the far lane.",
                    "A car in the far lane, hidden until the last second, drives into the turn."],
       diet: svg("Three lanes: the turning driver waits in the center lane and crosses one oncoming lane with a clear view.",
         threeLane(`${cone(452, 80, 590, 46, 20, 200)}
@@ -165,7 +165,7 @@
     {
       key: "pedestrian", win: 75, label: "Pedestrian",
       title: "The car you can't see past",
-      intro: "Safety engineers call it the multiple-threat crash. One driver stops for someone in the crosswalk, and a driver in the next lane, who can't see them, keeps going.",
+      intro: "Safety engineers call it the multiple-threat crash. One driver stops for someone in the crosswalk, and the stopped car becomes a <b>blind spot</b>: the driver in the next lane cannot see the person stepping out, and keeps going.",
       today: svg("Four lanes: a car stops at the crosswalk in the outside lane; a car in the inside lane cannot see the pedestrian and keeps going.",
         fourLane(`${crosswalk(300, 20, 140)}
           ${cone(249, 95, 330, 110, 20, 150)}${shadow(249, 95, 258, FOUR.ebOut, 170)}
@@ -177,7 +177,7 @@
           ${car(420, FOUR.wbIn)}${car(540, FOUR.wbOut)}
           ${pin(275, 152, 1)}${pin(232, 76, 2)}${pin(338, 104, 3)}`, { driveway: false })),
       todayNotes: ["A driver stops to let someone cross.",
-                   "A driver in the next lane can't see past the stopped car and doesn't slow down.",
+                   "The stopped car is a blind spot. The driver in the next lane can't see past it and doesn't slow down.",
                    "The person crossing steps out from in front of the stopped car."],
       diet: svg("Three lanes: when the car in the only travel lane stops at the crosswalk, there is no second lane where another driver can pass it.",
         threeLane(`${crosswalk(300, 29, 131)}
