@@ -137,7 +137,7 @@
     },
     {
       key: "left-turn", win: 325, label: "Left-turn",
-      title: "Turning across two lanes you can't see",
+      title: "Blind spot: turning across two lanes you can't see",
       intro: "Turning left from a four-lane street means crossing two lanes of oncoming traffic. A car in the near lane creates a <b>blind spot</b> that hides a car in the far lane until it's too late.",
       today: svg("Four lanes: a driver turning left across two oncoming lanes cannot see a car in the far lane, hidden behind a car in the near lane.",
         fourLane(`${cone(452, 95, 590, 40, 20, 200)}${shadow(452, 95, 495, FOUR.wbIn)}
@@ -164,7 +164,7 @@
     },
     {
       key: "pedestrian", win: 75, label: "Pedestrian",
-      title: "The car you can't see past",
+      title: "Blind spot: the car you can't see past",
       intro: "Safety engineers call it the multiple-threat crash. One driver stops for someone in the crosswalk, and the stopped car becomes a <b>blind spot</b>: the driver in the next lane cannot see the person stepping out, and keeps going.",
       today: svg("Four lanes: a car stops at the crosswalk in the outside lane; a car in the inside lane cannot see the pedestrian and keeps going.",
         fourLane(`${crosswalk(300, 20, 140)}
