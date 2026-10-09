@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202610091446";
+  const DATA = "/site/data/sim-steps.json?v=202610091450";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -337,7 +337,7 @@
     placeTour(); requestAnimationFrame(placeTour);
   }
   function endTour() {
-    tourAt = -1; tour.hidden = true;
+    tourAt = -1; tour.hidden = true; dim();
     try { sessionStorage.setItem("bpr-sim-tour", "1"); } catch (e) { /* private mode */ }
     if (D) { t = STEP[vol].start; fired = new Set(); show(); }
     if (!reduce) { playing = true; $(".ss-play").textContent = "Pause"; }
@@ -345,6 +345,7 @@
   }
   function startTour() {
     playing = false; $(".ss-play").textContent = "Play";
+    scrim.classList.remove("on");
     t = STEP[vol].start; fired = new Set(); holdUntil = 0; show();
     showTour(0);
   }
@@ -435,10 +436,13 @@
   const scrim = document.createElement("div");
   scrim.className = "ss-scrim";
   document.body.appendChild(scrim);
+  let filling = false;
+  const dim = () => scrim.classList.toggle("on", filling && tourAt < 0);
   new IntersectionObserver((es) => {
     const r = es[0].intersectionRatio;
-    if (r >= 0.55) { root.classList.add("ss-lit"); scrim.classList.add("on"); }
-    else if (r < 0.3) { root.classList.remove("ss-lit"); scrim.classList.remove("on"); }
+    if (r >= 0.55) filling = true; else if (r < 0.3) filling = false;
+    root.classList.toggle("ss-lit", filling);
+    dim();
   }, { threshold: [0, 0.3, 0.55, 1] }).observe($(".ss-panel"));
 
   // Load the recorded runs when the section gets close, and only animate while it's on screen.
@@ -450,9 +454,6 @@
       loading = true;
       fetch(DATA, { cache: "no-cache" }).then((r) => r.json()).then((d) => {
         ready(d); requestAnimationFrame(tick);
-        let seen = false;
-        try { seen = sessionStorage.getItem("bpr-sim-tour") === "1"; } catch (e) { /* private mode */ }
-        if (!seen) startTour();
       })
         .catch((e) => { console.error("replay data", e); $(".ss-clock").textContent = "Couldn't load the replay. Reload the page."; });
     }
