@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202610091439";
+  const DATA = "/site/data/sim-steps.json?v=202610091446";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -428,6 +428,18 @@
     });
     t = reduce ? Math.max(90, STEP[vol].start) : STEP[vol].start;
   }
+
+  // Dim the rest of the page while the replay fills the screen, so the two
+  // roads are the only thing left to look at. Hysteresis on the two
+  // thresholds keeps it from flickering as you scroll past the edge.
+  const scrim = document.createElement("div");
+  scrim.className = "ss-scrim";
+  document.body.appendChild(scrim);
+  new IntersectionObserver((es) => {
+    const r = es[0].intersectionRatio;
+    if (r >= 0.55) { root.classList.add("ss-lit"); scrim.classList.add("on"); }
+    else if (r < 0.3) { root.classList.remove("ss-lit"); scrim.classList.remove("on"); }
+  }, { threshold: [0, 0.3, 0.55, 1] }).observe($(".ss-panel"));
 
   // Load the recorded runs when the section gets close, and only animate while it's on screen.
   const qp = new URLSearchParams(location.search), fixed = qp.has("ss-vol");
