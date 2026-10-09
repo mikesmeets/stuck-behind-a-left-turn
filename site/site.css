@@ -688,10 +688,13 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 
 /* Traffic replay: the card and its Next button, directly under the panel */
 .ss-below { display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-top:14px; }
-.ss-below .ss-next { margin-top:2px; white-space:nowrap; min-width:190px; align-self:stretch; }
+.ss-below .ss-next { margin-top:2px; white-space:nowrap; min-width:232px; align-self:stretch; }
 @media (max-width:640px) {
+  /* Stacked, the button belongs straight under the replay, not under the
+     card describing it. */
   .ss-below { grid-template-columns:1fr; }
-  .ss-below .ss-next { width:100%; padding:11px; font-size:15px; }
+  .ss-below .ss-next { order:1; width:100%; padding:11px; font-size:15px; align-self:auto; margin-top:0; }
+  .ss-below .ss-steps { order:2; }
 }
 
 /* Traffic replay: the three intro overlays */

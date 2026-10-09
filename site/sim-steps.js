@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202610091508";
+  const DATA = "/site/data/sim-steps.json?v=202610091512";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -76,7 +76,7 @@
   const stepsWrap = root.querySelector(".ss-steps");
   const below = document.createElement("div"); below.className = "ss-below";
   below.appendChild(stepsWrap);
-  below.insertAdjacentHTML("beforeend", '<button type="button" class="ss-next" disabled>Next in 15s</button>');
+  below.insertAdjacentHTML("beforeend", '<button type="button" class="ss-next" disabled>Next traffic level in 15s</button>');
   root.appendChild(below);
   root.insertAdjacentHTML("beforeend", `
     <div class="ss-tour" hidden>
@@ -292,8 +292,8 @@
     const btn = $(".ss-next"), i = VOLS.indexOf(vol), last = i === VOLS.length - 1;
     const left = Math.ceil(WAIT - stepAge);
     btn.disabled = left > 0;
-    btn.textContent = left > 0 ? `Next in ${left}s`
-      : last ? `Start over: ${VOLS[0].toLocaleString()} ↺` : `Next: ${VOLS[i + 1].toLocaleString()} →`;
+    btn.textContent = left > 0 ? `Next traffic level in ${left}s`
+      : last ? `Start over: ${VOLS[0].toLocaleString()} ↺` : `Next traffic level: ${VOLS[i + 1].toLocaleString()} →`;
   }
 
   const goTo = (i) => setVol(VOLS[i]);
