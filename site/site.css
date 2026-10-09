@@ -551,17 +551,11 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
 
 /* ---------- Traffic: scroll-driven replay (site/sim-steps.js) ---------- */
 .ss { position:relative; margin-top:18px; min-width:0; }
-/* The replay lifts above a scrim while it is the thing on screen. */
-.ss-scrim { position:fixed; inset:0; z-index:9; background:rgba(12,12,12,.55);
-  opacity:0; pointer-events:none; transition:opacity .35s ease; }
-.ss-scrim.on { opacity:1; }
-.ss.ss-lit { z-index:10; }
 /* A document card is its own thing: less room above it than a headed
    section wants, and real room below before whatever follows. */
 .section.doc-section { padding:18px 0 0; margin-bottom:48px; }
 /* Straight after the lede the card needs no rule and little air above it. */
 .hero + .section.doc-section { margin-top:12px; padding-top:0; border-top:0; }
-@media (prefers-reduced-motion: reduce) { .ss-scrim { transition:none; } }
 .ss-panel { padding:12px 14px 10px; min-width:0; box-shadow:var(--shadow); }
 .ss-head { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:6px 22px; margin-bottom:6px; }
 .ss-vol { display:flex; align-items:baseline; gap:10px; }
