@@ -22,7 +22,7 @@
   ];
   const VOLS = steps.map((s) => +s.dataset.vol);
   // Bump the version whenever make_steps.py rewrites the data, so browsers don't reuse an old copy.
-  const DATA = "/site/data/sim-steps.json?v=202610091506";
+  const DATA = "/site/data/sim-steps.json?v=202610091508";
 
   // Where each step starts, and what it calls out. t is simulated seconds into
   // the recorded three minutes; hold is real seconds the replay pauses on it.
@@ -338,7 +338,7 @@
   }
   function endTour() {
     tourAt = -1; tour.hidden = true;
-    try { sessionStorage.setItem("bpr-sim-tour", "1"); } catch (e) { /* private mode */ }
+    try { sessionStorage.setItem("bpr-sim-tour-2", "1"); } catch (e) { /* private mode */ }
     if (D) { t = STEP[vol].start; fired = new Set(); show(); }
     if (!reduce) { playing = true; $(".ss-play").textContent = "Pause"; }
     stepAge = 0;
@@ -433,7 +433,7 @@
   // brings its own dimming. Before, it ran as soon as the data loaded, 600px
   // early, which left the page dim before the reader got anywhere near it.
   let tourPending = true;
-  try { tourPending = sessionStorage.getItem("bpr-sim-tour") !== "1"; } catch (e) { /* private mode */ }
+  try { tourPending = sessionStorage.getItem("bpr-sim-tour-2") !== "1"; } catch (e) { /* private mode */ }
   let onScreen = false;
   const maybeTour = () => {
     if (!tourPending || !onScreen || !D) return;
@@ -441,9 +441,9 @@
     startTour();
   };
   new IntersectionObserver((es) => {
-    onScreen = es[0].intersectionRatio >= 0.55;
+    onScreen = es[0].isIntersecting;
     maybeTour();
-  }, { threshold: [0, 0.55, 1] }).observe($(".ss-panel"));
+  }, { rootMargin: "-25% 0px -25% 0px" }).observe($(".ss-panel"));
 
   // Load the recorded runs when the section gets close, and only animate while it's on screen.
   const qp = new URLSearchParams(location.search), fixed = qp.has("ss-vol");
