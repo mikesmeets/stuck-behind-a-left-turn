@@ -867,17 +867,17 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
   .evid-nums { gap:12px 22px; }
 }
 
-/* ---------- A single document shown large enough to read the headline ---------- */
-.doc-feature { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:26px; align-items:center; }
-.doc-feature > a { order:2; display:block; border:1px solid var(--rule); border-radius:4px; overflow:hidden;
+/* ---------- A document set beside the text it backs up ---------- */
+.why-split { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:30px; align-items:start; }
+.why-split .prose { max-width:none; }
+.doc-aside { margin:4px 0 0; }
+.doc-aside a { display:block; border:1px solid var(--rule); border-radius:4px; overflow:hidden;
   box-shadow:var(--shadow); transition:transform .15s; }
-.doc-feature > a:hover, .doc-feature > a:focus-visible { transform:translateY(-2px); }
-.doc-feature img { display:block; width:100%; height:auto; }
-.doc-feature figcaption { order:1; font-size:17px; line-height:1.5; color:var(--ink-2); margin:0; }
-.doc-feature figcaption b { display:block; font-family:"Source Serif 4",Georgia,serif;
-  font-weight:600; font-size:21px; line-height:1.3; color:var(--ink); }
-.doc-feature figcaption .more { margin-top:10px; }
-@media (max-width:680px) {
-  .doc-feature { grid-template-columns:1fr; gap:14px; }
-  .doc-feature > a { max-width:260px; }
+.doc-aside a:hover, .doc-aside a:focus-visible { transform:translateY(-2px); }
+.doc-aside img { display:block; width:100%; height:auto; }
+.doc-aside figcaption { margin-top:10px; font-family:"Source Serif 4",Georgia,serif;
+  font-size:15px; line-height:1.45; color:var(--ink-2); }
+@media (max-width:760px) {
+  .why-split { grid-template-columns:1fr; gap:18px; }
+  .doc-aside { max-width:260px; }
 }
