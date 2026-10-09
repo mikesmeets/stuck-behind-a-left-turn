@@ -867,17 +867,16 @@ table.data td { font-family:"Overpass Mono",ui-monospace,monospace; }
   .evid-nums { gap:12px 22px; }
 }
 
-/* ---------- A document set beside the text it backs up ---------- */
-.why-split { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:30px; align-items:start; }
-.why-split .prose { max-width:none; }
-.doc-aside { margin:4px 0 0; }
-.doc-aside a { display:block; border:1px solid var(--rule); border-radius:4px; overflow:hidden;
+/* ---------- A document in a panel of its own, with what it says ---------- */
+.doc-panel { display:grid; grid-template-columns:minmax(0,1fr) 250px; gap:30px; align-items:center;
+  margin:0; padding:26px 28px; background:var(--card); border:1px solid var(--rule); border-radius:10px; }
+.quote-h { text-wrap:balance; }
+.doc-panel-say p { font-size:16px; line-height:1.6; color:var(--ink-2); margin:0; }
+.doc-panel-pdf { display:block; border:1px solid var(--rule); border-radius:4px; overflow:hidden;
   box-shadow:var(--shadow); transition:transform .15s; }
-.doc-aside a:hover, .doc-aside a:focus-visible { transform:translateY(-2px); }
-.doc-aside img { display:block; width:100%; height:auto; }
-.doc-aside figcaption { margin-top:10px; font-family:"Source Serif 4",Georgia,serif;
-  font-size:15px; line-height:1.45; color:var(--ink-2); }
-@media (max-width:760px) {
-  .why-split { grid-template-columns:1fr; gap:18px; }
-  .doc-aside { max-width:260px; }
+.doc-panel-pdf:hover, .doc-panel-pdf:focus-visible { transform:translateY(-2px); }
+.doc-panel-pdf img { display:block; width:100%; height:auto; }
+@media (max-width:700px) {
+  .doc-panel { grid-template-columns:1fr; gap:18px; padding:20px; }
+  .doc-panel-pdf { max-width:240px; }
 }
